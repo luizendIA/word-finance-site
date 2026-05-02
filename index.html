@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Finance | A ponte entre o Real e o Bitcoin</title>
+    <style>
+        /* Estilos Globais (Dark Mode) */
+        :root {
+            --bg-color: #0b0f19;
+            --container-bg: #111827;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --btc-orange: #f7931a;
+            --tech-blue: #3b82f6;
+            --solana-green: #14f195;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navegação */
+        header {
+            padding: 20px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(11, 15, 25, 0.9);
+            border-bottom: 1px solid #1f2937;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--btc-orange); }
+
+        /* Hero Section (Topo) */
+        .hero {
+            padding: 150px 10% 100px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-color) 0%, var(--container-bg) 100%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-download {
+            display: inline-block;
+            background-color: var(--btc-orange);
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            background-color: #e68315;
+        }
+
+        /* Seção de Funcionalidades */
+        .features {
+            padding: 80px 10%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #1f2937;
+            text-align: left;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card.btc h3 { color: var(--btc-orange); }
+        .card.sol h3 { color: var(--solana-green); }
+        .card.pixc h3 { color: var(--tech-blue); }
+
+        /* Seção de Transparência e Token */
+        .transparency {
+            padding: 80px 10%;
+            background-color: var(--container-bg);
+            border-top: 1px solid #1f2937;
+        }
+
+        .code-block {
+            background-color: #000;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            color: var(--solana-green);
+            word-break: break-all;
+            margin: 10px 0 20px;
+            border: 1px solid #333;
+        }
+
+        /* Footer / Contato */
+        footer {
+            padding: 50px 10%;
+            text-align: center;
+            border-top: 1px solid #1f2937;
+            background-color: var(--bg-color);
+        }
+
+        .pix-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px dashed var(--tech-blue);
+            border-radius: 8px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Word<span>Finance</span></a>
+    </header>
+
+<section class="hero">
+    <h1>A ponte definitiva entre o Real e o Bitcoin</h1>
+    <p>Uma carteira desktop h�brida unindo a velocidade da Lightning Network, a estabilidade do USDC e a utilidade exclusiva da PixCoin (PIXC).</p>
+    
+    <!-- Bot�o Ajustado para "Em Breve" -->
+    <div style="display: inline-block; background-color: #374151; color: #9ca3af; padding: 15px 30px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: not-allowed; border: 1px solid #4b5563;">
+        Download dispon�vel em breve (v1.0.0)
+    </div>
+    
+    <p style="font-size: 0.9rem; margin-top: 15px; color: var(--text-muted);">Compat�vel com Windows 10/11. 100% Self-Custodial.</p>
+</section>
+    <section class="features">
+        <div class="card btc">
+            <h3>⚡ Bitcoin Lightning</h3>
+            <p>Conectado diretamente ao nosso nó na rede Lightning. Faça pagamentos instantâneos com taxas minúsculas, direto do seu desktop.</p>
+        </div>
+        <div class="card sol">
+            <h3>🌐 Solana & USDC</h3>
+            <p>Mantenha seu capital protegido em dólares digitais (USDC) utilizando a rede Solana, com chaves privadas criptografadas (AES-256-GCM) no seu PC.</p>
+        </div>
+        <div class="card pixc">
+            <h3>🪙 PixCoin (PIXC)</h3>
+            <p>O token de utilidade oficial do nosso ecossistema. Movimente valor dentro da rede com agilidade e prepare-se para integrações futuras.</p>
+        </div>
+    </section>
+
+    <section class="transparency">
+        <h2 style="margin-bottom: 30px; text-align: center;">Transparência & Infraestrutura</h2>
+        
+        <p><strong>Nó Lightning Público (Node ID)</strong></p>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Conecte-se e abra canais conosco na Mainnet:</p>
+        <div class="code-block">0335b24dafc4d7484b623d9fae9d6266c785417514ff04b4e3872ec961bb2d7885</div>
+
+        <p><strong>Contrato Inteligente da PixCoin (Solana Mainnet)</strong></p>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Token SPL com supply inicial de 10.000.000 PIXC:</p>
+        <div class="code-block">AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq</div>
+    </section>
+
+    <footer>
+        <h2>Apoie o Projeto</h2>
+        <p style="margin-top: 10px; color: var(--text-muted);">Word Finance é uma startup em desenvolvimento ativo.</p>
+        
+        <div class="pix-section">
+            <p><strong>Quer ser um dos primeiros a obter PixCoin (PIXC)?</strong></p>
+            <p style="margin: 10px 0;">Apoie o projeto enviando um PIX. Os fundos são usados para estabilizar nossos servidores LND.</p>
+            <p style="color: var(--tech-blue); font-weight: bold;">Chave PIX: [35997304589]</p>
+        </div>
+
+        <p style="margin-top: 40px; font-size: 0.8rem; color: #666;">
+            Aviso legal: A PixCoin (PIXC) é atualmente um token experimental de utilidade. Word Finance v1.0.0 é um software em fase beta.
+        </p>
+    </footer>
+
+</body>
+</html>
