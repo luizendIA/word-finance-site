@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Finance | A ponte entre o Real e o Bitcoin</title>
     <style>
-        /* Estilos Globais (Dark Mode) */
         :root {
             --bg-color: #0b0f19;
             --container-bg: #111827;
@@ -16,26 +15,16 @@
             --solana-green: #14f195;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
 
-        /* Navegação */
         header {
-            padding: 20px 10%;
+            padding: 15px 10%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(11, 15, 25, 0.9);
+            background-color: rgba(11, 15, 25, 0.95);
             border-bottom: 1px solid #1f2937;
             position: fixed;
             width: 100%;
@@ -43,172 +32,90 @@
             z-index: 100;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--text-main);
-            text-decoration: none;
-        }
-
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--text-main); text-decoration: none; }
         .logo span { color: var(--btc-orange); }
 
-        /* Hero Section (Topo) */
-        .hero {
-            padding: 150px 10% 100px;
-            text-align: center;
-            background: linear-gradient(180deg, var(--bg-color) 0%, var(--container-bg) 100%);
-        }
+        .hero { padding: 160px 10% 80px; text-align: center; background: linear-gradient(180deg, var(--bg-color) 0%, var(--container-bg) 100%); }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; max-width: 700px; margin: 0 auto 40px; }
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
+        .btn-soon { display: inline-block; background-color: #374151; color: #9ca3af; padding: 15px 30px; border-radius: 8px; font-weight: bold; border: 1px solid #4b5563; cursor: not-allowed; }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .btn-download {
-            display: inline-block;
-            background-color: var(--btc-orange);
-            color: #fff;
-            padding: 15px 30px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .btn-download:hover {
-            transform: translateY(-2px);
-            background-color: #e68315;
-        }
-
-        /* Seção de Funcionalidades */
-        .features {
-            padding: 80px 10%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background-color: var(--container-bg);
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid #1f2937;
-            text-align: left;
-        }
-
-        .card h3 {
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-
-        .card.btc h3 { color: var(--btc-orange); }
-        .card.sol h3 { color: var(--solana-green); }
+        .features { padding: 60px 10%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { background-color: var(--container-bg); padding: 25px; border-radius: 12px; border: 1px solid #1f2937; }
+        .card h3 { margin-bottom: 15px; color: var(--btc-orange); }
         .card.pixc h3 { color: var(--tech-blue); }
 
-        /* Seção de Transparência e Token */
-        .transparency {
-            padding: 80px 10%;
-            background-color: var(--container-bg);
-            border-top: 1px solid #1f2937;
-        }
+        .transparency { padding: 60px 10%; border-top: 1px solid #1f2937; }
+        .code-block { background-color: #000; padding: 15px; border-radius: 8px; font-family: monospace; color: var(--solana-green); word-break: break-all; margin: 10px 0; border: 1px solid #333; font-size: 0.8rem; }
 
-        .code-block {
-            background-color: #000;
-            padding: 15px;
-            border-radius: 8px;
-            font-family: monospace;
-            color: var(--solana-green);
-            word-break: break-all;
-            margin: 10px 0 20px;
-            border: 1px solid #333;
-        }
+        footer { padding: 60px 10%; text-align: center; border-top: 1px solid #1f2937; }
+        .pix-section { margin-top: 20px; padding: 20px; background-color: rgba(59, 130, 246, 0.1); border: 1px dashed var(--tech-blue); border-radius: 8px; display: inline-block; }
 
-        /* Footer / Contato */
-        footer {
-            padding: 50px 10%;
-            text-align: center;
-            border-top: 1px solid #1f2937;
-            background-color: var(--bg-color);
-        }
-
-        .pix-section {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: rgba(59, 130, 246, 0.1);
-            border: 1px dashed var(--tech-blue);
-            border-radius: 8px;
-            display: inline-block;
-        }
+        #google_translate_element { margin-left: 15px; }
     </style>
 </head>
 <body>
 
     <header>
         <a href="#" class="logo">Word<span>Finance</span></a>
+        <div id="google_translate_element"></div>
     </header>
 
-<section class="hero">
-    <h1>A ponte definitiva entre o Real e o Bitcoin</h1>
-    <p>Uma carteira desktop h�brida unindo a velocidade da Lightning Network, a estabilidade do USDC e a utilidade exclusiva da PixCoin (PIXC).</p>
-    
-    <!-- Bot�o Ajustado para "Em Breve" -->
-    <div style="display: inline-block; background-color: #374151; color: #9ca3af; padding: 15px 30px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: not-allowed; border: 1px solid #4b5563;">
-        Download dispon�vel em breve (v1.0.0)
-    </div>
-    
-    <p style="font-size: 0.9rem; margin-top: 15px; color: var(--text-muted);">Compat�vel com Windows 10/11. 100% Self-Custodial.</p>
-</section>
+    <section class="hero">
+        <h1>A ponte definitiva entre o Real e o Bitcoin</h1>
+        <p>Uma carteira desktop híbrida unindo a velocidade da Lightning Network, a estabilidade do USDC e a utilidade exclusiva da PixCoin (PIXC).</p>
+        <div class="btn-soon">Download disponível em breve (v1.0.0)</div>
+    </section>
+
     <section class="features">
-        <div class="card btc">
-            <h3>⚡ Bitcoin Lightning</h3>
-            <p>Conectado diretamente ao nosso nó na rede Lightning. Faça pagamentos instantâneos com taxas minúsculas, direto do seu desktop.</p>
-        </div>
-        <div class="card sol">
-            <h3>🌐 Solana & USDC</h3>
-            <p>Mantenha seu capital protegido em dólares digitais (USDC) utilizando a rede Solana, com chaves privadas criptografadas (AES-256-GCM) no seu PC.</p>
+        <div class="card">
+            <h3>Infraestrutura Propria</h3>
+            <p>Operamos nosso próprio nó na rede Lightning do Bitcoin, garantindo soberania e velocidade máxima.</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:10px;">ID: 0335b24dafc4d7484b623d9fae9d6266c785417514ff04b4e3872ec961bb2d7885[cite: 1]</p>
         </div>
         <div class="card pixc">
-            <h3>🪙 PixCoin (PIXC)</h3>
-            <p>O token de utilidade oficial do nosso ecossistema. Movimente valor dentro da rede com agilidade e prepare-se para integrações futuras.</p>
+            <h3>PixCoin (PIXC) Detalhada</h3>
+            <p>Token SPL na rede Solana (Supply: 10M)[cite: 1]. Ideal para micro-pagamentos e recompensas com taxas quase zero no nosso ecossistema.</p>
+        </div>
+        <div class="card">
+            <h3>Multichain</h3>
+            <p>Integração nativa com Bitcoin (On-chain/Lightning) e Solana (Tokens/USDC). Mais moedas em breve.</p>
         </div>
     </section>
 
     <section class="transparency">
-        <h2 style="margin-bottom: 30px; text-align: center;">Transparência & Infraestrutura</h2>
-        
-        <p><strong>Nó Lightning Público (Node ID)</strong></p>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Conecte-se e abra canais conosco na Mainnet:</p>
-        <div class="code-block">0335b24dafc4d7484b623d9fae9d6266c785417514ff04b4e3872ec961bb2d7885</div>
-
-        <p><strong>Contrato Inteligente da PixCoin (Solana Mainnet)</strong></p>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Token SPL com supply inicial de 10.000.000 PIXC:</p>
-        <div class="code-block">AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq</div>
+        <h2 style="text-align: center; margin-bottom: 40px;">Apoie o Desenvolvimento</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div class="card">
+                <h4>Doação Lightning (Instantanea)</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Ideal para contribuições rapidas:</p>
+                <div class="code-block">lno1zrxq8pjw7qjlm68mtp7e3yvxee4y5xrgjhhyf2fxhlphpckrvevh50u0qf3eywgrdm2w4r0nqxylvcuyf6qm5cc32pss0kl8lyy0lc78ly5rxqszxdclx4e22f5rfhdn3gtkeekc4tra2udmjqnw2c93sja9p8n27xgqqv6hvdpm4zak6j6ys4mmcnkhxpqxa8zjyhzq5sjragef2x6ndl36h845pn7fvznhjnyzlzf03utyp8u48dz3qfjuhzxn35w9y00h6ze77cf9ug7466yqle9rd8da8vy54jllnl795qqs4wt87q45sveq5avdkfsh76zd45</div>
+            </div>
+            <div class="card">
+                <h4>Doação Bitcoin (On-Chain)</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Endereco para envios da rede principal:</p>
+                <div class="code-block">lno1zrxq8pjw7qjlm68mtp7e3yvxee4y5xrgjhhyf2fxhlphpckrvevh50u0qf3eywgrdm2w4r0nqxylvcuyf6qm5cc32pss0kl8lyy0lc78ly5rxqszxdclx4e22f5rfhdn3gtkeekc4tra2udmjqnw2c93sja9p8n27xgqqv6hvdpm4zak6j6ys4mmcnkhxpqxa8zjyhzq5sjragef2x6ndl36h845pn7fvznhjnyzlzf03utyp8u48dz3qfjuhzxn35w9y00h6ze77cf9ug7466yqle9rd8da8vy54jllnl795qqs4wt87q45sveq5avdkfsh76zd45</div>
+            </div>
+        </div>
     </section>
 
     <footer>
-        <h2>Apoie o Projeto</h2>
-        <p style="margin-top: 10px; color: var(--text-muted);">Word Finance é uma startup em desenvolvimento ativo.</p>
-        
         <div class="pix-section">
-            <p><strong>Quer ser um dos primeiros a obter PixCoin (PIXC)?</strong></p>
-            <p style="margin: 10px 0;">Apoie o projeto enviando um PIX. Os fundos são usados para estabilizar nossos servidores LND.</p>
-            <p style="color: var(--tech-blue); font-weight: bold;">Chave PIX: [35997304589]</p>
+            <p><strong>Apoie via PIX</strong></p>
+            <p style="color: var(--tech-blue); font-weight: bold; margin: 10px 0;">Chave: 35997304589</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Fundos destinados a manutencao do servidor LND.</p>
         </div>
-
         <p style="margin-top: 40px; font-size: 0.8rem; color: #666;">
-            Aviso legal: A PixCoin (PIXC) é atualmente um token experimental de utilidade. Word Finance v1.0.0 é um software em fase beta.
+            Aviso legal: A PixCoin (PIXC) e um token experimental. Word Finance v1.0.0 esta em fase beta.
         </p>
     </footer>
 
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'pt'}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
