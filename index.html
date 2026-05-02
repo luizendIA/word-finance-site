@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Finance | A ponte entre o Real e o Bitcoin</title>
+    
+    <!-- SEO para o Google e Fundações encontrarão sua Startup -->
+    <title>Word Finance | Bitcoin Lightning Network Startup & Crypto Wallet</title>
+    <meta name="description" content="Word Finance: Startup brasileira de carteira cripto focada em Bitcoin Lightning Network e Solana. Tecnologia open-source para soberania financeira.">
+    <meta name="keywords" content="Bitcoin, Lightning Network, Startup, Carteira Cripto, Crypto Wallet, Word Finance, PIXC, Solana, Open Source Grant">
+
     <style>
         :root {
             --bg-color: #0b1120;
@@ -21,6 +26,7 @@
             background-color: var(--bg-color); 
             color: var(--text-main); 
             line-height: 1.6;
+            /* Fundo Mapa Mundi Tecnológico */
             background-image: 
                 radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.1) 1px, transparent 0),
                 url('https://www.transparenttextures.com/patterns/world-map.png');
@@ -44,12 +50,8 @@
         .logo { font-size: 1.5rem; font-weight: bold; color: var(--text-main); text-decoration: none; }
         .logo span { color: var(--btc-orange); }
 
-        .hero { 
-            padding: 180px 10% 80px; 
-            text-align: center; 
-        }
+        .hero { padding: 180px 10% 80px; text-align: center; }
 
-        /* Raio Lightning em SVG para não dar erro de caractere */
         .lightning-svg {
             width: 80px;
             height: 80px;
@@ -115,49 +117,49 @@
     </header>
 
     <section class="hero">
-        <!-- Ícone de Raio SVG (Correção para o sinal de ?) -->
+        <!-- Ícone Raio Lightning -->
         <svg class="lightning-svg" viewBox="0 0 32 32">
             <path d="M18 3L6 18h8l-2 11 12-15h-8z"></path>
         </svg>
         
         <h1>A ponte definitiva entre o Real e o Bitcoin</h1>
-        <p>Uma carteira desktop hibrida unindo a velocidade da Lightning Network, a estabilidade do USDC e a utilidade exclusiva da PixCoin (PIXC).</p>
-        <div class="btn-soon">Download disponivel em breve (v1.0.0)</div>
+        <p>Word Finance: Uma Startup de carteira cripto unindo a velocidade da Lightning Network, estabilidade do USDC e a utilidade da PixCoin (PIXC).</p>
+        <div class="btn-soon">Download disponível em breve (v1.0.0)</div>
     </section>
 
     <section class="features">
         <div class="card">
-            <h3>Infraestrutura Propria</h3>
-            <p>Operamos nosso próprio nó na rede Lightning do Bitcoin, garantindo soberania e velocidade máxima.</p>
+            <h3>Infraestrutura Própria</h3>
+            <p>Operamos nosso próprio nó Lightning (LND), garantindo soberania total sobre as transações da nossa Startup.</p>
             <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:10px;">Node ID: 0335b24dafc4d7484b623d9fae9d6266c785417514ff04b4e3872ec961bb2d7885</p>
         </div>
         <div class="card">
-            <h3 style="color: var(--tech-blue);">PixCoin (PIXC) Detalhada</h3>
-            <p>Token SPL na rede Solana (Supply: 10M). Ideal para micro-pagamentos e recompensas com taxas quase zero no nosso ecossistema.</p>
+            <h3 style="color: var(--tech-blue);">PixCoin (PIXC)</h3>
+            <p>Token experimental SPL na Solana para micro-pagamentos rápidos com custo zero dentro do ecossistema Word Finance.</p>
         </div>
         <div class="card">
-            <h3 style="color: var(--solana-green);">Multichain</h3>
-            <p>Integracao nativa com Bitcoin (On-chain/Lightning) e Solana (Tokens/USDC). Mais moedas em breve.</p>
+            <h3 style="color: var(--solana-green);">Multichain Wallet</h3>
+            <p>Suporte nativo para Bitcoin e Solana em uma única interface desktop segura construída em Node.js.</p>
         </div>
     </section>
 
     <section class="transparency">
-        <h2 style="text-align: center; margin-bottom: 40px;">Apoie o Desenvolvimento</h2>
+        <h2 style="text-align: center; margin-bottom: 40px;">Apoie o Desenvolvimento (Grants & Donations)</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
             
-            <!-- Doacao BTC/Lightning -->
+            <!-- Doação Lightning -->
             <div class="card qr-container">
-                <h4>Doação BTC/Lightning (Instantanea)</h4>
-                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Envio instantaneo via Lightning</p>
+                <h4>Doação BTC/Lightning (Instantânea)</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Ideal para pequenas contribuições via nó LND</p>
                 <div id="qrcode-lightning" class="qr-box"></div>
                 <p style="font-size: 0.7rem; color: var(--text-muted);">Endereço Lightning:</p>
                 <div class="code-block">lno1zrxq8pjw7qjlm68mtp7e3yvxee4y5xrgjhhyf2fxhlphpckrvevh50u0qf3eywgrdm2w4r0nqxylvcuyf6qm5cc32pss0kl8lyy0lc78ly5rxqszxdclx4e22f5rfhdn3gtkeekc4tra2udmjqnw2c93sja9p8n27xgqqv6hvdpm4zak6j6ys4mmcnkhxpqxa8zjyhzq5sjragef2x6ndl36h845pn7fvznhjnyzlzf03utyp8u48dz3qfjuhzxn35w9y00h6ze77cf9ug7466yqle9rd8da8vy54jllnl795qqs4wt87q45sveq5avdkfsh76zd45</div>
             </div>
 
-            <!-- Doacao Bitcoin On-Chain -->
+            <!-- Doação Bitcoin On-Chain -->
             <div class="card qr-container">
                 <h4>Doação Bitcoin (On-Chain)</h4>
-                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Rede Principal (On-chain)</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Para grandes aportes e suporte institucional</p>
                 <div id="qrcode-onchain" class="qr-box"></div>
                 <p style="font-size: 0.7rem; color: var(--text-muted);">Endereço On-Chain:</p>
                 <div class="code-block">lno1zrxq8pjw7qjlm68mtp7e3yvxee4y5xrgjhhyf2fxhlphpckrvevh50u0qf3eywgrdm2w4r0nqxylvcuyf6qm5cc32pss0kl8lyy0lc78ly5rxqszxdclx4e22f5rfhdn3gtkeekc4tra2udmjqnw2c93sja9p8n27xgqqv6hvdpm4zak6j6ys4mmcnkhxpqxa8zjyhzq5sjragef2x6ndl36h845pn7fvznhjnyzlzf03utyp8u48dz3qfjuhzxn35w9y00h6ze77cf9ug7466yqle9rd8da8vy54jllnl795qqs4wt87q45sveq5avdkfsh76zd45</div>
@@ -168,15 +170,16 @@
 
     <footer>
         <div class="pix-section">
-            <p><strong>Apoie via PIX</strong></p>
+            <p><strong>Apoie via PIX (Brasil)</strong></p>
             <p style="color: var(--tech-blue); font-weight: bold; margin: 10px 0;">Chave: 35997304589</p>
-            <p style="font-size: 0.8rem; color: var(--text-muted);">Manutencao do servidor LND.</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Ajude a manter nosso nó LND ativo.</p>
         </div>
         <p style="margin-top: 40px; font-size: 0.8rem; color: #666;">
-            Aviso legal: A PixCoin (PIXC) e um token experimental. Word Finance v1.0.0 esta em fase beta.
+            Word Finance v1.0.0 Open Source Project. Desenvolvido para a liberdade financeira.
         </p>
     </footer>
 
+    <!-- Scripts de Gerenciamento -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script type="text/javascript">
         function googleTranslateElementInit() {
@@ -184,13 +187,12 @@
         }
 
         window.onload = function() {
-            // QR Lightning
+            // Gerar QRs
             new QRCode(document.getElementById("qrcode-lightning"), {
                 text: "lightning:lno1zrxq8pjw7qjlm68mtp7e3yvxee4y5xrgjhhyf2fxhlphpckrvevh50u0qf3eywgrdm2w4r0nqxylvcuyf6qm5cc32pss0kl8lyy0lc78ly5rxqszxdclx4e22f5rfhdn3gtkeekc4tra2udmjqnw2c93sja9p8n27xgqqv6hvdpm4zak6j6ys4mmcnkhxpqxa8zjyhzq5sjragef2x6ndl36h845pn7fvznhjnyzlzf03utyp8u48dz3qfjuhzxn35w9y00h6ze77cf9ug7466yqle9rd8da8vy54jllnl795qqs4wt87q45sveq5avdkfsh76zd45",
                 width: 180, height: 180
             });
 
-            // QR On-chain
             new QRCode(document.getElementById("qrcode-onchain"), {
                 text: "bitcoin:lno1zrxq8pjw7qjlm68mtp7e3yvxee4y5xrgjhhyf2fxhlphpckrvevh50u0qf3eywgrdm2w4r0nqxylvcuyf6qm5cc32pss0kl8lyy0lc78ly5rxqszxdclx4e22f5rfhdn3gtkeekc4tra2udmjqnw2c93sja9p8n27xgqqv6hvdpm4zak6j6ys4mmcnkhxpqxa8zjyhzq5sjragef2x6ndl36h845pn7fvznhjnyzlzf03utyp8u48dz3qfjuhzxn35w9y00h6ze77cf9ug7466yqle9rd8da8vy54jllnl795qqs4wt87q45sveq5avdkfsh76zd45",
                 width: 180, height: 180
