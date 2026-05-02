@@ -6,8 +6,8 @@
     <title>Word Finance | A ponte entre o Real e o Bitcoin</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --container-bg: #111827;
+            --bg-color: #0b1120;
+            --container-bg: rgba(17, 24, 39, 0.85);
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             --btc-orange: #f7931a;
@@ -17,14 +17,23 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
-        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.1) 1px, transparent 0),
+                url('https://www.transparenttextures.com/patterns/world-map.png');
+            background-size: 40px 40px, contain;
+            background-attachment: fixed;
+        }
 
         header {
             padding: 15px 10%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(11, 15, 25, 0.95);
+            background-color: rgba(11, 17, 32, 0.95);
             border-bottom: 1px solid #1f2937;
             position: fixed;
             width: 100%;
@@ -35,24 +44,67 @@
         .logo { font-size: 1.5rem; font-weight: bold; color: var(--text-main); text-decoration: none; }
         .logo span { color: var(--btc-orange); }
 
-        .hero { padding: 160px 10% 80px; text-align: center; background: linear-gradient(180deg, var(--bg-color) 0%, var(--container-bg) 100%); }
+        .hero { 
+            padding: 180px 10% 80px; 
+            text-align: center; 
+        }
+
+        /* Raio Lightning em SVG para não dar erro de caractere */
+        .lightning-svg {
+            width: 80px;
+            height: 80px;
+            fill: var(--btc-orange);
+            filter: drop-shadow(0 0 15px rgba(247, 147, 26, 0.6));
+            margin: 0 auto 20px;
+            display: block;
+        }
+
         .hero h1 { font-size: 3rem; margin-bottom: 20px; }
         .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; max-width: 700px; margin: 0 auto 40px; }
 
-        .btn-soon { display: inline-block; background-color: #374151; color: #9ca3af; padding: 15px 30px; border-radius: 8px; font-weight: bold; border: 1px solid #4b5563; cursor: not-allowed; }
+        .btn-soon { 
+            display: inline-block; 
+            background-color: #374151; 
+            color: #9ca3af; 
+            padding: 15px 30px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            border: 1px solid #4b5563; 
+            cursor: not-allowed;
+            text-decoration: none;
+        }
 
-        .features { padding: 60px 10%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { background-color: var(--container-bg); padding: 25px; border-radius: 12px; border: 1px solid #1f2937; }
+        .features { padding: 40px 10%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { 
+            background-color: var(--container-bg); 
+            padding: 25px; 
+            border-radius: 12px; 
+            border: 1px solid #1f2937; 
+            backdrop-filter: blur(10px);
+        }
         .card h3 { margin-bottom: 15px; color: var(--btc-orange); }
-        .card.pixc h3 { color: var(--tech-blue); }
 
-        .transparency { padding: 60px 10%; border-top: 1px solid #1f2937; }
-        .code-block { background-color: #000; padding: 15px; border-radius: 8px; font-family: monospace; color: var(--solana-green); word-break: break-all; margin: 10px 0; border: 1px solid #333; font-size: 0.8rem; }
+        .transparency { padding: 60px 10%; border-top: 1px solid #1f2937; background: rgba(0,0,0,0.3); }
+        
+        .code-block { 
+            background-color: #000; 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-family: monospace; 
+            color: var(--solana-green); 
+            word-break: break-all; 
+            margin: 10px 0; 
+            border: 1px solid #333; 
+            font-size: 0.7rem; 
+        }
 
-        footer { padding: 60px 10%; text-align: center; border-top: 1px solid #1f2937; }
+        footer { padding: 60px 10%; text-align: center; border-top: 1px solid #1f2937; background: var(--bg-color); }
         .pix-section { margin-top: 20px; padding: 20px; background-color: rgba(59, 130, 246, 0.1); border: 1px dashed var(--tech-blue); border-radius: 8px; display: inline-block; }
 
         #google_translate_element { margin-left: 15px; }
+
+        .qr-container { display: flex; flex-direction: column; align-items: center; }
+        .qr-box { background: white; padding: 12px; border-radius: 8px; margin-bottom: 20px; line-height: 0; }
     </style>
 </head>
 <body>
@@ -63,40 +115,54 @@
     </header>
 
     <section class="hero">
+        <!-- Ícone de Raio SVG (Correção para o sinal de ?) -->
+        <svg class="lightning-svg" viewBox="0 0 32 32">
+            <path d="M18 3L6 18h8l-2 11 12-15h-8z"></path>
+        </svg>
+        
         <h1>A ponte definitiva entre o Real e o Bitcoin</h1>
-        <p>Uma carteira desktop híbrida unindo a velocidade da Lightning Network, a estabilidade do USDC e a utilidade exclusiva da PixCoin (PIXC).</p>
-        <div class="btn-soon">Download disponível em breve (v1.0.0)</div>
+        <p>Uma carteira desktop hibrida unindo a velocidade da Lightning Network, a estabilidade do USDC e a utilidade exclusiva da PixCoin (PIXC).</p>
+        <div class="btn-soon">Download disponivel em breve (v1.0.0)</div>
     </section>
 
     <section class="features">
         <div class="card">
             <h3>Infraestrutura Propria</h3>
             <p>Operamos nosso próprio nó na rede Lightning do Bitcoin, garantindo soberania e velocidade máxima.</p>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:10px;">ID: 0335b24dafc4d7484b623d9fae9d6266c785417514ff04b4e3872ec961bb2d7885[cite: 1]</p>
-        </div>
-        <div class="card pixc">
-            <h3>PixCoin (PIXC) Detalhada</h3>
-            <p>Token SPL na rede Solana (Supply: 10M)[cite: 1]. Ideal para micro-pagamentos e recompensas com taxas quase zero no nosso ecossistema.</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:10px;">Node ID: 0335b24dafc4d7484b623d9fae9d6266c785417514ff04b4e3872ec961bb2d7885</p>
         </div>
         <div class="card">
-            <h3>Multichain</h3>
-            <p>Integração nativa com Bitcoin (On-chain/Lightning) e Solana (Tokens/USDC). Mais moedas em breve.</p>
+            <h3 style="color: var(--tech-blue);">PixCoin (PIXC) Detalhada</h3>
+            <p>Token SPL na rede Solana (Supply: 10M). Ideal para micro-pagamentos e recompensas com taxas quase zero no nosso ecossistema.</p>
+        </div>
+        <div class="card">
+            <h3 style="color: var(--solana-green);">Multichain</h3>
+            <p>Integracao nativa com Bitcoin (On-chain/Lightning) e Solana (Tokens/USDC). Mais moedas em breve.</p>
         </div>
     </section>
 
     <section class="transparency">
         <h2 style="text-align: center; margin-bottom: 40px;">Apoie o Desenvolvimento</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-            <div class="card">
-                <h4>Doação Lightning (Instantanea)</h4>
-                <p style="font-size: 0.8rem; color: var(--text-muted);">Ideal para contribuições rapidas:</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+            
+            <!-- Doacao BTC/Lightning -->
+            <div class="card qr-container">
+                <h4>Doação BTC/Lightning (Instantanea)</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Envio instantaneo via Lightning</p>
+                <div id="qrcode-lightning" class="qr-box"></div>
+                <p style="font-size: 0.7rem; color: var(--text-muted);">Endereço Lightning:</p>
                 <div class="code-block">lno1zrxq8pjw7qjlm68mtp7e3yvxee4y5xrgjhhyf2fxhlphpckrvevh50u0qf3eywgrdm2w4r0nqxylvcuyf6qm5cc32pss0kl8lyy0lc78ly5rxqszxdclx4e22f5rfhdn3gtkeekc4tra2udmjqnw2c93sja9p8n27xgqqv6hvdpm4zak6j6ys4mmcnkhxpqxa8zjyhzq5sjragef2x6ndl36h845pn7fvznhjnyzlzf03utyp8u48dz3qfjuhzxn35w9y00h6ze77cf9ug7466yqle9rd8da8vy54jllnl795qqs4wt87q45sveq5avdkfsh76zd45</div>
             </div>
-            <div class="card">
+
+            <!-- Doacao Bitcoin On-Chain -->
+            <div class="card qr-container">
                 <h4>Doação Bitcoin (On-Chain)</h4>
-                <p style="font-size: 0.8rem; color: var(--text-muted);">Endereco para envios da rede principal:</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Rede Principal (On-chain)</p>
+                <div id="qrcode-onchain" class="qr-box"></div>
+                <p style="font-size: 0.7rem; color: var(--text-muted);">Endereço On-Chain:</p>
                 <div class="code-block">lno1zrxq8pjw7qjlm68mtp7e3yvxee4y5xrgjhhyf2fxhlphpckrvevh50u0qf3eywgrdm2w4r0nqxylvcuyf6qm5cc32pss0kl8lyy0lc78ly5rxqszxdclx4e22f5rfhdn3gtkeekc4tra2udmjqnw2c93sja9p8n27xgqqv6hvdpm4zak6j6ys4mmcnkhxpqxa8zjyhzq5sjragef2x6ndl36h845pn7fvznhjnyzlzf03utyp8u48dz3qfjuhzxn35w9y00h6ze77cf9ug7466yqle9rd8da8vy54jllnl795qqs4wt87q45sveq5avdkfsh76zd45</div>
             </div>
+
         </div>
     </section>
 
@@ -104,17 +170,32 @@
         <div class="pix-section">
             <p><strong>Apoie via PIX</strong></p>
             <p style="color: var(--tech-blue); font-weight: bold; margin: 10px 0;">Chave: 35997304589</p>
-            <p style="font-size: 0.8rem; color: var(--text-muted);">Fundos destinados a manutencao do servidor LND.</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Manutencao do servidor LND.</p>
         </div>
         <p style="margin-top: 40px; font-size: 0.8rem; color: #666;">
             Aviso legal: A PixCoin (PIXC) e um token experimental. Word Finance v1.0.0 esta em fase beta.
         </p>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({pageLanguage: 'pt'}, 'google_translate_element');
         }
+
+        window.onload = function() {
+            // QR Lightning
+            new QRCode(document.getElementById("qrcode-lightning"), {
+                text: "lightning:lno1zrxq8pjw7qjlm68mtp7e3yvxee4y5xrgjhhyf2fxhlphpckrvevh50u0qf3eywgrdm2w4r0nqxylvcuyf6qm5cc32pss0kl8lyy0lc78ly5rxqszxdclx4e22f5rfhdn3gtkeekc4tra2udmjqnw2c93sja9p8n27xgqqv6hvdpm4zak6j6ys4mmcnkhxpqxa8zjyhzq5sjragef2x6ndl36h845pn7fvznhjnyzlzf03utyp8u48dz3qfjuhzxn35w9y00h6ze77cf9ug7466yqle9rd8da8vy54jllnl795qqs4wt87q45sveq5avdkfsh76zd45",
+                width: 180, height: 180
+            });
+
+            // QR On-chain
+            new QRCode(document.getElementById("qrcode-onchain"), {
+                text: "bitcoin:lno1zrxq8pjw7qjlm68mtp7e3yvxee4y5xrgjhhyf2fxhlphpckrvevh50u0qf3eywgrdm2w4r0nqxylvcuyf6qm5cc32pss0kl8lyy0lc78ly5rxqszxdclx4e22f5rfhdn3gtkeekc4tra2udmjqnw2c93sja9p8n27xgqqv6hvdpm4zak6j6ys4mmcnkhxpqxa8zjyhzq5sjragef2x6ndl36h845pn7fvznhjnyzlzf03utyp8u48dz3qfjuhzxn35w9y00h6ze77cf9ug7466yqle9rd8da8vy54jllnl795qqs4wt87q45sveq5avdkfsh76zd45",
+                width: 180, height: 180
+            });
+        };
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
