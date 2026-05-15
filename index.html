@@ -86,6 +86,28 @@
             text-decoration: none;
         }
 
+        /* Botão de Download - Estilo aprimorado */
+        .download-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #7c8ef0 0%, #8b5ebd 100%);
+        }
+
         .features { padding: 40px 10%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .card { 
             background-color: var(--container-bg); 
@@ -187,6 +209,7 @@
         @media (max-width: 640px) {
             .hero h1 { font-size: 2rem; }
             .modal-content { width: 95%; margin: 10% auto; }
+            .download-button { padding: 12px 24px; font-size: 16px; }
         }
     </style>
 </head>
@@ -217,6 +240,14 @@
            target="_blank"
            style="background:rgba(59,130,246,0.15); border:1px solid var(--tech-blue); color:#fff; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">
            Metadata Pública
+        </a>
+        <!-- Botão de Download do Aplicativo Windows -->
+        <a href="https://github.com/luizendlA/site-de-financas/releases/download/v0.1.0/WORD.FINANCE.FINAL.exe" 
+           class="download-button" 
+           download
+           target="_blank"
+           rel="noopener noreferrer">
+           📥 BAIXAR PARA WINDOWS
         </a>
     </div>
     <!-- Botão Whitepaper -->
