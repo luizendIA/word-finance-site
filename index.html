@@ -86,7 +86,7 @@
             text-decoration: none;
         }
 
-        /* Botão de Download - Estilo aprimorado */
+        /* Botão de Download */
         .download-button {
             display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -242,7 +242,7 @@
            Metadata Pública
         </a>
         <!-- Botão de Download do Aplicativo Windows -->
-        <a href="https://github.com/luizendIA/word-finance-site/releases/download/v0.1.0/WORD.FINANCE.FINAL.exe"
+        <a href="https://github.com/luizendlA/site-de-financas/releases/download/v0.1.0/WORD.FINANCE.FINAL.exe" 
            class="download-button" 
            download
            target="_blank"
@@ -258,31 +258,31 @@
     </div>
 </section>
 
-<!-- Modal do Whitepaper -->
+<!-- Modal do Whitepaper - NOVO CONTEÚDO SUBSTITUÍDO -->
 <div id="whitepaperModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h1>Whitepaper Técnico: Ecossistema Word Finance e Token PixCoin (PIXC)</h1>
         
         <h2>1. Visão Geral e Soberania Financeira no Sul Global</h2>
-        <p>A Word Finance é uma infraestrutura de ponte estratégica projetada para integrar o sistema financeiro tradicional à economia descentralizada (Web3), com foco rigoroso em inclusão e resiliência técnica. No contexto do Sul Global, especificamente no Brasil, a "soberania financeira" transcende a mera liberdade bancária; ela exige Resiliência Técnica contra perdas de capital por erro do usuário — uma lição aprendida após o "incidente de 1 USDC", onde a ausência de travas de segurança permitiu o envio de fundos para endereços de contrato (mints).</p>
-        <p>O protocolo localiza a proposta original de Satoshi Nakamoto, transformando o Bitcoin em um sistema de dinheiro eletrônico P2P viável para o cotidiano brasileiro através da integração nativa com o PIX. Ao invés de depender de custodiantes centralizados, a Word Finance utiliza tecnologia de segunda camada para mitigar as altas taxas da mainnet, garantindo que a soberania comece na capacidade do indivíduo de transacionar sem atrito e sem o risco de erros fatais de destino.</p>
-        <p><em>"A Lightning Network permite o uso do Bitcoin como meio de pagamento cotidiano, viabilizando desde micropagamentos até transferências internacionais em tempo real, resgatando a visão original de um sistema de dinheiro eletrônico ponto a ponto através de canais de estado assíncronos." — Arquitetura Layer 2: O Resgate do P2P Eletrônico.</em></p>
+        <p>A Word Finance é uma infraestrutura de ponte estratégica desenhada para integrar o sistema financeiro tradicional à economia descentralizada (Web3), com foco rigoroso na inclusão e na resiliência técnica. No contexto do Sul Global, especificamente no Brasil, a "soberania financeira" transcende a mera liberdade bancária; exige uma arquitetura tolerante a falhas contra perdas de capital por erro do utilizador — uma diretriz integrada após o histórico "incidente de 1 USDC", onde a ausência de travas de segurança na época permitiu o envio inadvertido de fundos para endereços de contratos inteligentes de mintagem (mints).</p>
+        <p>O protocolo adapta a proposta original de Satoshi Nakamoto, viabilizando o Bitcoin como um sistema de dinheiro eletrónico peer-to-peer (P2P) para o quotidiano através da integração nativa com o ecossistema de pagamentos instantâneos PIX. Em vez de depender de custodiantes centralizados, a Word Finance utiliza tecnologia de segunda camada (Layer 2) para mitigar as taxas da rede principal (mainnet), garantindo que a soberania comece na capacidade do indivíduo de transacionar sem atrito e sem o risco de erros fatais de destino.</p>
+        <p><em>"A Lightning Network permite o uso do Bitcoin como meio de pagamento quotidiano, viabilizando desde micropagamentos até transferências internacionais em tempo real, resgatando a visão original de um sistema de dinheiro eletrónico ponto a ponto através de canais de estado assíncronos." — Arquitetura Layer 2: O Resgate do P2P Eletrónico.</em></p>
 
         <h2>2. A Simbiose Tecnológica: Bitcoin Lightning e Solana</h2>
-        <p>O ecossistema opera em uma arquitetura híbrida que funde a liquidez descentralizada do Bitcoin com a programabilidade de alto rendimento da Solana.</p>
+        <p>O ecossistema opera numa arquitetura híbrida que funde a liquidez descentralizada e a segurança do Bitcoin com a programabilidade de alto rendimento e baixo custo da Solana.</p>
         <h3>2.1 Protocolo Lightning Network (Layer 2 BTC)</h3>
-        <p>A rede utiliza canais de pagamento bidirecionais off-chain, onde a segurança é garantida por Hashed TimeLock Contracts (HTLCs). A atomicidade das transações é assegurada pelo seguinte fluxo:</p>
+        <p>A rede utiliza canais de pagamento bidirecionais fora da cadeia (off-chain), onde a segurança é garantida criptograficamente por Hashed TimeLock Contracts (HTLCs). A atomicidade das transações é assegurada pelo seguinte fluxo:</p>
         <ol>
-            <li>Charlie (Destinatário) gera um segredo e compartilha o hash com Alice (Pagadora).</li>
-            <li>Alice propõe o pagamento via Bob (Intermediário) sob a condição de revelação da pré-imagem.</li>
-            <li>O roteamento em camadas (Onion Routing) garante que cada salto conheça apenas o predecessor e o sucessor, preservando a privacidade total da rota.</li>
+            <li>O destinatário gera um segredo (preimage) e partilha o respetivo hash com o pagador.</li>
+            <li>O pagador propõe o pagamento através de nós intermediários sob a condição de revelação da preimage.</li>
+            <li>O roteamento em camadas (Onion Routing) garante que cada salto na rede conheça apenas o predecessor e o sucessor imediato, preservando a privacidade total da rota.</li>
         </ol>
         <h3>2.2 Rede Solana (Layer 1)</h3>
-        <p>A Solana provê a infraestrutura para os tokens SPL (Solana Program Library). Para mitigar o risco de rate-limiting em produção, o Word Finance utiliza o Helius RPC, garantindo estabilidade na mainnet e tempos de processamento compatíveis com sistemas bancários modernos.</p>
+        <p>A Solana provê a infraestrutura para a emissão e gestão de tokens no padrão SPL (Solana Program Library). Para mitigar riscos de limitação de taxa (rate-limiting) em ambientes de alta demanda, a Word Finance utiliza infraestrutura de RPC dedicada de alta disponibilidade, garantindo estabilidade na mainnet e tempos de resposta compatíveis com os requisitos dos sistemas bancários modernos.</p>
         <h3>2.3 Integração Híbrida</h3>
-        <p>A arquitetura permite Swaps atômicos e liquidez instantânea. A velocidade da Solana é utilizada para a tokenização de ativos e liquidação de contratos inteligentes, enquanto a Lightning serve como o trilho global de pagamentos.</p>
-        
+        <p>A arquitetura permite trocas atómicas (atomic swaps) e liquidez instantânea. A velocidade da Solana é aproveitada para a tokenização de ativos e liquidação de contratos inteligentes, enquanto a rede Lightning atua como o carril global para liquidação imediata de pagamentos.</p>
+
         <table>
             <thead>
                 <tr><th>Característica</th><th>Bitcoin Lightning (L2)</th><th>Solana (L1)</th></tr>
@@ -295,71 +295,76 @@
             </tbody>
         </table>
 
-        <h2>3. Arquitetura de 5 Camadas (Stack Tecnológica)</h2>
-        <p>A infraestrutura é segmentada para garantir isolamento de processos e redundância física:</p>
+        <h2>3. Arquitetura Modular de 5 Camadas (Stack Tecnológica)</h2>
+        <p>A infraestrutura é segmentada de forma estrita para garantir o isolamento de processos, a segurança de dados e a redundância física do sistema:</p>
         <ol>
-            <li><strong>Camada 1 (Interface Pública):</strong> Front-end distribuído via Vercel com blindagem DNS da Cloudflare.</li>
-            <li><strong>Camada 2 (Client-Side):</strong> Aplicações Electron (.exe) e APK com derivação de seed não-custodial (BIP39) e persistência de userId local.</li>
-            <li><strong>Camada 3 (Word Server / Banco Central):</strong> Servidor local (IP: 192.168.0.15) rodando Ubuntu 24.04.4 LTS em hardware Pentium Dual-Core. Gerencia o processo PM2 do server.js, mintagem de PIXC e o gateway AbacatePay.</li>
-            <li><strong>Camada 4 (LNbits Proxy):</strong> Proxy dinâmico hospedado em hardware Xeon (IP: 192.168.0.5) para gestão de sub-wallets vinculadas a identidades Solana.</li>
-            <li><strong>Camada 5 (Core Infra):</strong> Nó LND 0.18.4-beta operando via Neutrino e rede Tor, conectado à Solana Mainnet para validação de estado.</li>
+            <li><strong>Camada 1 (Interface Pública):</strong> Front-end distribuído globalmente via redes de entrega de conteúdos (CDN) com blindagem avançada contra ataques DDoS e proteção de DNS.</li>
+            <li><strong>Camada 2 (Cliente / End-User):</strong> Aplicações nativas para desktop e dispositivos móveis (Android) com derivação de chaves não-custodial baseada no padrão BIP39 e persistência de dados de sessão encriptados localmente no dispositivo.</li>
+            <li><strong>Camada 3 (Servidor de Aplicação / Liquidação):</strong> Ambiente de backend isolado responsável pelo processamento de regras de negócio, interface com gateways de pagamento parceiros e controlo do módulo de mintagem automatizada do PixCoin.</li>
+            <li><strong>Camada 4 (Proxy e Gestão Lightning):</strong> Camada de proxy dinâmico dedicada à gestão de sub-carteiras e canais de estado, vinculando identidades criptográficas de forma segura.</li>
+            <li><strong>Camada 5 (Infraestrutura Core):</strong> Nós validadores LND operando sob protocolos de privacidade (rede Tor) para validação de estado e comunicação direta com a rede principal da Solana.</li>
         </ol>
 
         <h2>4. O Ativo PixCoin (PIXC): Tokenomics e Utilidade</h2>
-        <p>O PixCoin (PIXC) é o token estável do ecossistema, com lastro paritário de 1:1 com o Real (BRL), projetado para liquidez imediata.</p>
+        <p>O PixCoin (PIXC) é o token estável (stablecoin) do ecossistema, com lastro paritário de 1:1 com o Real Brasileiro (BRL), desenhado para garantir liquidez imediata e previsibilidade de valor.</p>
         <h3>4.1 Especificações Técnicas</h3>
         <ul>
             <li><strong>Mint Address:</strong> AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq</li>
             <li><strong>Decimais:</strong> 2</li>
-            <li><strong>Transparência:</strong> O suprimento foi estabilizado após o burn de 5.49M PIXC da carteira legada BGAp..., migrando a autoridade para o novo cofre frio.</li>
+            <li><strong>Transparência e Auditoria:</strong> O suprimento circulante foi estabilizado após a execução auditada de uma queima (burn) de 5.49M de PIXC da carteira legada, migrando permanentemente a autoridade de emissão para o novo cofre frio (cold wallet) institucional.</li>
         </ul>
         <h3>4.2 Modelo de Receita e Fluxo de Taxas</h3>
-        <p>O protocolo aplica uma taxa fixa de 0,5% para Swaps e depósitos PIX, garantindo a sustentabilidade da infraestrutura:</p>
+        <p>O protocolo aplica uma taxa fixa de 0,5% para operações de Swap e depósitos, garantindo a autossuficiência e a manutenção da infraestrutura descentralizada:</p>
         <ul>
-            <li>Taxas de Tokens (USDC/PIXC): BLPZSYEmU1gvESB1jKRE4e8LbMvNxFN9GFyhu38VzAbe</li>
-            <li>Taxas de SOL: 3ZL9awiGSJrj5HhLV7gi8B5bNTWxdJ9rCxsNpSyqZkGS</li>
+            <li><strong>Carteira de Taxas de Tokens (USDC/PIXC):</strong> BLPZSYEmU1gvESB1jKRE4e8LbMvNxFN9GFyhu38VzAbe</li>
+            <li><strong>Carteira de Taxas de SOL:</strong> 3ZL9awiGSJrj5HhLV7gi8B5bNTWxdJ9rCxsNpSyqZkGS</li>
         </ul>
-        <p><strong>Diagrama de Fluxo Automatizado (99.5% / 0.5% Split):</strong> Depósito Confirmado ➔ Trigger pixcoin-minter.js ➔ Mint (99.5% → User Wallet) + Mint (0.5% → Fee Wallet)</p>
+        <p><strong>Fluxo de Liquidação:</strong> Confirmação de Depósito → Disparo do Módulo de Emissão Automatizado → Divisão do Split (99.5% enviado para a Carteira do Utilizador / 0.5% alocado na Carteira de Taxas do Protocolo).</p>
 
         <h2>5. Funcionalidades Avançadas do Ecossistema</h2>
-        <h3>5.1 Empréstimos P2P (Módulo Loans)</h3>
-        <p>Lógica implementada via loans.js com persistência em arquivos JSON leves (loans-active.json), ideal para servidores soberanos:</p>
+        <h3>5.1 Empréstimos P2P (Módulo de Crédito)</h3>
+        <p>Lógica de empréstimos descentralizados baseada em contratos e persistência estruturada de dados com baixo overhead técnico:</p>
         <ul>
-            <li>Taxa de Manutenção: 1% do valor principal.</li>
-            <li>Multa de Atraso: 5% fixo sobre o montante devido.</li>
-            <li>Gestão: Sistema de "Juristas" para provimento de liquidez manual.</li>
+            <li><strong>Taxa de Manutenção:</strong> 1% do valor principal.</li>
+            <li><strong>Penalização por Incumprimento:</strong> 5% fixo sobre o montante em dívida.</li>
+            <li><strong>Governação:</strong> Utilização de um conselho de validadores ("Juristas") para provimento e arbitragem de liquidez manual em casos de exceção.</li>
         </ul>
-        <h3>5.2 Tokenização RWA (Módulo Tokenize)</h3>
-        <p>Capacidade de converter ativos físicos em tokens SPL via tokenize.js.</p>
+        <h3>5.2 Tokenização de Ativos Reais (Módulo RWA)</h3>
+        <p>Capacidade nativa de converter ativos físicos em tokens programáveis no padrão SPL.</p>
         <ul>
-            <li>Prevenção de Spam: Taxa de criação fixa de 0.02 SOL para evitar inundação de rede.</li>
-            <li>Comissão: 0.5% em transações secundárias revertidas automaticamente para o protocolo.</li>
+            <li><strong>Prevenção de Spam:</strong> Taxa de criação fixa de 0.02 SOL por contrato de tokenização para evitar a inundação e saturação da rede.</li>
+            <li><strong>Comissão de Mercado:</strong> Taxa de 0.5% sobre transações secundárias, revertida automaticamente para o fundo de reserva do protocolo.</li>
         </ul>
         <h3>5.3 Gateway de Pagamentos SaaS</h3>
-        <p>Integração via Porta 3001 para lojistas externos. O sistema gera endereços temporários dinâmicos, permitindo que e-commerces aceitem ativos sem exposição direta de suas chaves principais.</p>
+        <p>Integração via API dedicada para comerciantes externos. O sistema gera endereços públicos dinâmicos e temporários para cada fatura, permitindo que plataformas de e-commerce aceitem ativos digitais sem expor as chaves privadas principais dos estabelecimentos comercializadores.</p>
 
         <h2>6. Segurança, Validação e Blindagem de Ativos</h2>
         <h3>6.1 Contract-Level Destination Guard</h3>
-        <p>O módulo validate-address.js atua como um firewall de transações. Ele implementa uma Blacklist de Mints (incluindo o contrato do USDC), impedindo que o usuário envie fundos para o endereço do contrato por engano — uma resposta direta a incidentes históricos de perda de capital.</p>
+        <p>O módulo de segurança de destino atua como um firewall ao nível da aplicação. Implementa uma verificação restritiva (incluindo o contrato nativo do USDC), impedindo de forma automatizada que os utilizadores enviem fundos para o endereço físico do contrato inteligente por engano.</p>
         <h3>6.2 Validação Lightning (BOLT11)</h3>
-        <p>O validate-lightning.js protege o usuário através de: Check de Prefixo (bloqueio de faturas testnet/regtest), On-Chain Protection (bloqueio de endereços Bitcoin Mainnet colados), e Threshold Alerts para faturas superiores a R$ 50,00.</p>
-        <h3>6.3 Checkpoints de Segurança 🛡️</h3>
+        <p>A camada de proteção de pagamentos Lightning protege os utilizadores através de três controlos:</p>
         <ul>
-            <li>🌐 Infra: Nó Lightning em rede Tor com Firewall UFW restritivo.</li>
-            <li>🤖 Monitoramento: Alertas em tempo real via Telegram Bot para falhas de mintagem e saúde do servidor.</li>
-            <li>📈 Uptime: Monitoramento externo via UptimeRobot com check a cada 5 minutos.</li>
+            <li><strong>Validação de Prefixo:</strong> Bloqueio imediato de faturas geradas em redes de teste (testnet/regtest).</li>
+            <li><strong>Proteção On-Chain:</strong> Filtro para impedir a colagem acidental de endereços Bitcoin Layer 1 em campos destinados a faturas Lightning.</li>
+            <li><strong>Alertas de Limiar (Threshold Alerts):</strong> Notificação de segurança dupla para faturas que ultrapassem limites operacionais padrão.</li>
+        </ul>
+        <h3>6.3 Checkpoints de Segurança Integrados 🛡️</h3>
+        <ul>
+            <li><strong>Isolamento de Rede:</strong> Nós Lightning configurados com firewalls restritivos ao nível do sistema operativo e comunicações cifradas.</li>
+            <li><strong>Monitorização Ativa:</strong> Sistemas de telemetria integrados com canais de alerta automatizados para reporte imediato de anomalias no processo de mintagem ou degradação de serviços.</li>
+            <li><strong>Garantia de Disponibilidade:</strong> Auditoria externa contínua de conectividade com verificações regulares em intervalos de 5 minutos.</li>
         </ul>
 
-        <h2>7. Roadmap de Desenvolvimento e Governança</h2>
+        <h2>7. Roteiro de Desenvolvimento (Roadmap) e Governação</h2>
         <ul>
-            <li><strong>Curto Prazo:</strong> Implementação de Carteira Não-Custodial por Usuário (Self-Sovereign); Token Supply Normalization (Burn final de 6.49M PIXC sem lastro); Criação de Pool de Liquidez no Raydium.</li>
-            <li><strong>Médio Prazo:</strong> Módulo de Saque: PIXC ➔ PIX via integração direta AbacatePay; Redesign visual para UX de banco digital moderno.</li>
-            <li><strong>Longo Prazo:</strong> Sovereign Identity Verification (validação via face-api.js e OCR de documentos local); Listagem em exchanges SPL Tier-1.</li>
+            <li><strong>Curto Prazo:</strong> Implementação total do modelo de carteira não-custodial individualizado; normalização final do fornecimento com queima planejada de tokens remanescentes sem lastro; criação do pool de liquidez inicial em plataformas de negociação descentralizadas (DEX).</li>
+            <li><strong>Médio Prazo:</strong> Expansão das pontes de saída automatizadas para o sistema bancário tradicional através de integrações com parceiros de pagamento regulados; reformulação completa da interface de utilizador (UI/UX) focada em padrões bancários modernos.</li>
+            <li><strong>Longo Prazo:</strong> Implementação de verificação de identidade soberana baseada em biometria descentralizada com processamento local (client-side OCR); listagem do token PIXC em bolsas globais de ativos digitais Tier-1.</li>
         </ul>
 
         <h2>8. Conclusão e Notas Legais</h2>
-        <p>A Word Finance representa o ápice da autonomia financeira no Sul Global, operando sobre uma infraestrutura "Home-Grown" resiliente, protegida por um setup físico de Nobreak 1200VA + Gerador de Energia. O projeto permanece em "Modo Beta", com limites de teste controlados para garantir a integridade dos fundos durante a fase de maturação do nó.</p>
-        <p>Esta documentação técnica serve como garantia de transparência para a comunidade de desenvolvedores e usuários, reafirmando o compromisso com a custódia soberana e a segurança criptográfica.</p>
+        <p>A Word Finance disponibiliza uma infraestrutura de autonomia financeira para o Sul Global, operando sobre uma engenharia resiliente protegida por redundância energética e sistemas de alimentação ininterrupta. O projeto encontra-se atualmente em fase de testes controlados (Modo Beta), com limites operacionais restritos para garantir a proteção absoluta dos fundos dos utilizadores durante o período de maturação tecnológica dos nós da rede.</p>
+        <p>Esta documentação técnica é disponibilizada para fins informativos e de transparência com a comunidade de programadores, reafirmando o compromisso do protocolo com a custódia soberana, a transparência e a segurança criptográfica.</p>
         <p><strong>Relatório Consolidado v7.0 Word Finance: Web3 Infrastructure for Sovereign Economies</strong></p>
     </div>
 </div>
