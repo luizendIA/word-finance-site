@@ -107,6 +107,35 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             background: linear-gradient(135deg, #7c8ef0 0%, #8b5ebd 100%);
         }
+        
+        /* Selo de versão Windows */
+        .windows-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-top: 12px;
+        }
+        .windows-badge svg {
+            width: 18px;
+            height: 18px;
+            fill: #00a4ef;
+        }
+        .download-area {
+            margin-top: 30px;
+        }
+        .version-info {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
 
         .features { padding: 40px 10%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .card { 
@@ -230,6 +259,27 @@
         em um ecossistema financeiro moderno focado em pagamentos instantâneos,
         soberania financeira e infraestrutura blockchain pública.
     </p>
+    
+    <!-- ÁREA DE DOWNLOAD DO WINDOWS - Link corrigido e claramente identificado -->
+    <div class="download-area">
+        <a href="https://github.com/luizendIA/word-finance-site/releases/download/v0.2.0/Word.Finance.Setup.0.2.0.exe" 
+           class="download-button" 
+           download
+           target="_blank"
+           rel="noopener noreferrer">
+           ⚡ BAIXAR PARA WINDOWS (v0.2.0)
+        </a>
+        <div class="windows-badge">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0H11.377V11.372H0V0ZM12.623 0H24V11.372H12.623V0ZM0 12.623H11.377V24H0V12.623ZM12.623 12.623H24V24H12.623V12.623Z"/>
+            </svg>
+            <span>Versão exclusiva para Windows • Setup executável</span>
+        </div>
+        <div class="version-info">
+            📦 Word Finance Setup v0.2.0 | Windows 10/11 | 64 bits
+        </div>
+    </div>
+
     <div style="margin-top:30px; display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
         <a href="https://solscan.io/token/AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq"
            target="_blank"
@@ -241,15 +291,8 @@
            style="background:rgba(59,130,246,0.15); border:1px solid var(--tech-blue); color:#fff; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">
            Metadata Pública
         </a>
-        <!-- Botão de Download do Aplicativo Windows -->
-        <a href="https://github.com/luizendlA/site-de-financas/releases/download/v0.1.0/WORD.FINANCE.FINAL.exe" 
-           class="download-button" 
-           download
-           target="_blank"
-           rel="noopener noreferrer">
-           📥 BAIXAR PARA WINDOWS
-        </a>
     </div>
+    
     <!-- Botão Whitepaper -->
     <div>
         <button id="openWhitepaperBtn" class="btn-whitepaper">
@@ -258,7 +301,7 @@
     </div>
 </section>
 
-<!-- Modal do Whitepaper - NOVO CONTEÚDO SUBSTITUÍDO -->
+<!-- Modal do Whitepaper -->
 <div id="whitepaperModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -573,4 +616,4 @@
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
-</html>
+</html>  
