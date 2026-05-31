@@ -3,617 +3,448 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO -->
-    <title>Word Finance | PixCoin (PIXC) • Lightning Network • Solana Stablecoin</title>
-
-    <meta name="description" content="Word Finance é uma startup brasileira focada em Bitcoin Lightning Network, Solana e PixCoin (PIXC), uma stablecoin experimental voltada para pagamentos instantâneos e infraestrutura financeira open-source.">
-    <meta name="keywords" content="PixCoin, PIXC, Solana, SPL Token, Lightning Network, Bitcoin, Stablecoin Brasileira, Crypto Wallet, Word Finance, Web3, DeFi, Open Source, Blockchain, Raydium, Solscan">
-    <meta name="author" content="Word Finance">
-    <meta property="og:title" content="Word Finance • PixCoin (PIXC)">
-    <meta property="og:description" content="Produto digital experimental brasileira construída na Solana para pagamentos rápidos, Lightning Network e infraestrutura financeira open-source.">
-    <meta property="og:image" content="https://pixcoin.wordfinance.org/pixcoin/logo.png">
-    <meta property="og:url" content="https://word-finance-site.vercel.app/">
+    <title>Word Finance â€” A ponte entre o Real e o Bitcoin | Carteira Multi-Moeda</title>
+    <meta name="description" content="Word Finance: carteira soberana multi-moeda com Bitcoin Lightning, Bitcoin on-chain, Solana, USDC e PixCoin. API aberta para desenvolvedores e agentes de IA. Liberdade financeira para o mundo.">
+    <meta name="keywords" content="Word Finance, Bitcoin, Lightning Network, Solana, USDC, PixCoin, PIXC, carteira cripto, API Bitcoin, agentes IA, stablecoin Brasil, fintech open source, wallet crypto">
+    <meta name="author" content="Word Finance â€” Luiz Gustavo Ferreira">
+    <meta property="og:title" content="Word Finance â€” Carteira Soberana Multi-Moeda">
+    <meta property="og:description" content="Bitcoin Lightning + On-chain + Solana + USDC + PixCoin. API aberta para desenvolvedores e agentes de IA.">
+    <meta property="og:url" content="https://wordfinance.org">
     <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Word Finance • PixCoin">
-    <meta name="twitter:description" content="Infraestrutura financeira open-source baseada em Solana e Lightning Network.">
-    <meta name="twitter:image" content="https://pixcoin.wordfinance.org/pixcoin/logo.png">
-
+    <meta name="twitter:title" content="Word Finance â€” A ponte entre o Real e o Bitcoin">
+    <meta name="twitter:description" content="Carteira soberana multi-moeda. API aberta para devs e agentes de IA.">
+    <link rel="canonical" href="https://wordfinance.org">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b1120;
-            --container-bg: rgba(17, 24, 39, 0.85);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --btc-orange: #f7931a;
-            --tech-blue: #3b82f6;
-            --solana-green: #14f195;
+            --bg: #080c14;
+            --surface: #0f1520;
+            --surface-2: #151d2e;
+            --border: rgba(247,147,26,0.15);
+            --text: #e8ecf2;
+            --text-dim: #7a8599;
+            --btc: #f7931a;
+            --btc-glow: rgba(247,147,26,0.3);
+            --ln: #ffd700;
+            --sol: #9945ff;
+            --green: #10b981;
+            --blue: #3b82f6;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
+
+        /* â”€â”€ NAV â”€â”€ */
+        nav { position:fixed; top:0; width:100%; z-index:100; padding:16px 6%;
+            background:rgba(8,12,20,0.92); backdrop-filter:blur(20px);
+            border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+        .logo { font-size:1.4rem; font-weight:700; letter-spacing:-0.5px; text-decoration:none; color:var(--text); }
+        .logo span { color:var(--btc); }
+        .nav-links { display:flex; gap:28px; align-items:center; }
+        .nav-links a { color:var(--text-dim); text-decoration:none; font-size:0.9rem; font-weight:400; transition:color 0.2s; }
+        .nav-links a:hover { color:var(--btc); }
+        .nav-cta { background:var(--btc); color:#000; padding:8px 20px; border-radius:6px; font-weight:600; font-size:0.85rem; }
+        .nav-cta:hover { background:#e8850f; color:#000 !important; }
+
+        /* â”€â”€ HERO â”€â”€ */
+        .hero { padding:160px 6% 100px; text-align:center; position:relative; }
+        .hero::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+            width:800px; height:800px; background:radial-gradient(circle, var(--btc-glow) 0%, transparent 70%);
+            pointer-events:none; opacity:0.4; }
+        .hero-badge { display:inline-block; background:var(--surface-2); border:1px solid var(--border);
+            padding:6px 16px; border-radius:20px; font-size:0.8rem; color:var(--btc); margin-bottom:24px;
+            font-family:'JetBrains Mono',monospace; letter-spacing:0.5px; }
+        .hero h1 { font-size:clamp(2.5rem,6vw,4.2rem); font-weight:900; line-height:1.1; margin-bottom:24px;
+            letter-spacing:-1.5px; }
+        .hero h1 .gradient { background:linear-gradient(135deg, var(--btc), var(--ln));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .hero p { font-size:1.15rem; color:var(--text-dim); max-width:600px; margin:0 auto 40px;
+            line-height:1.7; font-weight:300; }
+        .hero-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+        .btn-primary { background:var(--btc); color:#000; padding:14px 32px; border-radius:8px;
+            font-weight:700; font-size:1rem; text-decoration:none; transition:all 0.2s;
+            box-shadow:0 0 30px var(--btc-glow); }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 50px var(--btc-glow); }
+        .btn-secondary { background:transparent; color:var(--text); padding:14px 32px; border-radius:8px;
+            font-weight:600; font-size:1rem; text-decoration:none; border:1px solid var(--border); transition:all 0.2s; }
+        .btn-secondary:hover { border-color:var(--btc); color:var(--btc); }
+
+        /* â”€â”€ STATS â”€â”€ */
+        .stats { display:flex; justify-content:center; gap:60px; padding:0 6% 80px; flex-wrap:wrap; }
+        .stat { text-align:center; }
+        .stat-num { font-size:2.2rem; font-weight:900; color:var(--btc);
+            font-family:'JetBrains Mono',monospace; }
+        .stat-label { font-size:0.85rem; color:var(--text-dim); margin-top:4px; }
+
+        /* â”€â”€ SECTIONS â”€â”€ */
+        section { padding:80px 6%; }
+        .section-label { font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--btc);
+            text-transform:uppercase; letter-spacing:3px; margin-bottom:12px; }
+        .section-title { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800; letter-spacing:-1px;
+            margin-bottom:16px; }
+        .section-desc { font-size:1.05rem; color:var(--text-dim); max-width:550px; line-height:1.7;
+            font-weight:300; }
+
+        /* â”€â”€ FEATURES â”€â”€ */
+        .features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+            gap:20px; margin-top:50px; }
+        .feature-card { background:var(--surface); border:1px solid var(--border); border-radius:12px;
+            padding:32px 28px; transition:all 0.3s; position:relative; overflow:hidden; }
+        .feature-card:hover { border-color:var(--btc); transform:translateY(-4px);
+            box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+        .feature-icon { font-size:2rem; margin-bottom:16px; display:block; }
+        .feature-card h3 { font-size:1.15rem; font-weight:700; margin-bottom:8px; }
+        .feature-card p { font-size:0.9rem; color:var(--text-dim); line-height:1.6; }
+        .feature-tag { position:absolute; top:16px; right:16px; background:var(--btc); color:#000;
+            font-size:0.65rem; padding:3px 8px; border-radius:4px; font-weight:700;
+            font-family:'JetBrains Mono',monospace; }
+
+        /* â”€â”€ API SECTION â”€â”€ */
+        .api-section { background:var(--surface); border-top:1px solid var(--border);
+            border-bottom:1px solid var(--border); }
+        .api-grid { display:grid; grid-template-columns:1fr 1fr; gap:50px; margin-top:40px; align-items:start; }
+        .api-code { background:#0a0e18; border:1px solid var(--border); border-radius:12px;
+            padding:24px; font-family:'JetBrains Mono',monospace; font-size:0.82rem; line-height:1.8;
+            overflow-x:auto; color:#a5d6ff; }
+        .api-code .comment { color:#6a737d; }
+        .api-code .keyword { color:#ff7b72; }
+        .api-code .string { color:#a5d6ff; }
+        .api-code .method { color:#d2a8ff; }
+        .api-endpoints { display:flex; flex-direction:column; gap:16px; }
+        .endpoint { background:var(--surface-2); border:1px solid var(--border); border-radius:8px;
+            padding:16px 20px; display:flex; align-items:center; gap:12px; }
+        .endpoint-method { font-family:'JetBrains Mono',monospace; font-size:0.75rem; font-weight:700;
+            padding:4px 10px; border-radius:4px; min-width:50px; text-align:center; }
+        .get { background:rgba(16,185,129,0.15); color:var(--green); }
+        .post { background:rgba(247,147,26,0.15); color:var(--btc); }
+        .endpoint-path { font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:var(--text); }
+        .endpoint-desc { font-size:0.8rem; color:var(--text-dim); margin-left:auto; }
+
+        /* â”€â”€ AI AGENTS â”€â”€ */
+        .ai-section { position:relative; }
+        .ai-section::before { content:''; position:absolute; top:50%; right:0;
+            width:500px; height:500px; background:radial-gradient(circle, rgba(153,69,255,0.1) 0%, transparent 70%);
+            pointer-events:none; }
+        .ai-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:40px; }
+        .ai-card { background:var(--surface); border:1px solid rgba(153,69,255,0.2); border-radius:12px;
+            padding:32px; }
+        .ai-card h3 { color:var(--sol); margin-bottom:12px; }
+        .ai-card p { font-size:0.9rem; color:var(--text-dim); line-height:1.7; }
+
+        /* â”€â”€ DOWNLOAD â”€â”€ */
+        .download-section { text-align:center; }
+        .download-grid { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-top:40px; }
+        .download-card { background:var(--surface); border:1px solid var(--border); border-radius:12px;
+            padding:28px 36px; min-width:200px; text-align:center; transition:all 0.3s; text-decoration:none; color:var(--text); }
+        .download-card:hover { border-color:var(--btc); transform:translateY(-4px); }
+        .download-card .icon { font-size:2.5rem; margin-bottom:12px; display:block; }
+        .download-card h4 { font-size:1rem; margin-bottom:4px; }
+        .download-card span { font-size:0.8rem; color:var(--text-dim); }
+        .download-card.available { border-color:var(--btc); }
+        .download-card.soon { opacity:0.5; cursor:not-allowed; }
+        .soon-badge { background:var(--surface-2); color:var(--text-dim); font-size:0.7rem;
+            padding:3px 10px; border-radius:10px; display:inline-block; margin-top:8px; }
+
+        /* â”€â”€ RECEIVE BTC â”€â”€ */
+        .receive-section { text-align:center; }
+        .receive-grid { display:flex; gap:30px; justify-content:center; flex-wrap:wrap; margin-top:40px; }
+        .receive-card { background:var(--surface); border:1px solid var(--border); border-radius:16px;
+            padding:32px; text-align:center; min-width:280px; }
+        .receive-card h3 { margin-bottom:16px; font-size:1.1rem; }
+        .qr-placeholder { width:180px; height:180px; background:white; border-radius:8px;
+            margin:0 auto 16px; display:flex; align-items:center; justify-content:center; padding:8px; }
+        .address-text { font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--btc);
+            word-break:break-all; background:var(--surface-2); padding:10px; border-radius:6px;
+            cursor:pointer; transition:background 0.2s; }
+        .address-text:hover { background:var(--btc); color:#000; }
+
+        /* â”€â”€ FOOTER â”€â”€ */
+        footer { padding:50px 6%; border-top:1px solid var(--border); display:flex;
+            justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+        .footer-left { font-size:0.85rem; color:var(--text-dim); }
+        .footer-left strong { color:var(--text); }
+        .footer-links { display:flex; gap:20px; }
+        .footer-links a { color:var(--text-dim); text-decoration:none; font-size:0.85rem; }
+        .footer-links a:hover { color:var(--btc); }
+
+        /* â”€â”€ RESPONSIVE â”€â”€ */
+        @media(max-width:768px) {
+            .nav-links { display:none; }
+            .api-grid, .ai-grid { grid-template-columns:1fr; }
+            .stats { gap:30px; }
+            footer { flex-direction:column; text-align:center; }
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            line-height: 1.6;
-            background-image: 
-                radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.1) 1px, transparent 0),
-                url('https://www.transparenttextures.com/patterns/world-map.png');
-            background-size: 40px 40px, contain;
-            background-attachment: fixed;
-        }
-
-        header {
-            padding: 15px 10%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: rgba(11, 17, 32, 0.95);
-            border-bottom: 1px solid #1f2937;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--text-main); text-decoration: none; }
-        .logo span { color: var(--btc-orange); }
-
-        .hero { padding: 180px 10% 80px; text-align: center; }
-
-        .lightning-svg {
-            width: 80px;
-            height: 80px;
-            fill: var(--btc-orange);
-            filter: drop-shadow(0 0 15px rgba(247, 147, 26, 0.6));
-            margin: 0 auto 20px;
-            display: block;
-        }
-
-        .hero h1 { font-size: 3rem; margin-bottom: 20px; }
-        .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; max-width: 700px; margin: 0 auto 40px; }
-
-        .btn-soon { 
-            display: inline-block; 
-            background-color: #374151; 
-            color: #9ca3af; 
-            padding: 15px 30px; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            border: 1px solid #4b5563; 
-            cursor: not-allowed;
-            text-decoration: none;
-        }
-
-        /* Botão de Download */
-        .download-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 16px 32px;
-            font-size: 18px;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 8px;
-            margin: 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-        .download-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            background: linear-gradient(135deg, #7c8ef0 0%, #8b5ebd 100%);
-        }
-        
-        /* Selo de versão Windows */
-        .windows-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            padding: 6px 14px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
-            margin-top: 12px;
-        }
-        .windows-badge svg {
-            width: 18px;
-            height: 18px;
-            fill: #00a4ef;
-        }
-        .download-area {
-            margin-top: 30px;
-        }
-        .version-info {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 10px;
-        }
-
-        .features { padding: 40px 10%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { 
-            background-color: var(--container-bg); 
-            padding: 25px; 
-            border-radius: 12px; 
-            border: 1px solid #1f2937; 
-            backdrop-filter: blur(10px);
-        }
-        .card h3 { margin-bottom: 15px; color: var(--btc-orange); }
-
-        .transparency { padding: 60px 10%; border-top: 1px solid #1f2937; background: rgba(0,0,0,0.3); }
-        
-        .code-block { 
-            background-color: #000; 
-            padding: 12px; 
-            border-radius: 8px; 
-            font-family: monospace; 
-            color: var(--solana-green); 
-            word-break: break-all; 
-            margin: 10px 0; 
-            border: 1px solid #333; 
-            font-size: 0.7rem; 
-        }
-
-        footer { padding: 60px 10%; text-align: center; border-top: 1px solid #1f2937; background: var(--bg-color); }
-        .pix-section { margin-top: 20px; padding: 20px; background-color: rgba(59, 130, 246, 0.1); border: 1px dashed var(--tech-blue); border-radius: 8px; display: inline-block; }
-
-        #google_translate_element { margin-left: 15px; }
-
-        .qr-container { display: flex; flex-direction: column; align-items: center; }
-        .qr-box { background: white; padding: 12px; border-radius: 8px; margin-bottom: 20px; line-height: 0; }
-
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background-color: #0f172a;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid var(--btc-orange);
-            border-radius: 16px;
-            width: 90%;
-            max-width: 1000px;
-            max-height: 80vh;
-            overflow-y: auto;
-            color: var(--text-main);
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-        }
-        .modal-content h1, .modal-content h2, .modal-content h3 {
-            color: var(--btc-orange);
-            margin-top: 20px;
-        }
-        .modal-content h1 { font-size: 1.8rem; border-bottom: 1px solid #334155; padding-bottom: 8px; }
-        .modal-content h2 { font-size: 1.4rem; margin-top: 25px; }
-        .modal-content h3 { font-size: 1.2rem; }
-        .modal-content p { margin: 12px 0; color: #cbd5e1; }
-        .modal-content ul, .modal-content ol { margin: 10px 0 10px 25px; color: #cbd5e1; }
-        .modal-content table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #1e293b; border-radius: 8px; overflow: hidden; }
-        .modal-content th, .modal-content td { border: 1px solid #334155; padding: 8px; text-align: left; }
-        .modal-content th { background: #2d3a5e; color: var(--solana-green); }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .close:hover { color: var(--btc-orange); }
-        .btn-whitepaper {
-            background: linear-gradient(135deg, #f7931a, #fbbf24);
-            border: none;
-            color: #0b1120;
-            font-weight: bold;
-            padding: 14px 28px;
-            border-radius: 40px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .btn-whitepaper:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 15px rgba(247,147,26,0.5);
-        }
-        @media (max-width: 640px) {
-            .hero h1 { font-size: 2rem; }
-            .modal-content { width: 95%; margin: 10% auto; }
-            .download-button { padding: 12px 24px; font-size: 16px; }
-        }
+        /* â”€â”€ ANIMATIONS â”€â”€ */
+        @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+        .hero h1, .hero p, .hero-badge, .hero-btns { animation: fadeUp 0.8s ease-out both; }
+        .hero-badge { animation-delay: 0.1s; }
+        .hero h1 { animation-delay: 0.2s; }
+        .hero p { animation-delay: 0.3s; }
+        .hero-btns { animation-delay: 0.4s; }
     </style>
 </head>
 <body>
 
-<header>
+<!-- NAV -->
+<nav>
     <a href="#" class="logo">Word<span>Finance</span></a>
-    <div id="google_translate_element"></div>
-</header>
+    <div class="nav-links">
+        <a href="#features">Recursos</a>
+        <a href="#api">API</a>
+        <a href="#ai-agents">Agentes IA</a>
+        <a href="#download">Download</a>
+        <a href="#api" class="nav-cta">Documentacao API</a>
+    </div>
+</nav>
 
+<!-- HERO -->
 <section class="hero">
-    <svg class="lightning-svg" viewBox="0 0 32 32">
-        <path d="M18 3L6 18h8l-2 11 12-15h-8z"></path>
-    </svg>
-    <h1>A infraestrutura financeira open-source do futuro</h1>
-    <p>
-        Word Finance conecta Bitcoin Lightning Network, Solana e PixCoin (PIXC)
-        em um ecossistema financeiro moderno focado em pagamentos instantâneos,
-        soberania financeira e infraestrutura blockchain pública.
-    </p>
-    
-    <!-- ÁREA DE DOWNLOAD DO WINDOWS - Link corrigido e claramente identificado -->
-    <div class="download-area">
-        <a href="https://github.com/luizendIA/word-finance-site/releases/download/v0.3.4/Word.Finance.Setup.0.3.4.exe" 
-           class="download-button" 
-           download
-           target="_blank"
-           rel="noopener noreferrer">
-           ⚡ BAIXAR PARA WINDOWS (v0.3.4) indique e ganhe + BTC  .
-        </a>
-        <div class="windows-badge">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 0H11.377V11.372H0V0ZM12.623 0H24V11.372H12.623V0ZM0 12.623H11.377V24H0V12.623ZM12.623 12.623H24V24H12.623V12.623Z"/>
-            </svg>
-            <span>Versão exclusiva para Windows • Setup executável</span>
-        </div>
-        <div class="version-info">
-            📦 Word Finance Setup v0.3.4 | Windows 10/11 | 64 bits
-        </div>
-    </div>
-
-    <div style="margin-top:30px; display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
-        <a href="https://solscan.io/token/AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq"
-           target="_blank"
-           style="background:var(--btc-orange); color:#fff; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">
-           Ver PixCoin no Solscan
-        </a>
-        <a href="https://pixcoin.wordfinance.org/pixcoin/metadata.json"
-           target="_blank"
-           style="background:rgba(59,130,246,0.15); border:1px solid var(--tech-blue); color:#fff; padding:14px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">
-           Metadata Pública
-        </a>
-    </div>
-    
-    <!-- Botão Whitepaper -->
-    <div>
-        <button id="openWhitepaperBtn" class="btn-whitepaper">
-            📄 Ler Whitepaper Técnico (PIXC)
-        </button>
+    <span class="hero-badge">v0.3.4 &mdash; Open Source &bull; Mainnet</span>
+    <h1>A ponte entre o Real<br>e o <span class="gradient">Bitcoin</span></h1>
+    <p>Carteira soberana multi-moeda com Bitcoin Lightning, on-chain, Solana, USDC e PixCoin. API aberta para desenvolvedores e agentes de IA participarem da economia global.</p>
+    <div class="hero-btns">
+        <a href="#download" class="btn-primary">Baixar Word Finance</a>
+        <a href="#api" class="btn-secondary">Documentacao API</a>
     </div>
 </section>
 
-<!-- Modal do Whitepaper -->
-<div id="whitepaperModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h1>Whitepaper Técnico: Ecossistema Word Finance e Token PixCoin (PIXC)</h1>
-        
-        <h2>1. Visão Geral e Soberania Financeira no Sul Global</h2>
-        <p>A Word Finance é uma infraestrutura de ponte estratégica desenhada para integrar o sistema financeiro tradicional à economia descentralizada (Web3), com foco rigoroso na inclusão e na resiliência técnica. No contexto do Sul Global, especificamente no Brasil, a "soberania financeira" transcende a mera liberdade bancária; exige uma arquitetura tolerante a falhas contra perdas de capital por erro do utilizador — uma diretriz integrada após o histórico "incidente de 1 USDC", onde a ausência de travas de segurança na época permitiu o envio inadvertido de fundos para endereços de contratos inteligentes de mintagem (mints).</p>
-        <p>O protocolo adapta a proposta original de Satoshi Nakamoto, viabilizando o Bitcoin como um sistema de dinheiro eletrónico peer-to-peer (P2P) para o quotidiano através da integração nativa com o ecossistema de pagamentos instantâneos PIX. Em vez de depender de custodiantes centralizados, a Word Finance utiliza tecnologia de segunda camada (Layer 2) para mitigar as taxas da rede principal (mainnet), garantindo que a soberania comece na capacidade do indivíduo de transacionar sem atrito e sem o risco de erros fatais de destino.</p>
-        <p><em>"A Lightning Network permite o uso do Bitcoin como meio de pagamento quotidiano, viabilizando desde micropagamentos até transferências internacionais em tempo real, resgatando a visão original de um sistema de dinheiro eletrónico ponto a ponto através de canais de estado assíncronos." — Arquitetura Layer 2: O Resgate do P2P Eletrónico.</em></p>
-
-        <h2>2. A Simbiose Tecnológica: Bitcoin Lightning e Solana</h2>
-        <p>O ecossistema opera numa arquitetura híbrida que funde a liquidez descentralizada e a segurança do Bitcoin com a programabilidade de alto rendimento e baixo custo da Solana.</p>
-        <h3>2.1 Protocolo Lightning Network (Layer 2 BTC)</h3>
-        <p>A rede utiliza canais de pagamento bidirecionais fora da cadeia (off-chain), onde a segurança é garantida criptograficamente por Hashed TimeLock Contracts (HTLCs). A atomicidade das transações é assegurada pelo seguinte fluxo:</p>
-        <ol>
-            <li>O destinatário gera um segredo (preimage) e partilha o respetivo hash com o pagador.</li>
-            <li>O pagador propõe o pagamento através de nós intermediários sob a condição de revelação da preimage.</li>
-            <li>O roteamento em camadas (Onion Routing) garante que cada salto na rede conheça apenas o predecessor e o sucessor imediato, preservando a privacidade total da rota.</li>
-        </ol>
-        <h3>2.2 Rede Solana (Layer 1)</h3>
-        <p>A Solana provê a infraestrutura para a emissão e gestão de tokens no padrão SPL (Solana Program Library). Para mitigar riscos de limitação de taxa (rate-limiting) em ambientes de alta demanda, a Word Finance utiliza infraestrutura de RPC dedicada de alta disponibilidade, garantindo estabilidade na mainnet e tempos de resposta compatíveis com os requisitos dos sistemas bancários modernos.</p>
-        <h3>2.3 Integração Híbrida</h3>
-        <p>A arquitetura permite trocas atómicas (atomic swaps) e liquidez instantânea. A velocidade da Solana é aproveitada para a tokenização de ativos e liquidação de contratos inteligentes, enquanto a rede Lightning atua como o carril global para liquidação imediata de pagamentos.</p>
-
-        <table>
-            <thead>
-                <tr><th>Característica</th><th>Bitcoin Lightning (L2)</th><th>Solana (L1)</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>Unidade Mínima</td><td>Satoshi (0.00000001 BTC)</td><td>Lamport (0.000000001 SOL)</td></tr>
-                <tr><td>Confirmação</td><td>Instantânea (ms)</td><td>~400ms (Block Time)</td></tr>
-                <tr><td>Custo Médio</td><td>Frações de Satoshi</td><td>&lt; $0.00025 USD</td></tr>
-                <tr><td>Aplicação Core</td><td>Microtransações e Remessas</td><td>Tokenização e Smart Contracts</td></tr>
-            </tbody>
-        </table>
-
-        <h2>3. Arquitetura Modular de 5 Camadas (Stack Tecnológica)</h2>
-        <p>A infraestrutura é segmentada de forma estrita para garantir o isolamento de processos, a segurança de dados e a redundância física do sistema:</p>
-        <ol>
-            <li><strong>Camada 1 (Interface Pública):</strong> Front-end distribuído globalmente via redes de entrega de conteúdos (CDN) com blindagem avançada contra ataques DDoS e proteção de DNS.</li>
-            <li><strong>Camada 2 (Cliente / End-User):</strong> Aplicações nativas para desktop e dispositivos móveis (Android) com derivação de chaves não-custodial baseada no padrão BIP39 e persistência de dados de sessão encriptados localmente no dispositivo.</li>
-            <li><strong>Camada 3 (Servidor de Aplicação / Liquidação):</strong> Ambiente de backend isolado responsável pelo processamento de regras de negócio, interface com gateways de pagamento parceiros e controlo do módulo de mintagem automatizada do PixCoin.</li>
-            <li><strong>Camada 4 (Proxy e Gestão Lightning):</strong> Camada de proxy dinâmico dedicada à gestão de sub-carteiras e canais de estado, vinculando identidades criptográficas de forma segura.</li>
-            <li><strong>Camada 5 (Infraestrutura Core):</strong> Nós validadores LND operando sob protocolos de privacidade (rede Tor) para validação de estado e comunicação direta com a rede principal da Solana.</li>
-        </ol>
-
-        <h2>4. O Ativo PixCoin (PIXC): Tokenomics e Utilidade</h2>
-        <p>O PixCoin (PIXC) é o produto digital do ecossistema, desenhado para garantir liquidez imediata e previsibilidade de valor.</p>
-        <h3>4.1 Especificações Técnicas</h3>
-        <ul>
-            <li><strong>Mint Address:</strong> AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq</li>
-            <li><strong>Decimais:</strong> 2</li>
-            <li><strong>Transparência e Auditoria:</strong> O suprimento circulante foi estabilizado após a execução auditada de uma queima (burn) de 5.49M de PIXC da carteira legada, migrando permanentemente a autoridade de emissão para o novo cofre frio (cold wallet) institucional.</li>
-        </ul>
-        <h3>4.2 Modelo de Receita e Fluxo de Taxas</h3>
-        <p>O protocolo aplica uma taxa fixa de 0,5% para operações de Swap e depósitos, garantindo a autossuficiência e a manutenção da infraestrutura descentralizada:</p>
-        <ul>
-            <li><strong>Carteira de Taxas de Tokens (USDC/PIXC):</strong> BLPZSYEmU1gvESB1jKRE4e8LbMvNxFN9GFyhu38VzAbe</li>
-            <li><strong>Carteira de Taxas de SOL:</strong> 3ZL9awiGSJrj5HhLV7gi8B5bNTWxdJ9rCxsNpSyqZkGS</li>
-        </ul>
-        <p><strong>Fluxo de Liquidação:</strong> Confirmação de Depósito → Disparo do Módulo de Emissão Automatizado → Divisão do Split (99.5% enviado para a Carteira do Utilizador / 0.5% alocado na Carteira de Taxas do Protocolo).</p>
-
-        <h2>5. Funcionalidades Avançadas do Ecossistema</h2>
-        <h3>5.1 Empréstimos P2P (Módulo de Crédito)</h3>
-        <p>Lógica de empréstimos descentralizados baseada em contratos e persistência estruturada de dados com baixo overhead técnico:</p>
-        <ul>
-            <li><strong>Taxa de Manutenção:</strong> 1% do valor principal.</li>
-            <li><strong>Penalização por Incumprimento:</strong> 5% fixo sobre o montante em dívida.</li>
-            <li><strong>Governação:</strong> Utilização de um conselho de validadores ("Juristas") para provimento e arbitragem de liquidez manual em casos de exceção.</li>
-        </ul>
-        <h3>5.2 Tokenização de Ativos Reais (Módulo RWA)</h3>
-        <p>Capacidade nativa de converter ativos físicos em tokens programáveis no padrão SPL.</p>
-        <ul>
-            <li><strong>Prevenção de Spam:</strong> Taxa de criação fixa de 0.02 SOL por contrato de tokenização para evitar a inundação e saturação da rede.</li>
-            <li><strong>Comissão de Mercado:</strong> Taxa de 0.5% sobre transações secundárias, revertida automaticamente para o fundo de reserva do protocolo.</li>
-        </ul>
-        <h3>5.3 Gateway de Pagamentos SaaS</h3>
-        <p>Integração via API dedicada para comerciantes externos. O sistema gera endereços públicos dinâmicos e temporários para cada fatura, permitindo que plataformas de e-commerce aceitem ativos digitais sem expor as chaves privadas principais dos estabelecimentos comercializadores.</p>
-
-        <h2>6. Segurança, Validação e Blindagem de Ativos</h2>
-        <h3>6.1 Contract-Level Destination Guard</h3>
-        <p>O módulo de segurança de destino atua como um firewall ao nível da aplicação. Implementa uma verificação restritiva (incluindo o contrato nativo do USDC), impedindo de forma automatizada que os utilizadores enviem fundos para o endereço físico do contrato inteligente por engano.</p>
-        <h3>6.2 Validação Lightning (BOLT11)</h3>
-        <p>A camada de proteção de pagamentos Lightning protege os utilizadores através de três controlos:</p>
-        <ul>
-            <li><strong>Validação de Prefixo:</strong> Bloqueio imediato de faturas geradas em redes de teste (testnet/regtest).</li>
-            <li><strong>Proteção On-Chain:</strong> Filtro para impedir a colagem acidental de endereços Bitcoin Layer 1 em campos destinados a faturas Lightning.</li>
-            <li><strong>Alertas de Limiar (Threshold Alerts):</strong> Notificação de segurança dupla para faturas que ultrapassem limites operacionais padrão.</li>
-        </ul>
-        <h3>6.3 Checkpoints de Segurança Integrados 🛡️</h3>
-        <ul>
-            <li><strong>Isolamento de Rede:</strong> Nós Lightning configurados com firewalls restritivos ao nível do sistema operativo e comunicações cifradas.</li>
-            <li><strong>Monitorização Ativa:</strong> Sistemas de telemetria integrados com canais de alerta automatizados para reporte imediato de anomalias no processo de mintagem ou degradação de serviços.</li>
-            <li><strong>Garantia de Disponibilidade:</strong> Auditoria externa contínua de conectividade com verificações regulares em intervalos de 5 minutos.</li>
-        </ul>
-
-        <h2>7. Roteiro de Desenvolvimento (Roadmap) e Governação</h2>
-        <ul>
-            <li><strong>Curto Prazo:</strong> Implementação total do modelo de carteira não-custodial individualizado; normalização final do fornecimento com queima planejada de tokens remanescentes sem lastro; criação do pool de liquidez inicial em plataformas de negociação descentralizadas (DEX).</li>
-            <li><strong>Médio Prazo:</strong> Expansão das pontes de saída automatizadas para o sistema bancário tradicional através de integrações com parceiros de pagamento regulados; reformulação completa da interface de utilizador (UI/UX) focada em padrões bancários modernos.</li>
-            <li><strong>Longo Prazo:</strong> Implementação de verificação de identidade soberana baseada em biometria descentralizada com processamento local (client-side OCR); listagem do token PIXC em bolsas globais de ativos digitais Tier-1.</li>
-        </ul>
-
-        <h2>8. Conclusão e Notas Legais</h2>
-        <p>A Word Finance disponibiliza uma infraestrutura de autonomia financeira para o Sul Global, operando sobre uma engenharia resiliente protegida por redundância energética e sistemas de alimentação ininterrupta. O projeto encontra-se atualmente em fase de testes controlados (Modo Beta), com limites operacionais restritos para garantir a proteção absoluta dos fundos dos utilizadores durante o período de maturação tecnológica dos nós da rede.</p>
-        <p>Esta documentação técnica é disponibilizada para fins informativos e de transparência com a comunidade de programadores, reafirmando o compromisso do protocolo com a custódia soberana, a transparência e a segurança criptográfica.</p>
-        <p><strong>Relatório Consolidado v7.0 Word Finance: Web3 Infrastructure for Sovereign Economies</strong></p>
-    </div>
+<!-- STATS -->
+<div class="stats">
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Moedas suportadas</div></div>
+    <div class="stat"><div class="stat-num">BTC + LN</div><div class="stat-label">Lightning + On-chain</div></div>
+    <div class="stat"><div class="stat-num">0%</div><div class="stat-label">Taxa de envio</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">API disponivel</div></div>
 </div>
 
-<section class="features">
-    <div class="card" style="text-align:center;">
-        <h3 style="color:var(--solana-green); font-size:2rem;">SPL</h3>
-        <p>Solana Token Standard</p>
-        <p style="margin-top:10px; color:var(--text-muted); font-size:0.9rem;">PixCoin operates on Solana blockchain infrastructure.</p>
-    </div>
-    <div class="card" style="text-align:center;">
-        <h3 style="color:var(--btc-orange); font-size:2rem;">24/7</h3>
-        <p>Cloud Infrastructure</p>
-        <p style="margin-top:10px; color:var(--text-muted); font-size:0.9rem;">Metadata and blockchain endpoints globally distributed.</p>
-    </div>
-    <div class="card" style="text-align:center;">
-        <h3 style="color:var(--tech-blue); font-size:2rem;">LND</h3>
-        <p>Lightning Node Active</p>
-        <p style="margin-top:10px; color:var(--text-muted); font-size:0.9rem;">Native Bitcoin Lightning Network support.</p>
-    </div>
-    <div class="card" style="text-align:center;">
-        <h3 style="color:var(--solana-green); font-size:2rem;">PIXC</h3>
-        <p>Experimental Stablecoin</p>
-        <p style="margin-top:10px; color:var(--text-muted); font-size:0.9rem;">Brazilian blockchain payment ecosystem.</p>
-    </div>
-</section>
-
-<section class="features">
-    <div class="card">
-        <h3>Infraestrutura Própria</h3>
-        <p>Operamos nosso próprio nó Lightning (LND), garantindo soberania total sobre as transações da nossa Startup.</p>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:10px;">Node ID: 0335b24dafc4d7484b623d9fae9d6266c785417514ff04b4e3872ec961bb2d7885</p>
-    </div>
-    <div class="card">
-        <h3 style="color: var(--tech-blue);">PixCoin (PIXC)</h3>
-        <p>Token experimental SPL na Solana para micro-pagamentos rápidos com custo zero dentro do ecossistema Word Finance.</p>
-    </div>
-    <div class="card">
-        <h3 style="color: var(--solana-green);">Multichain Wallet</h3>
-        <p>Suporte nativo para Bitcoin e Solana em uma única interface desktop segura construída em Node.js.</p>
-    </div>
-</section>
-
-<section class="transparency">
-    <h2 style="text-align:center; margin-bottom:40px;">PixCoin (PIXC) Ecosystem</h2>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px;">
-        <div class="card">
-            <h3>Stablecoin Brasileira</h3>
-            <p>PixCoin (PIXC) é um token SPL experimental construído na Solana para pagamentos rápidos, microtransações e integração com o ecossistema financeiro brasileiro.</p>
+<!-- FEATURES -->
+<section id="features">
+    <div class="section-label">Recursos</div>
+    <div class="section-title">Tudo que voce precisa.<br>Nada que nao precisa.</div>
+    <div class="section-desc">Uma carteira construida para quem quer liberdade financeira de verdade, sem intermediarios.</div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <span class="feature-icon">&#9889;</span>
+            <span class="feature-tag">ATIVO</span>
+            <h3>Bitcoin Lightning</h3>
+            <p>Pagamentos instantaneos e quase gratuitos na rede Lightning. Gere invoices, pague e receba sats em segundos.</p>
         </div>
-        <div class="card">
-            <h3 style="color:var(--solana-green);">Blockchain Transparency</h3>
-            <p style="margin-bottom:10px;">Mint Address:</p>
-            <div class="code-block">AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq</div>
-            <a href="https://solscan.io/token/AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq" target="_blank" style="color:var(--tech-blue); text-decoration:none;">Ver no Solscan →</a>
+        <div class="feature-card">
+            <span class="feature-icon">&#8383;</span>
+            <span class="feature-tag">ATIVO</span>
+            <h3>Bitcoin On-Chain</h3>
+            <p>Endereco permanente para recebimentos de alto valor. Envie BTC com seguranca, limites configurados e confirmacao dupla.</p>
         </div>
-        <div class="card">
-            <h3 style="color:var(--btc-orange);">Infraestrutura 24/7</h3>
-            <p>Metadata pública distribuída globalmente utilizando:</p>
-            <ul style="margin-top:15px; padding-left:20px; color:var(--text-muted);">
-                <li>Cloudflare Tunnel</li><li>PM2 Process Manager</li><li>Ubuntu Server</li><li>Node.js + Express</li><li>HTTPS global</li>
-            </ul>
+        <div class="feature-card">
+            <span class="feature-icon">&#128176;</span>
+            <span class="feature-tag">ATIVO</span>
+            <h3>USDC &amp; Solana</h3>
+            <p>Transacoes rapidas na rede Solana. Envie, receba e troque USDC e SOL com taxas minimas.</p>
         </div>
-    </div>
-    <div style="margin-top:35px; text-align:center;">
-        <a href="https://pixcoin.wordfinance.org/pixcoin/metadata.json" target="_blank" style="display:inline-block; background:rgba(20,241,149,0.12); border:1px solid var(--solana-green); color:white; padding:14px 26px; border-radius:8px; text-decoration:none; font-weight:bold;">Ver Metadata Pública</a>
-    </div>
-</section>
-
-<section class="transparency">
-    <h2 style="text-align: center; margin-bottom: 40px;">Apoie o Desenvolvimento (Grants & Donations)</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-        <div class="card qr-container">
-            <h4>Doação BTC/Lightning (Instantânea)</h4>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Ideal para pequenas contribuições via nó LND</p>
-            <div id="qrcode-lightning" class="qr-box"></div>
-            <p style="font-size: 0.7rem; color: var(--text-muted);">Endereço Lightning:</p>
-            <div class="code-block">LIGHTNING:LNBC2U1P4PNKNVPP52R28R679U9HLVWVY9QEY7QFGENUN8LDW5SHEJQ9T2QV6Q0FN8X4QDQ2F38XY6T5WVCQZYSXQRRSSSP5FPTMWTFAP4G4RTQ8A8K8M3W85JRD99S67W7GPSLYKMM9HRZ26E7Q9QXPQYSGQF7JNHE29UREHK2A93UQKAZ3V6QAFTXMY5T2G6Y4JWS8ZVRKVWWT9MMKMP6CR6HA03A0GLLC09K3SK37YLEV22MKER4ACA4MK52RVACCQ3LXR7Z</div>
+        <div class="feature-card">
+            <span class="feature-icon">&#127463;&#127479;</span>
+            <span class="feature-tag">ATIVO</span>
+            <h3>PixCoin (PIXC)</h3>
+            <p>Stablecoin brasileira atrelada ao Real. Deposite via PIX e tenha R$ digital na blockchain Solana.</p>
         </div>
-        <div class="card qr-container">
-            <h4>Doação Bitcoin (On-Chain)</h4>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Para grandes aportes e suporte institucional</p>
-            <div id="qrcode-onchain" class="qr-box"></div>
-            <p style="font-size: 0.7rem; color: var(--text-muted);">Endereço On-Chain:</p>
-            <div class="code-block">LIGHTNING:bc1qvce03qqqc96c4qr9sy9g92s3t2ese0c9vycnj8</div>
+        <div class="feature-card">
+            <span class="feature-icon">&#129302;</span>
+            <span class="feature-tag">NOVO</span>
+            <h3>API para Agentes de IA</h3>
+            <p>Endpoints REST abertos para agentes de IA transacionarem. Integre pagamentos Bitcoin em qualquer sistema autonomo.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">&#128274;</span>
+            <h3>Emprestimos P2P</h3>
+            <p>Empreste e tome emprestado entre usuarios com taxas justas definidas pelo mercado. Sem banco, sem burocracia.</p>
         </div>
     </div>
 </section>
 
-<section class="transparency">
-    <h2 style="text-align:center; margin-bottom:40px;">Project Status</h2>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;">
-        <div class="card">
-            <h3 style="color:var(--solana-green);">Blockchain Infrastructure</h3>
-            <p>✅ SPL Token Live</p><p>✅ Solana Metadata Online</p><p>✅ Cloudflare Tunnel 24/7</p><p>✅ PM2 Infrastructure</p><p>✅ HTTPS Metadata Endpoint</p>
-        </div>
-        <div class="card">
-            <h3 style="color:var(--btc-orange);">Lightning Network</h3>
-            <p>✅ LND Node Active</p><p>✅ Lightning QR Payments</p><p>✅ Bitcoin Support</p><p>🟡 BTC ↔ PIXC Bridge Research</p>
-        </div>
-        <div class="card">
-            <h3 style="color:var(--tech-blue);">PixCoin Ecosystem</h3>
-            <p>✅ PIXC Token Public</p><p>✅ Solscan Indexed</p><p>✅ Raydium Pool Created</p><p>🟡 Wallet Integration</p><p>🟡 AbacatePay Integration</p>
-        </div>
-    </div>
-</section>
-
-<section class="transparency">
-    <h2 style="text-align:center; margin-bottom:40px;">Conversor Global de Moedas</h2>
-    <div class="card" style="max-width:700px; margin:auto;">
-        <p style="margin-bottom:20px; color:var(--text-muted);">Conversão em tempo real entre moedas globais e criptomoedas.</p>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:20px;">
-            <input type="number" id="amount" placeholder="Valor" value="1" style="padding:14px; border-radius:8px; border:none; background:#111827; color:white;">
-            <select id="fromCurrency" style="padding:14px; border-radius:8px; border:none; background:#111827; color:white;">
-                <option value="USD">USD</option><option value="BRL">BRL</option><option value="EUR">EUR</option><option value="BTC">BTC</option>
-            </select>
-            <select id="toCurrency" style="padding:14px; border-radius:8px; border:none; background:#111827; color:white;">
-                <option value="BRL">BRL</option><option value="USD">USD</option><option value="EUR">EUR</option><option value="BTC">BTC</option>
-            </select>
-            <button onclick="convertCurrency()" style="background:var(--btc-orange); border:none; border-radius:8px; color:white; font-weight:bold; cursor:pointer;">Converter</button>
-        </div>
-        <div id="conversionResult" style="margin-top:20px; font-size:1.2rem; font-weight:bold; color:var(--solana-green);"></div>
-    </div>
-</section>
-
-<section class="transparency">
-    <h2 style="text-align:center; margin-bottom:40px;">Roadmap & Official Links</h2>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px;">
-        <div class="card">
-            <h3 style="color:var(--btc-orange);">2026 Roadmap</h3>
-            <p>✅ PixCoin SPL Token</p><p>✅ Public Metadata Infrastructure</p><p>✅ Raydium Pool</p><p>🟡 Wallet Integration</p><p>🟡 AbacatePay Integration</p><p>🟡 DexScreener Listing</p><p>🟡 CoinGecko Submission</p><p>🟡 CoinMarketCap Submission</p>
-        </div>
-        <div class="card">
-            <h3 style="color:var(--solana-green);">Official Blockchain Links</h3>
-            <div style="margin-top:15px; display:flex; flex-direction:column; gap:12px;">
-                <a href="https://solscan.io/token/AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq" target="_blank" style="color:var(--solana-green); text-decoration:none;">→ Solscan Token</a>
-                <a href="https://pixcoin.wordfinance.org/pixcoin/metadata.json" target="_blank" style="color:var(--tech-blue); text-decoration:none;">→ Metadata JSON</a>
-                <a href="https://pixcoin.wordfinance.org/pixcoin/logo.png" target="_blank" style="color:var(--btc-orange); text-decoration:none;">→ Official Logo</a>
-                <a href="https://word-finance-site.vercel.app/" target="_blank" style="color:white; text-decoration:none;">→ WordFinance Website</a>
+<!-- API DOCS -->
+<section id="api" class="api-section">
+    <div class="section-label">API para Desenvolvedores &amp; Agentes de IA</div>
+    <div class="section-title">Integre Bitcoin em<br>qualquer sistema.</div>
+    <div class="section-desc">Endpoints REST simples. Sem SDK, sem biblioteca. Qualquer linguagem, qualquer plataforma, qualquer agente de IA.</div>
+    <div class="api-grid">
+        <div>
+            <div class="api-endpoints">
+                <div class="endpoint">
+                    <span class="endpoint-method post">POST</span>
+                    <span class="endpoint-path">/api/lightning/invoice</span>
+                    <span class="endpoint-desc">Gerar invoice Lightning</span>
+                </div>
+                <div class="endpoint">
+                    <span class="endpoint-method get">GET</span>
+                    <span class="endpoint-path">/api/lightning/balance/:addr</span>
+                    <span class="endpoint-desc">Saldo Lightning</span>
+                </div>
+                <div class="endpoint">
+                    <span class="endpoint-method get">GET</span>
+                    <span class="endpoint-path">/api/btc/address/:addr</span>
+                    <span class="endpoint-desc">Endereco BTC on-chain</span>
+                </div>
+                <div class="endpoint">
+                    <span class="endpoint-method get">GET</span>
+                    <span class="endpoint-path">/api/btc/balance/:addr</span>
+                    <span class="endpoint-desc">Saldo on-chain</span>
+                </div>
+                <div class="endpoint">
+                    <span class="endpoint-method post">POST</span>
+                    <span class="endpoint-path">/api/btc/send</span>
+                    <span class="endpoint-desc">Enviar BTC on-chain</span>
+                </div>
+                <div class="endpoint">
+                    <span class="endpoint-method get">GET</span>
+                    <span class="endpoint-path">/api/btc/health</span>
+                    <span class="endpoint-desc">Status do node</span>
+                </div>
             </div>
         </div>
-        <div class="card">
-            <h3 style="color:var(--tech-blue);">Vision</h3>
-            <p>Word Finance aims to connect:</p>
-            <ul style="margin-top:15px; padding-left:20px; color:var(--text-muted);">
-                <li>Bitcoin Lightning Network</li><li>Solana SPL Infrastructure</li><li>Brazilian instant payments</li><li>Open-source financial tools</li><li>Low-fee blockchain payments</li>
-            </ul>
+        <div class="api-code">
+<span class="comment">// Exemplo: Gerar invoice Lightning</span>
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="method">fetch</span>(
+  <span class="string">"https://webhook.wordfinance.org/api/lightning/invoice"</span>,
+  {
+    <span class="keyword">method</span>: <span class="string">"POST"</span>,
+    <span class="keyword">headers</span>: { <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span> },
+    <span class="keyword">body</span>: JSON.<span class="method">stringify</span>({
+      <span class="keyword">solanaAddress</span>: <span class="string">"SeuEnderecoSolana..."</span>,
+      <span class="keyword">amountSats</span>: <span class="string">1000</span>,
+      <span class="keyword">memo</span>: <span class="string">"Pagamento via API"</span>
+    })
+  }
+);
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="method">json</span>();
+console.<span class="method">log</span>(data.bolt11);
+<span class="comment">// lnbc10u1p4p5z...  pronto para pagar!</span>
         </div>
     </div>
 </section>
 
-<footer>
-    <div class="pix-section">
-        <p><strong>Apoie via PIX (Brasil)</strong></p>
-        <p style="color: var(--tech-blue); font-weight: bold; margin: 10px 0;">Chave: em breve </p>
-        <p style="font-size: 0.8rem; color: var(--text-muted);">Ajude a manter nosso nó LND ativo.</p>
+<!-- AI AGENTS -->
+<section id="ai-agents" class="ai-section">
+    <div class="section-label">Agentes de IA</div>
+    <div class="section-title">A primeira carteira brasileira<br>pronta para agentes de IA.</div>
+    <div class="section-desc">Agentes autonomos podem criar invoices, verificar saldos e transacionar Bitcoin usando a API REST da Word Finance.</div>
+    <div class="ai-grid">
+        <div class="ai-card">
+            <h3>&#129302; Para Agentes Autonomos</h3>
+            <p>Seu agente de IA precisa pagar por um servico? Gere uma invoice Lightning via API e pague em segundos. Sem cartao de credito, sem KYC, sem fronteiras. Bitcoin e a moeda nativa dos agentes.</p>
+        </div>
+        <div class="ai-card">
+            <h3>&#128640; Para Desenvolvedores</h3>
+            <p>Integre pagamentos Bitcoin no seu chatbot, assistente ou sistema autonomo em minutos. REST API simples, sem SDK, sem dependencias. Funciona com qualquer linguagem de programacao.</p>
+        </div>
+        <div class="ai-card">
+            <h3>&#127757; Economia Global</h3>
+            <p>Agentes de IA de qualquer pais podem transacionar entre si usando Bitcoin Lightning. Pagamentos instantaneos, 24/7, sem intermediarios. A infraestrutura financeira do futuro e aberta.</p>
+        </div>
+        <div class="ai-card">
+            <h3>&#128218; Documentacao Completa</h3>
+            <p>Endpoints documentados, exemplos de codigo, limites claros. Tudo que um agente precisa para comecar a transacionar em minutos. Base URL: webhook.wordfinance.org</p>
+        </div>
     </div>
-    <p style="margin-top: 40px; font-size: 0.8rem; color: #666;">Word Finance v1.0.0 Open Source Project. Desenvolvido para a liberdade financeira.</p>
+</section>
+
+<!-- DOWNLOAD -->
+<section id="download" class="download-section">
+    <div class="section-label">Download</div>
+    <div class="section-title">Baixe agora. Gratuito para sempre.</div>
+    <div class="section-desc" style="margin:0 auto 10px; text-align:center;">Disponivel para Windows. Em breve para Android, iOS, macOS e Linux.</div>
+    <div class="download-grid">
+        <a href="https://github.com/luizendIA/word-finance-site/releases" class="download-card available">
+            <span class="icon">&#128187;</span>
+            <h4>Windows</h4>
+            <span>Download .exe</span>
+        </a>
+        <div class="download-card soon">
+            <span class="icon">&#128241;</span>
+            <h4>Android</h4>
+            <span class="soon-badge">Em breve</span>
+        </div>
+        <div class="download-card soon">
+            <span class="icon">&#127822;</span>
+            <h4>iOS</h4>
+            <span class="soon-badge">Em breve</span>
+        </div>
+        <div class="download-card soon">
+            <span class="icon">&#128038;</span>
+            <h4>Linux</h4>
+            <span class="soon-badge">Em breve</span>
+        </div>
+        <div class="download-card soon">
+            <span class="icon">&#128421;</span>
+            <h4>macOS</h4>
+            <span class="soon-badge">Em breve</span>
+        </div>
+    </div>
+    <p style="margin-top:30px;font-size:0.85rem;color:var(--text-dim);">&#127760; Em breve disponivel em 10+ idiomas: Ingles, Espanhol, Frances, Alemao, Japones, Chines, Arabe, Hindi, Russo e mais.</p>
+</section>
+
+<!-- RECEIVE BTC -->
+<section class="receive-section">
+    <div class="section-label">Doe Bitcoin</div>
+    <div class="section-title">Apoie o projeto.</div>
+    <div class="section-desc" style="margin:0 auto;text-align:center;">Word Finance e 100% open-source e gratuito. Contribua com sats para manter os servidores rodando.</div>
+    <div class="receive-grid">
+        <div class="receive-card">
+            <h3>&#9889; Lightning Network</h3>
+            <div class="qr-placeholder" id="qr-ln"></div>
+            <div class="address-text" onclick="navigator.clipboard.writeText('wordfinance@ln.tips');this.textContent='Copiado!';" title="Clique para copiar">
+                lnbc5u1p4pe87spp5ldutac85nx4x6k6v9dp8p5x7m985e0s4hztz7ttjt6jt69kqwt8sdpzv3hkrsa8cw3k7grzw33jqmrfva58g6twvucqzysxqrrsssp5nw2ha9834hy3xy3kpew9g7ekluyty60hnslctsmp6eqq7z3u9p2s9qxpqysgq77c6zssg72jltjua8qxu5j8hcgv32pafhqep0x2j9cmacze7a5p330dx3zpydzny5xad7vyr8f0nrayndtt0rnazdl0f9x5svg8n5qspuwcfzs
+            </div>
+        </div>
+        <div class="receive-card">
+            <h3>&#8383; Bitcoin On-Chain</h3>
+            <div class="qr-placeholder" id="qr-btc"></div>
+            <div class="address-text" onclick="navigator.clipboard.writeText('bc1qgy6kth3jwq4vae67cme0lg27sele6xkwdp8nnp');this.textContent='Copiado!';" title="Clique para copiar">
+                bc1qgy6kth3jwq4vae67cme0lg27sele6xkwdp8nnp
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-left">
+        <strong>Word Finance</strong> &mdash; A ponte entre o Real e o Bitcoin<br>
+        &copy; 2026 Luiz Gustavo Ferreira &bull; Minas Gerais, Brasil &#127463;&#127479;<br>
+        <span style="font-size:0.75rem;">Membro BR&#9889;LN &bull; Infraestrutura open-source &bull; Mainnet</span>
+    </div>
+    <div class="footer-links">
+        <a href="https://github.com/luizendIA">GitHub</a>
+        <a href="mailto:luizgustavoferreira@wordfinance.org">Contato</a>
+        <a href="#api">API Docs</a>
+    </div>
 </footer>
 
+<!-- QR Code Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script type="text/javascript">
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({pageLanguage: 'pt'}, 'google_translate_element');
-    }
-    window.onload = function() {
-        new QRCode(document.getElementById("qrcode-lightning"), {
-            text: "em bereve",
-            width: 180, height: 180
-        });
-        new QRCode(document.getElementById("qrcode-onchain"), {
-            text: "bitcoin: em breve ",
-            width: 180, height: 180
-        });
-    };
-    // Modal logic
-    const modal = document.getElementById('whitepaperModal');
-    const btn = document.getElementById('openWhitepaperBtn');
-    const span = document.getElementsByClassName('close')[0];
-    btn.onclick = function() { modal.style.display = 'block'; }
-    span.onclick = function() { modal.style.display = 'none'; }
-    window.onclick = function(event) { if (event.target == modal) modal.style.display = 'none'; }
-</script>
 <script>
-    async function convertCurrency() {
-        const amount = document.getElementById("amount").value;
-        const from = document.getElementById("fromCurrency").value;
-        const to = document.getElementById("toCurrency").value;
-        const resultDiv = document.getElementById("conversionResult");
-        resultDiv.innerHTML = "Convertendo...";
+    // Gera QR codes
+    window.addEventListener('load', function() {
         try {
-            const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd,brl,eur`);
-            const data = await response.json();
-            let rates = {
-                USD: 1,
-                BRL: data.bitcoin.brl / data.bitcoin.usd,
-                EUR: data.bitcoin.eur / data.bitcoin.usd,
-                BTC: 1 / data.bitcoin.usd
-            };
-            let converted = (amount / rates[from]) * rates[to];
-            resultDiv.innerHTML = `${amount} ${from} ≈ ${converted.toFixed(6)} ${to}`;
-        } catch (error) {
-            resultDiv.innerHTML = "Erro ao converter moedas.";
-        }
-    }
+            new QRCode(document.getElementById("qr-btc"), {
+                text: "bc1qgy6kth3jwq4vae67cme0lg27sele6xkwdp8nnp",
+                width: 160, height: 160,
+                colorDark: "#000000", colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+            });
+        } catch(e) {}
+        try {
+            new QRCode(document.getElementById("qr-ln"), {
+                text: "wordfinance@ln.tips",
+                width: 160, height: 160,
+                colorDark: "#000000", colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+            });
+        } catch(e) {}
+    });
 </script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
-</html>  
+</html>
