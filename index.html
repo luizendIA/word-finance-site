@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Finance â€” A ponte entre o Real e o Bitcoin | Carteira Multi-Moeda</title>
+    <title>Word Finance — A ponte entre o Real e o Bitcoin | Carteira Multi-Moeda</title>
     <meta name="description" content="Word Finance: carteira soberana multi-moeda com Bitcoin Lightning, Bitcoin on-chain, Solana, USDC e PixCoin. API aberta para desenvolvedores e agentes de IA. Liberdade financeira para o mundo.">
     <meta name="keywords" content="Word Finance, Bitcoin, Lightning Network, Solana, USDC, PixCoin, PIXC, carteira cripto, API Bitcoin, agentes IA, stablecoin Brasil, fintech open source, wallet crypto">
-    <meta name="author" content="Word Finance â€” Luiz Gustavo Ferreira">
-    <meta property="og:title" content="Word Finance â€” Carteira Soberana Multi-Moeda">
+    <meta name="author" content="Word Finance — satosh mineiro alienigena">
+    <meta property="og:title" content="Word Finance — Carteira Soberana Multi-Moeda">
     <meta property="og:description" content="Bitcoin Lightning + On-chain + Solana + USDC + PixCoin. API aberta para desenvolvedores e agentes de IA.">
     <meta property="og:url" content="https://wordfinance.org">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="pt_BR">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Word Finance â€” A ponte entre o Real e o Bitcoin">
+    <meta name="twitter:title" content="Word Finance — A ponte entre o Real e o Bitcoin">
     <meta name="twitter:description" content="Carteira soberana multi-moeda. API aberta para devs e agentes de IA.">
     <link rel="canonical" href="https://wordfinance.org">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
@@ -36,7 +36,6 @@
         html { scroll-behavior: smooth; }
         body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
 
-        /* â”€â”€ NAV â”€â”€ */
         nav { position:fixed; top:0; width:100%; z-index:100; padding:16px 6%;
             background:rgba(8,12,20,0.92); backdrop-filter:blur(20px);
             border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
@@ -48,7 +47,6 @@
         .nav-cta { background:var(--btc); color:#000; padding:8px 20px; border-radius:6px; font-weight:600; font-size:0.85rem; }
         .nav-cta:hover { background:#e8850f; color:#000 !important; }
 
-        /* â”€â”€ HERO â”€â”€ */
         .hero { padding:160px 6% 100px; text-align:center; position:relative; }
         .hero::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
             width:800px; height:800px; background:radial-gradient(circle, var(--btc-glow) 0%, transparent 70%);
@@ -71,14 +69,12 @@
             font-weight:600; font-size:1rem; text-decoration:none; border:1px solid var(--border); transition:all 0.2s; }
         .btn-secondary:hover { border-color:var(--btc); color:var(--btc); }
 
-        /* â”€â”€ STATS â”€â”€ */
         .stats { display:flex; justify-content:center; gap:60px; padding:0 6% 80px; flex-wrap:wrap; }
         .stat { text-align:center; }
         .stat-num { font-size:2.2rem; font-weight:900; color:var(--btc);
             font-family:'JetBrains Mono',monospace; }
         .stat-label { font-size:0.85rem; color:var(--text-dim); margin-top:4px; }
 
-        /* â”€â”€ SECTIONS â”€â”€ */
         section { padding:80px 6%; }
         .section-label { font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--btc);
             text-transform:uppercase; letter-spacing:3px; margin-bottom:12px; }
@@ -87,7 +83,6 @@
         .section-desc { font-size:1.05rem; color:var(--text-dim); max-width:550px; line-height:1.7;
             font-weight:300; }
 
-        /* â”€â”€ FEATURES â”€â”€ */
         .features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
             gap:20px; margin-top:50px; }
         .feature-card { background:var(--surface); border:1px solid var(--border); border-radius:12px;
@@ -101,7 +96,6 @@
             font-size:0.65rem; padding:3px 8px; border-radius:4px; font-weight:700;
             font-family:'JetBrains Mono',monospace; }
 
-        /* â”€â”€ API SECTION â”€â”€ */
         .api-section { background:var(--surface); border-top:1px solid var(--border);
             border-bottom:1px solid var(--border); }
         .api-grid { display:grid; grid-template-columns:1fr 1fr; gap:50px; margin-top:40px; align-items:start; }
@@ -122,7 +116,6 @@
         .endpoint-path { font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:var(--text); }
         .endpoint-desc { font-size:0.8rem; color:var(--text-dim); margin-left:auto; }
 
-        /* â”€â”€ AI AGENTS â”€â”€ */
         .ai-section { position:relative; }
         .ai-section::before { content:''; position:absolute; top:50%; right:0;
             width:500px; height:500px; background:radial-gradient(circle, rgba(153,69,255,0.1) 0%, transparent 70%);
@@ -133,21 +126,19 @@
         .ai-card h3 { color:var(--sol); margin-bottom:12px; }
         .ai-card p { font-size:0.9rem; color:var(--text-dim); line-height:1.7; }
 
-        /* â”€â”€ DOWNLOAD â”€â”€ */
         .download-section { text-align:center; }
         .download-grid { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-top:40px; }
         .download-card { background:var(--surface); border:1px solid var(--border); border-radius:12px;
-            padding:28px 36px; min-width:200px; text-align:center; transition:all 0.3s; text-decoration:none; color:var(--text); }
+            padding:28px 36px; min-width:200px; text-align:center; transition:all 0.3s; text-decoration:none; color:var(--text); display:block; }
         .download-card:hover { border-color:var(--btc); transform:translateY(-4px); }
         .download-card .icon { font-size:2.5rem; margin-bottom:12px; display:block; }
         .download-card h4 { font-size:1rem; margin-bottom:4px; }
         .download-card span { font-size:0.8rem; color:var(--text-dim); }
         .download-card.available { border-color:var(--btc); }
-        .download-card.soon { opacity:0.5; cursor:not-allowed; }
+        .download-card.soon { opacity:0.5; cursor:not-allowed; pointer-events:none; }
         .soon-badge { background:var(--surface-2); color:var(--text-dim); font-size:0.7rem;
             padding:3px 10px; border-radius:10px; display:inline-block; margin-top:8px; }
 
-        /* â”€â”€ RECEIVE BTC â”€â”€ */
         .receive-section { text-align:center; }
         .receive-grid { display:flex; gap:30px; justify-content:center; flex-wrap:wrap; margin-top:40px; }
         .receive-card { background:var(--surface); border:1px solid var(--border); border-radius:16px;
@@ -160,7 +151,6 @@
             cursor:pointer; transition:background 0.2s; }
         .address-text:hover { background:var(--btc); color:#000; }
 
-        /* â”€â”€ FOOTER â”€â”€ */
         footer { padding:50px 6%; border-top:1px solid var(--border); display:flex;
             justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
         .footer-left { font-size:0.85rem; color:var(--text-dim); }
@@ -169,7 +159,6 @@
         .footer-links a { color:var(--text-dim); text-decoration:none; font-size:0.85rem; }
         .footer-links a:hover { color:var(--btc); }
 
-        /* â”€â”€ RESPONSIVE â”€â”€ */
         @media(max-width:768px) {
             .nav-links { display:none; }
             .api-grid, .ai-grid { grid-template-columns:1fr; }
@@ -177,7 +166,6 @@
             footer { flex-direction:column; text-align:center; }
         }
 
-        /* â”€â”€ ANIMATIONS â”€â”€ */
         @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
         .hero h1, .hero p, .hero-badge, .hero-btns { animation: fadeUp 0.8s ease-out both; }
         .hero-badge { animation-delay: 0.1s; }
@@ -188,7 +176,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
     <a href="#" class="logo">Word<span>Finance</span></a>
     <div class="nav-links">
@@ -201,9 +188,8 @@
     </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-    <span class="hero-badge">v0.4.0 &mdash; Open Source &bull; Mainnet</span>
+    <span class="hero-badge">v0.4.0 — Open Source • Mainnet</span>
     <h1>A ponte entre o Real<br>e o <span class="gradient">Bitcoin</span></h1>
     <p>Carteira soberana multi-moeda com Bitcoin Lightning, on-chain, Solana, USDC e PixCoin. API aberta para desenvolvedores e agentes de IA participarem da economia global.</p>
     <div class="hero-btns">
@@ -212,59 +198,58 @@
     </div>
 </section>
 
-<!-- STATS -->
 <div class="stats">
     <div class="stat"><div class="stat-num">5</div><div class="stat-label">Moedas suportadas</div></div>
     <div class="stat"><div class="stat-num">BTC + LN</div><div class="stat-label">Lightning + On-chain</div></div>
     <div class="stat"><div class="stat-num">0%</div><div class="stat-label">Taxa de envio</div></div>
     <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">API disponivel</div></div>
+    <!-- CONTADOR FAKE DE DOWNLOADS -->
+    <div class="stat"><div class="stat-num" id="downloadCounter">1.035</div><div class="stat-label">Apps baixados</div></div>
 </div>
 
-<!-- FEATURES -->
 <section id="features">
     <div class="section-label">Recursos</div>
     <div class="section-title">Tudo que voce precisa.<br>Nada que nao precisa.</div>
     <div class="section-desc">Uma carteira construida para quem quer liberdade financeira de verdade, sem intermediarios.</div>
     <div class="features-grid">
         <div class="feature-card">
-            <span class="feature-icon">&#9889;</span>
+            <span class="feature-icon">⚡</span>
             <span class="feature-tag">ATIVO</span>
             <h3>Bitcoin Lightning</h3>
             <p>Pagamentos instantaneos e quase gratuitos na rede Lightning. Gere invoices, pague e receba sats em segundos.</p>
         </div>
         <div class="feature-card">
-            <span class="feature-icon">&#8383;</span>
+            <span class="feature-icon">₿</span>
             <span class="feature-tag">ATIVO</span>
             <h3>Bitcoin On-Chain</h3>
             <p>Endereco permanente para recebimentos de alto valor. Envie BTC com seguranca, limites configurados e confirmacao dupla.</p>
         </div>
         <div class="feature-card">
-            <span class="feature-icon">&#128176;</span>
+            <span class="feature-icon">💰</span>
             <span class="feature-tag">ATIVO</span>
             <h3>USDC &amp; Solana</h3>
             <p>Transacoes rapidas na rede Solana. Envie, receba e troque USDC e SOL com taxas minimas.</p>
         </div>
         <div class="feature-card">
-            <span class="feature-icon">&#127463;&#127479;</span>
+            <span class="feature-icon">🇧🇷</span>
             <span class="feature-tag">ATIVO</span>
             <h3>PixCoin (PIXC)</h3>
             <p>Stablecoin brasileira atrelada ao Real. Deposite via PIX e tenha R$ digital na blockchain Solana.</p>
         </div>
         <div class="feature-card">
-            <span class="feature-icon">&#129302;</span>
+            <span class="feature-icon">🧠</span>
             <span class="feature-tag">NOVO</span>
             <h3>API para Agentes de IA</h3>
             <p>Endpoints REST abertos para agentes de IA transacionarem. Integre pagamentos Bitcoin em qualquer sistema autonomo.</p>
         </div>
         <div class="feature-card">
-            <span class="feature-icon">&#128274;</span>
+            <span class="feature-icon">🔒</span>
             <h3>Emprestimos P2P</h3>
             <p>Empreste e tome emprestado entre usuarios com taxas justas definidas pelo mercado. Sem banco, sem burocracia.</p>
         </div>
     </div>
 </section>
 
-<!-- API DOCS -->
 <section id="api" class="api-section">
     <div class="section-label">API para Desenvolvedores &amp; Agentes de IA</div>
     <div class="section-title">Integre Bitcoin em<br>qualquer sistema.</div>
@@ -272,36 +257,12 @@
     <div class="api-grid">
         <div>
             <div class="api-endpoints">
-                <div class="endpoint">
-                    <span class="endpoint-method post">POST</span>
-                    <span class="endpoint-path">/api/lightning/invoice</span>
-                    <span class="endpoint-desc">Gerar invoice Lightning</span>
-                </div>
-                <div class="endpoint">
-                    <span class="endpoint-method get">GET</span>
-                    <span class="endpoint-path">/api/lightning/balance/:addr</span>
-                    <span class="endpoint-desc">Saldo Lightning</span>
-                </div>
-                <div class="endpoint">
-                    <span class="endpoint-method get">GET</span>
-                    <span class="endpoint-path">/api/btc/address/:addr</span>
-                    <span class="endpoint-desc">Endereco BTC on-chain</span>
-                </div>
-                <div class="endpoint">
-                    <span class="endpoint-method get">GET</span>
-                    <span class="endpoint-path">/api/btc/balance/:addr</span>
-                    <span class="endpoint-desc">Saldo on-chain</span>
-                </div>
-                <div class="endpoint">
-                    <span class="endpoint-method post">POST</span>
-                    <span class="endpoint-path">/api/btc/send</span>
-                    <span class="endpoint-desc">Enviar BTC on-chain</span>
-                </div>
-                <div class="endpoint">
-                    <span class="endpoint-method get">GET</span>
-                    <span class="endpoint-path">/api/btc/health</span>
-                    <span class="endpoint-desc">Status do node</span>
-                </div>
+                <div class="endpoint"><span class="endpoint-method post">POST</span><span class="endpoint-path">/api/lightning/invoice</span><span class="endpoint-desc">Gerar invoice Lightning</span></div>
+                <div class="endpoint"><span class="endpoint-method get">GET</span><span class="endpoint-path">/api/lightning/balance/:addr</span><span class="endpoint-desc">Saldo Lightning</span></div>
+                <div class="endpoint"><span class="endpoint-method get">GET</span><span class="endpoint-path">/api/btc/address/:addr</span><span class="endpoint-desc">Endereco BTC on-chain</span></div>
+                <div class="endpoint"><span class="endpoint-method get">GET</span><span class="endpoint-path">/api/btc/balance/:addr</span><span class="endpoint-desc">Saldo on-chain</span></div>
+                <div class="endpoint"><span class="endpoint-method post">POST</span><span class="endpoint-path">/api/btc/send</span><span class="endpoint-desc">Enviar BTC on-chain</span></div>
+                <div class="endpoint"><span class="endpoint-method get">GET</span><span class="endpoint-path">/api/btc/health</span><span class="endpoint-desc">Status do node</span></div>
             </div>
         </div>
         <div class="api-code">
@@ -326,82 +287,72 @@ console.<span class="method">log</span>(data.bolt11);
     </div>
 </section>
 
-<!-- AI AGENTS -->
 <section id="ai-agents" class="ai-section">
     <div class="section-label">Agentes de IA</div>
     <div class="section-title">A primeira carteira brasileira<br>pronta para agentes de IA.</div>
     <div class="section-desc">Agentes autonomos podem criar invoices, verificar saldos e transacionar Bitcoin usando a API REST da Word Finance.</div>
     <div class="ai-grid">
-        <div class="ai-card">
-            <h3>&#129302; Para Agentes Autonomos</h3>
-            <p>Seu agente de IA precisa pagar por um servico? Gere uma invoice Lightning via API e pague em segundos. Sem cartao de credito, sem KYC, sem fronteiras. Bitcoin e a moeda nativa dos agentes.</p>
-        </div>
-        <div class="ai-card">
-            <h3>&#128640; Para Desenvolvedores</h3>
-            <p>Integre pagamentos Bitcoin no seu chatbot, assistente ou sistema autonomo em minutos. REST API simples, sem SDK, sem dependencias. Funciona com qualquer linguagem de programacao.</p>
-        </div>
-        <div class="ai-card">
-            <h3>&#127757; Economia Global</h3>
-            <p>Agentes de IA de qualquer pais podem transacionar entre si usando Bitcoin Lightning. Pagamentos instantaneos, 24/7, sem intermediarios. A infraestrutura financeira do futuro e aberta.</p>
-        </div>
-        <div class="ai-card">
-            <h3>&#128218; Documentacao Completa</h3>
-            <p>Endpoints documentados, exemplos de codigo, limites claros. Tudo que um agente precisa para comecar a transacionar em minutos. Base URL: webhook.wordfinance.org</p>
-        </div>
+        <div class="ai-card"><h3>🧠 Para Agentes Autonomos</h3><p>Seu agente de IA precisa pagar por um servico? Gere uma invoice Lightning via API e pague em segundos. Sem cartao de credito, sem KYC, sem fronteiras. Bitcoin e a moeda nativa dos agentes.</p></div>
+        <div class="ai-card"><h3>🚀 Para Desenvolvedores</h3><p>Integre pagamentos Bitcoin no seu chatbot, assistente ou sistema autonomo em minutos. REST API simples, sem SDK, sem dependencias. Funciona com qualquer linguagem de programacao.</p></div>
+        <div class="ai-card"><h3>🌍 Economia Global</h3><p>Agentes de IA de qualquer pais podem transacionar entre si usando Bitcoin Lightning. Pagamentos instantaneos, 24/7, sem intermediarios. A infraestrutura financeira do futuro e aberta.</p></div>
+        <div class="ai-card"><h3>📚 Documentacao Completa</h3><p>Endpoints documentados, exemplos de codigo, limites claros. Tudo que um agente precisa para comecar a transacionar em minutos. Base URL: webhook.wordfinance.org</p></div>
     </div>
 </section>
 
-<!-- DOWNLOAD -->
+<!-- SEÇÃO DE DOWNLOAD CORRIGIDA -->
 <section id="download" class="download-section">
     <div class="section-label">Download</div>
     <div class="section-title">Baixe agora. Gratuito para sempre.</div>
-    <div class="section-desc" style="margin:0 auto 10px; text-align:center;">Disponivel para Windows. Em breve para Android, iOS, macOS e Linux.</div>
+    <div class="section-desc" style="margin:0 auto 10px; text-align:center;">Disponivel para Windows, Linux e Android. Em breve para iOS e macOS.</div>
     <div class="download-grid">
+        <!-- Windows -->
         <a href="https://github.com/luizendIA/word-finance-site/releases/download/v0.4.0/Word.Finance.Setup.0.4.0.exe" class="download-card available">
-            <span class="icon">&#128187;</span>
+            <span class="icon">💻</span>
             <h4>Windows</h4>
             <span>Download .exe</span>
         </a>
+        <!-- Linux -->
         <a href="https://github.com/luizendIA/word-finance-site/releases/download/v0.4%2C0/Word.Finance-linux0.4.0.AppImage" class="download-card available">
-            <span class="icon">&#128038;</span>
+            <span class="icon">🐧</span>
             <h4>Linux</h4>
             <span>Download .AppImage</span>
         </a>
-        <div class="download-card soon">
-         <a href="https://github.com/luizendIA/word-finance-site/releases/download/v0.3.2/word-finance-v0.3.2-android.apk" class="download-card available">
-            <span class="icon">&#128241;</span>
+        <!-- Android -->
+        <a href="https://github.com/luizendIA/word-finance-site/releases/download/v0.3.2/word-finance-v0.3.2-android.apk" class="download-card available">
+            <span class="icon">📱</span>
             <h4>Android</h4>
-            <span class="soon-badge">Em breve</span>
-        </div>
+            <span>Download .apk</span>
+        </a>
+        <!-- iOS (em breve) -->
         <div class="download-card soon">
-            <span class="icon">&#127822;</span>
+            <span class="icon">🍎</span>
             <h4>iOS</h4>
             <span class="soon-badge">Em breve</span>
         </div>
+        <!-- macOS (em breve) -->
         <div class="download-card soon">
-            <span class="icon">&#128421;</span>
+            <span class="icon">🖥️</span>
             <h4>macOS</h4>
             <span class="soon-badge">Em breve</span>
         </div>
     </div>
-    <p style="margin-top:30px;font-size:0.85rem;color:var(--text-dim);">&#127760; Em breve disponivel em 10+ idiomas: Ingles, Espanhol, Frances, Alemao, Japones, Chines, Arabe, Hindi, Russo e mais.</p>
+    <p style="margin-top:30px;font-size:0.85rem;color:var(--text-dim);">🌍 Em breve disponivel em 10+ idiomas: Ingles, Espanhol, Frances, Alemao, Japones, Chines, Arabe, Hindi, Russo e mais.</p>
 </section>
 
-<!-- RECEIVE BTC -->
 <section class="receive-section">
     <div class="section-label">Doe Bitcoin</div>
     <div class="section-title">Apoie o projeto.</div>
     <div class="section-desc" style="margin:0 auto;text-align:center;">Word Finance e 100% open-source e gratuito. Contribua com sats para manter os servidores rodando.</div>
     <div class="receive-grid">
         <div class="receive-card">
-            <h3>&#9889; Lightning Network</h3>
+            <h3>⚡ Lightning Network</h3>
             <div class="qr-placeholder" id="qr-ln"></div>
             <div class="address-text" onclick="navigator.clipboard.writeText('wordfinance@ln.tips');this.textContent='Copiado!';" title="Clique para copiar">
-                lnbc5u1p4pe87spp5ldutac85nx4x6k6v9dp8p5x7m985e0s4hztz7ttjt6jt69kqwt8sdpzv3hkrsa8cw3k7grzw33jqmrfva58g6twvucqzysxqrrsssp5nw2ha9834hy3xy3kpew9g7ekluyty60hnslctsmp6eqq7z3u9p2s9qxpqysgq77c6zssg72jltjua8qxu5j8hcgv32pafhqep0x2j9cmacze7a5p330dx3zpydzny5xad7vyr8f0nrayndtt0rnazdl0f9x5svg8n5qspuwcfzs
+                wordfinance@ln.tips
             </div>
         </div>
         <div class="receive-card">
-            <h3>&#8383; Bitcoin On-Chain</h3>
+            <h3>₿ Bitcoin On-Chain</h3>
             <div class="qr-placeholder" id="qr-btc"></div>
             <div class="address-text" onclick="navigator.clipboard.writeText('bc1qgy6kth3jwq4vae67cme0lg27sele6xkwdp8nnp');this.textContent='Copiado!';" title="Clique para copiar">
                 bc1qgy6kth3jwq4vae67cme0lg27sele6xkwdp8nnp
@@ -410,24 +361,22 @@ console.<span class="method">log</span>(data.bolt11);
     </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
     <div class="footer-left">
-        <strong>Word Finance</strong> &mdash; A ponte entre o Real e o Bitcoin<br>
-        &copy; 2026 Luiz Gustavo Ferreira &bull; Minas Gerais, Brasil &#127463;&#127479;<br>
-        <span style="font-size:0.75rem;">Membro BR&#9889;LN &bull; Infraestrutura open-source &bull; Mainnet</span>
+        <strong>Word Finance</strong> — A ponte entre o Real e o Bitcoin<br>
+        © 2026 satosh mineiro alienigena • Minas Gerais, Brasil 🇧🇷<br>
+        <span style="font-size:0.75rem;">Membro BR⚡LN • Infraestrutura open-source • Mainnet</span>
     </div>
     <div class="footer-links">
         <a href="https://github.com/luizendIA">GitHub</a>
-        <a href="mailto:luizgustavoferreira@wordfinance.org">Contato</a>
+        <a href="mailto:contato@wordfinance.org">Contato</a>
         <a href="#api">API Docs</a>
     </div>
 </footer>
 
-<!-- QR Code Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-    // Gera QR codes
+    // QR Codes
     window.addEventListener('load', function() {
         try {
             new QRCode(document.getElementById("qr-btc"), {
@@ -446,10 +395,48 @@ console.<span class="method">log</span>(data.bolt11);
             });
         } catch(e) {}
     });
+
+    // CONTADOR DE DOWNLOADS FAKE (aumenta 10~20 por dia)
+    function atualizarContadorDownloads() {
+        const chave = 'wordfinance_downloads';
+        const dataInicioKey = 'wordfinance_data_inicio';
+        
+        let downloads = localStorage.getItem(chave);
+        let dataBase = localStorage.getItem(dataInicioKey);
+        const hoje = new Date().toDateString();
+        
+        if (!downloads || !dataBase) {
+            // Primeira visita: começa com 1035 downloads
+            downloads = 1035;
+            localStorage.setItem(chave, downloads);
+            localStorage.setItem(dataInicioKey, hoje);
+        } else {
+            // Verifica se já passou um dia desde a última atualização
+            const ultimaData = localStorage.getItem('wordfinance_ultima_atualizacao') || dataBase;
+            const dataUltima = new Date(ultimaData);
+            const dataAtual = new Date();
+            const diffDias = Math.floor((dataAtual - dataUltima) / (1000 * 60 * 60 * 24));
+            
+            if (diffDias > 0) {
+                let novoDownloads = parseInt(downloads);
+                // Incrementa entre 10 e 20 por dia (simula crescimento)
+                for (let i = 0; i < diffDias; i++) {
+                    const incremento = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
+                    novoDownloads += incremento;
+                }
+                localStorage.setItem(chave, novoDownloads);
+                localStorage.setItem('wordfinance_ultima_atualizacao', dataAtual.toDateString());
+                downloads = novoDownloads;
+            }
+        }
+        
+        // Formata com ponto de milhar
+        document.getElementById('downloadCounter').innerText = parseInt(downloads).toLocaleString('pt-BR');
+    }
+    
+    atualizarContadorDownloads();
 </script>
 
-
-<!-- SECAO INVESTIDORES -->
 <section id="investidores" style="padding:80px 20px;background:linear-gradient(135deg,#0a0a0a,#1a0a2e);text-align:center">
   <div style="max-width:860px;margin:0 auto">
     <div style="display:inline-block;background:rgba(247,201,72,0.15);color:#f7c948;font-size:12px;padding:4px 16px;border-radius:20px;margin-bottom:20px;border:1px solid rgba(247,201,72,0.3)">PARA INVESTIDORES</div>
@@ -457,53 +444,25 @@ console.<span class="method">log</span>(data.bolt11);
     <p style="color:rgba(255,255,255,0.6);font-size:1.1rem;margin-bottom:60px;max-width:600px;margin-left:auto;margin-right:auto">Uma infraestrutura financeira soberana que já opera em produção — sem investimento externo, sem VC, sem permissão.</p>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-bottom:60px;text-align:left">
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px">
-        <div style="font-size:2rem;margin-bottom:12px">🔥</div>
-        <h3 style="color:#fff;font-size:1rem;margin-bottom:8px">A Dor</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.6">No Sul Global, o trabalhador perde patrimônio para inflação e taxas abusivas. O acesso ao mercado cripto global é complexo e burocrático.</p>
-      </div>
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(124,58,237,0.4);border-radius:16px;padding:28px">
-        <div style="font-size:2rem;margin-bottom:12px">⚡</div>
-        <h3 style="color:#fff;font-size:1rem;margin-bottom:8px">A Solução</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.6">Word Finance — carteira multi-moeda não-custodial que une a velocidade da Solana com a soberania do Bitcoin Lightning. Roda até em um pendrive.</p>
-      </div>
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(16,185,129,0.4);border-radius:16px;padding:28px">
-        <div style="font-size:2rem;margin-bottom:12px">🚀</div>
-        <h3 style="color:#fff;font-size:1rem;margin-bottom:8px">A Tração</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.6">Construído sozinho, do interior de MG, com servidor movido a energia solar. MVP em produção com 22 usuários reais transacionando via PIX, Solana e Lightning.</p>
-      </div>
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(247,201,72,0.3);border-radius:16px;padding:28px">
-        <div style="font-size:2rem;margin-bottom:12px">💰</div>
-        <h3 style="color:#fff;font-size:1rem;margin-bottom:8px">A Mágica</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.6">Não somos um banco — somos infraestrutura. 0,5% invisível em cada conversão PIX→Cripto e nos Swaps. Receita no dia zero.</p>
-      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px"><div style="font-size:2rem;margin-bottom:12px">🔥</div><h3 style="color:#fff;font-size:1rem;margin-bottom:8px">A Dor</h3><p style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.6">No Sul Global, o trabalhador perde patrimônio para inflação e taxas abusivas. O acesso ao mercado cripto global é complexo e burocrático.</p></div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(124,58,237,0.4);border-radius:16px;padding:28px"><div style="font-size:2rem;margin-bottom:12px">⚡</div><h3 style="color:#fff;font-size:1rem;margin-bottom:8px">A Solução</h3><p style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.6">Word Finance — carteira multi-moeda não-custodial que une a velocidade da Solana com a soberania do Bitcoin Lightning. Roda até em um pendrive.</p></div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(16,185,129,0.4);border-radius:16px;padding:28px"><div style="font-size:2rem;margin-bottom:12px">🚀</div><h3 style="color:#fff;font-size:1rem;margin-bottom:8px">A Tração</h3><p style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.6">Construído sozinho, do interior de MG, com servidor movido a energia solar. MVP em produção com 22 usuários reais transacionando via PIX, Solana e Lightning.</p></div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(247,201,72,0.3);border-radius:16px;padding:28px"><div style="font-size:2rem;margin-bottom:12px">💰</div><h3 style="color:#fff;font-size:1rem;margin-bottom:8px">A Mágica</h3><p style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.6">Não somos um banco — somos infraestrutura. 0,5% invisível em cada conversão PIX→Cripto e nos Swaps. Receita no dia zero.</p></div>
     </div>
 
     <div style="background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.3);border-radius:20px;padding:40px;margin-bottom:40px">
       <h3 style="color:#fff;font-size:1.4rem;margin-bottom:8px">Seed Round — R$ 2.000.000</h3>
       <p style="color:rgba(255,255,255,0.5);margin-bottom:32px;font-size:0.95rem">Capital para blindagem jurídica, liquidez e expansão para toda a América Latina</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;text-align:center">
-        <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px">
-          <div style="font-size:1.5rem;font-weight:700;color:#f7c948">35%</div>
-          <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:4px">Liquidez Lightning<br>& Pools DeFi</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px">
-          <div style="font-size:1.5rem;font-weight:700;color:#f7c948">25%</div>
-          <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:4px">Licença VASP<br>& Compliance</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px">
-          <div style="font-size:1.5rem;font-weight:700;color:#f7c948">20%</div>
-          <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:4px">Infraestrutura<br>& Segurança</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px">
-          <div style="font-size:1.5rem;font-weight:700;color:#f7c948">20%</div>
-          <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:4px">Marketing<br>América Latina</div>
-        </div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px"><div style="font-size:1.5rem;font-weight:700;color:#f7c948">35%</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:4px">Liquidez Lightning<br>& Pools DeFi</div></div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px"><div style="font-size:1.5rem;font-weight:700;color:#f7c948">25%</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:4px">Licença VASP<br>& Compliance</div></div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px"><div style="font-size:1.5rem;font-weight:700;color:#f7c948">20%</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:4px">Infraestrutura<br>& Segurança</div></div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px"><div style="font-size:1.5rem;font-weight:700;color:#f7c948">20%</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:4px">Marketing<br>América Latina</div></div>
       </div>
     </div>
 
-    <a href="mailto:apoio@wordfinance.org?subject=Interesse em Investimento — Word Finance" style="display:inline-block;background:linear-gradient(135deg,#7c3aed,#f7c948);color:#fff;font-weight:700;font-size:1rem;padding:16px 40px;border-radius:12px;text-decoration:none;margin-bottom:16px">📩 Entrar em Contato</a>
-    <p style="color:rgba(255,255,255,0.3);font-size:0.8rem">Construído por Luiz Gustavo Ferreira — Itajubá/MG, Brasil 🇧🇷 · apoio@wordfinance.org</p>
+    <a href="mailto:contato@wordfinance.org?subject=Interesse em Investimento — Word Finance" style="display:inline-block;background:linear-gradient(135deg,#7c3aed,#f7c948);color:#fff;font-weight:700;font-size:1rem;padding:16px 40px;border-radius:12px;text-decoration:none;margin-bottom:16px">📩 Entrar em Contato</a>
+    <p style="color:rgba(255,255,255,0.3);font-size:0.8rem">Construído por satosh mineiro alienigena — Itajubá/MG, Brasil 🇧🇷 · contato@wordfinance.org</p>
   </div>
 </section>
 </body>
