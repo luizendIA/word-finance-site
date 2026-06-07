@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Finance — Developer & AI Integration Docs</title>
+<meta name="description" content="Integrate Word Finance wallet into your dApp, website, or AI agent. WebLN for Lightning, Solana Wallet Adapter, REST API. Full documentation with examples.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg2: #12121a;
+  --bg3: #1a1a2e;
+  --card: #16162a;
+  --card-border: #2a2a4a;
+  --text: #e8e8f0;
+  --text-dim: #8888aa;
+  --text-muted: #555570;
+  --orange: #F7931A;
+  --yellow: #FFD93D;
+  --purple: #9945FF;
+  --purple-light: #b77dff;
+  --green: #10B981;
+  --blue: #3B82F6;
+  --red: #ff6b6b;
+  --cyan: #06d6a0;
+  --code-bg: #0d0d1a;
+  --sidebar-w: 280px;
+  --font: 'Outfit', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--purple); color: white; }
+a { color: var(--purple-light); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--yellow); }
+
+/* ── Top Bar ── */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10,10,15,0.92); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--card-border);
+  padding: 0 32px; height: 64px;
+  display: flex; align-items: center; gap: 16px;
+}
+.topbar-logo {
+  font-weight: 800; font-size: 18px; letter-spacing: -0.5px;
+  display: flex; align-items: center; gap: 8px;
+}
+.topbar-logo .bolt { color: var(--yellow); font-size: 22px; }
+.topbar-nav { margin-left: auto; display: flex; gap: 24px; font-size: 14px; font-weight: 500; }
+.topbar-nav a { color: var(--text-dim); }
+.topbar-nav a:hover { color: var(--yellow); }
+.badge-beta {
+  background: linear-gradient(135deg, var(--purple), var(--orange));
+  color: white; font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px; letter-spacing: 1px;
+}
+
+/* ── Layout ── */
+.layout { display: flex; margin-top: 64px; min-height: calc(100vh - 64px); }
+
+/* ── Sidebar ── */
+.sidebar {
+  position: fixed; top: 64px; left: 0; bottom: 0;
+  width: var(--sidebar-w); overflow-y: auto;
+  background: var(--bg2); border-right: 1px solid var(--card-border);
+  padding: 24px 0;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 4px; }
+.sidebar-section { padding: 0 20px; margin-bottom: 24px; }
+.sidebar-title {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  color: var(--text-muted); text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.sidebar-link {
+  display: block; padding: 6px 12px; margin: 2px 0;
+  font-size: 13px; color: var(--text-dim); border-radius: 6px;
+  transition: all 0.15s; font-weight: 400;
+}
+.sidebar-link:hover { background: var(--bg3); color: var(--text); }
+.sidebar-link.active { background: rgba(153,69,255,0.15); color: var(--purple-light); font-weight: 500; }
+.sidebar-badge {
+  display: inline-block; font-size: 9px; font-weight: 700;
+  padding: 1px 5px; border-radius: 4px; margin-left: 6px; vertical-align: middle;
+}
+.badge-ln { background: rgba(255,217,61,0.15); color: var(--yellow); }
+.badge-sol { background: rgba(153,69,255,0.15); color: var(--purple-light); }
+.badge-api { background: rgba(16,185,129,0.15); color: var(--green); }
+.badge-ai { background: rgba(6,214,160,0.15); color: var(--cyan); }
+
+/* ── Main Content ── */
+.main { margin-left: var(--sidebar-w); flex: 1; padding: 48px 64px 120px; max-width: 900px; }
+
+/* ── Typography ── */
+h1 { font-size: 42px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 16px; }
+h1 .gradient {
+  background: linear-gradient(135deg, var(--yellow), var(--orange), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+h2 {
+  font-size: 28px; font-weight: 700; letter-spacing: -0.8px;
+  margin-top: 64px; margin-bottom: 16px; padding-top: 24px;
+  border-top: 1px solid var(--card-border);
+}
+h2:first-of-type { border-top: none; margin-top: 40px; }
+h3 { font-size: 20px; font-weight: 600; margin-top: 40px; margin-bottom: 12px; color: var(--text); }
+h4 { font-size: 15px; font-weight: 600; margin-top: 24px; margin-bottom: 8px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+p { margin-bottom: 16px; color: var(--text-dim); }
+p strong { color: var(--text); }
+
+/* ── Code Blocks ── */
+pre {
+  background: var(--code-bg); border: 1px solid var(--card-border);
+  border-radius: 10px; padding: 20px 24px; margin: 16px 0 24px;
+  overflow-x: auto; font-family: var(--mono); font-size: 13px;
+  line-height: 1.65; position: relative;
+}
+pre .comment { color: #555580; }
+pre .keyword { color: var(--purple-light); }
+pre .string { color: var(--green); }
+pre .func { color: var(--yellow); }
+pre .const { color: var(--orange); }
+code {
+  font-family: var(--mono); font-size: 13px;
+  background: var(--bg3); padding: 2px 7px; border-radius: 4px;
+  color: var(--purple-light);
+}
+pre code { background: none; padding: 0; color: var(--text); }
+.code-label {
+  position: absolute; top: 10px; right: 14px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  color: var(--text-muted); text-transform: uppercase;
+  font-family: var(--mono);
+}
+.copy-btn {
+  position: absolute; top: 8px; right: 10px;
+  background: var(--bg3); border: 1px solid var(--card-border);
+  color: var(--text-dim); padding: 4px 10px; border-radius: 5px;
+  font-size: 11px; cursor: pointer; font-family: var(--mono);
+  transition: all 0.2s;
+}
+.copy-btn:hover { color: var(--yellow); border-color: var(--yellow); }
+
+/* ── Cards ── */
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 24px 0; }
+.feature-card {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: 12px; padding: 24px; transition: all 0.25s;
+}
+.feature-card:hover { border-color: var(--purple); transform: translateY(-2px); }
+.feature-card .icon { font-size: 28px; margin-bottom: 12px; }
+.feature-card h3 { margin-top: 0; font-size: 16px; }
+.feature-card p { font-size: 13px; margin: 0; }
+
+/* ── Tables ── */
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 14px; }
+th { text-align: left; padding: 10px 14px; background: var(--bg3); color: var(--text-dim); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
+tr:hover td { background: rgba(153,69,255,0.04); }
+td code { font-size: 12px; }
+
+/* ── Alert boxes ── */
+.alert {
+  border-radius: 10px; padding: 16px 20px; margin: 20px 0;
+  font-size: 14px; display: flex; gap: 12px; align-items: flex-start;
+}
+.alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.alert-warn { background: rgba(255,217,61,0.08); border: 1px solid rgba(255,217,61,0.2); }
+.alert-info { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); }
+.alert-security { background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.2); }
+.alert-ai { background: rgba(6,214,160,0.08); border: 1px solid rgba(6,214,160,0.2); }
+
+/* ── Tabs ── */
+.tabs { display: flex; gap: 0; margin: 24px 0 0; border-bottom: 2px solid var(--card-border); }
+.tab {
+  padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer;
+  color: var(--text-dim); border-bottom: 2px solid transparent;
+  margin-bottom: -2px; transition: all 0.2s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--yellow); border-bottom-color: var(--yellow); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── Hero ── */
+.hero-sub { font-size: 18px; color: var(--text-dim); font-weight: 300; margin-bottom: 32px; max-width: 600px; }
+.hero-badges { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
+  border: 1px solid;
+}
+.hero-badge.ln { border-color: rgba(255,217,61,0.3); color: var(--yellow); background: rgba(255,217,61,0.06); }
+.hero-badge.sol { border-color: rgba(153,69,255,0.3); color: var(--purple-light); background: rgba(153,69,255,0.06); }
+.hero-badge.rest { border-color: rgba(16,185,129,0.3); color: var(--green); background: rgba(16,185,129,0.06); }
+.hero-badge.ai { border-color: rgba(6,214,160,0.3); color: var(--cyan); background: rgba(6,214,160,0.06); }
+
+/* ── Method signature ── */
+.method-sig {
+  font-family: var(--mono); font-size: 14px; font-weight: 500;
+  color: var(--yellow); margin-bottom: 8px;
+}
+.param { color: var(--purple-light); }
+.returns { color: var(--green); font-size: 13px; }
+
+/* ── Endpoint ── */
+.endpoint {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 13px; margin: 8px 0;
+}
+.method-badge {
+  padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;
+}
+.method-get { background: rgba(59,130,246,0.15); color: var(--blue); }
+.method-post { background: rgba(16,185,129,0.15); color: var(--green); }
+
+/* ── Footer ── */
+.footer {
+  margin-left: var(--sidebar-w); padding: 40px 64px;
+  border-top: 1px solid var(--card-border); color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main, .footer { margin-left: 0; padding: 32px 20px 80px; }
+  h1 { font-size: 30px; }
+  h2 { font-size: 22px; }
+  .feature-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ TOP BAR ═══════ -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <span class="bolt">⚡</span> Word Finance <span class="badge-beta">DOCS</span>
+  </div>
+  <nav class="topbar-nav">
+    <a href="https://wordfinance.org">Home</a>
+    <a href="#quickstart">Quick Start</a>
+    <a href="#ai-agents">AI Agents</a>
+    <a href="https://github.com/luizendIA/word-finance-site">GitHub</a>
+  </nav>
+</div>
+
+<div class="layout">
+
+<!-- ═══════════════════════════════════════════ SIDEBAR ═══════ -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-title">Getting Started</div>
+    <a href="#overview" class="sidebar-link active">Overview</a>
+    <a href="#quickstart" class="sidebar-link">Quick Start (5 min)</a>
+    <a href="#detection" class="sidebar-link">Wallet Detection</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">For AI Agents</div>
+    <a href="#ai-agents" class="sidebar-link">AI Integration Guide <span class="sidebar-badge badge-ai">AI</span></a>
+    <a href="#ai-context" class="sidebar-link">Context Block</a>
+    <a href="#ai-examples" class="sidebar-link">AI Code Examples</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">WebLN (Lightning)</div>
+    <a href="#webln-enable" class="sidebar-link">enable() <span class="sidebar-badge badge-ln">LN</span></a>
+    <a href="#webln-send" class="sidebar-link">sendPayment()</a>
+    <a href="#webln-invoice" class="sidebar-link">makeInvoice()</a>
+    <a href="#webln-sign" class="sidebar-link">signMessage()</a>
+    <a href="#webln-info" class="sidebar-link">getInfo()</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Solana Adapter</div>
+    <a href="#sol-connect" class="sidebar-link">connect() <span class="sidebar-badge badge-sol">SOL</span></a>
+    <a href="#sol-sign" class="sidebar-link">signTransaction()</a>
+    <a href="#sol-message" class="sidebar-link">signMessage()</a>
+    <a href="#sol-send" class="sidebar-link">signAndSendTransaction()</a>
+    <a href="#sol-events" class="sidebar-link">Events</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">REST API</div>
+    <a href="#api-lightning" class="sidebar-link">Lightning <span class="sidebar-badge badge-api">API</span></a>
+    <a href="#api-btc" class="sidebar-link">Bitcoin On-chain</a>
+    <a href="#api-pix" class="sidebar-link">PIX / PIXC</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Reference</div>
+    <a href="#security" class="sidebar-link">Security Model</a>
+    <a href="#compatibility" class="sidebar-link">Compatibility</a>
+    <a href="#pixc-token" class="sidebar-link">PIXC Token Info</a>
+  </div>
+</aside>
+
+<!-- ═══════════════════════════════════════════ MAIN ═══════ -->
+<main class="main">
+
+<!-- ── HERO ── -->
+<section id="overview">
+<h1>Build with <span class="gradient">Word Finance</span></h1>
+<p class="hero-sub">
+  Integrate a sovereign multi-currency wallet into your dApp, website, or AI agent. Lightning payments, Solana tokens, and Brazilian Real — all through open web standards.
+</p>
+<div class="hero-badges">
+  <span class="hero-badge ln">⚡ WebLN</span>
+  <span class="hero-badge sol">◎ Solana Adapter</span>
+  <span class="hero-badge rest">⟡ REST API</span>
+  <span class="hero-badge ai">🤖 AI-Ready</span>
+</div>
+
+<div class="feature-grid">
+  <div class="feature-card">
+    <div class="icon">⚡</div>
+    <h3>Lightning WebLN</h3>
+    <p>Pay and receive Bitcoin Lightning invoices using the universal WebLN standard. One-click payments on any compatible site.</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">◎</div>
+    <h3>Solana Wallet Adapter</h3>
+    <p>Full Phantom-compatible provider. Connect to Jupiter, Raydium, Magic Eden, and any Solana dApp instantly.</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🤖</div>
+    <h3>AI Agent Ready</h3>
+    <p>Structured context blocks and clear API patterns designed for LLMs and autonomous agents to integrate programmatically.</p>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════ QUICK START ═══════ -->
+<h2 id="quickstart">Quick Start — 5 Minutes</h2>
+
+<h3>1. Detect the wallet</h3>
+<pre><code><span class="comment">// Check if Word Finance is available</span>
+<span class="keyword">const</span> hasLightning = <span class="keyword">typeof</span> window.webln !== <span class="string">'undefined'</span>
+<span class="keyword">const</span> hasSolana = window.solana?.isWordFinance === <span class="const">true</span>
+
+<span class="keyword">if</span> (hasLightning) console.log(<span class="string">'⚡ Lightning ready'</span>)
+<span class="keyword">if</span> (hasSolana) console.log(<span class="string">'◎ Solana ready'</span>)</code></pre>
+
+<h3>2. Pay a Lightning invoice (3 lines)</h3>
+<pre><code><span class="keyword">await</span> window.webln.<span class="func">enable</span>()
+<span class="keyword">const</span> result = <span class="keyword">await</span> window.webln.<span class="func">sendPayment</span>(<span class="string">'lnbc...'</span>)
+console.log(<span class="string">'Paid! Proof:'</span>, result.preimage)</code></pre>
+
+<h3>3. Connect Solana wallet (3 lines)</h3>
+<pre><code><span class="keyword">const</span> { publicKey } = <span class="keyword">await</span> window.solana.<span class="func">connect</span>()
+<span class="keyword">const</span> address = publicKey.<span class="func">toBase58</span>()
+console.log(<span class="string">'Connected:'</span>, address)</code></pre>
+
+<h3>4. Generate a receive invoice</h3>
+<pre><code><span class="keyword">await</span> window.webln.<span class="func">enable</span>()
+<span class="keyword">const</span> inv = <span class="keyword">await</span> window.webln.<span class="func">makeInvoice</span>({ amount: <span class="const">1000</span>, memo: <span class="string">'Coffee payment'</span> })
+console.log(<span class="string">'Invoice:'</span>, inv.paymentRequest) <span class="comment">// lnbc10u1p...</span></code></pre>
+
+<!-- ═══════════════════════════════════════════ DETECTION ═══════ -->
+<h2 id="detection">Wallet Detection</h2>
+
+<p>Word Finance injects two providers into <code>window</code>, following the same patterns as Phantom (Solana) and Alby (Lightning).</p>
+
+<table>
+<tr><th>Provider</th><th>Global Object</th><th>Identification Flag</th></tr>
+<tr><td>Lightning (WebLN)</td><td><code>window.webln</code></td><td>Always present when wallet is active</td></tr>
+<tr><td>Solana Adapter</td><td><code>window.solana</code></td><td><code>window.solana.isWordFinance === true</code></td></tr>
+<tr><td>Auxiliary Bridge</td><td><code>window.wordfinanceBridge</code></td><td>Internal ecosystem use</td></tr>
+</table>
+
+<pre><code><span class="comment">// Detect Word Finance specifically (not just any Solana wallet)</span>
+<span class="keyword">const</span> isWordFinance = window.solana?.isWordFinance === <span class="const">true</span>
+
+<span class="comment">// Detect any compatible Lightning wallet (Word Finance, Alby, etc.)</span>
+<span class="keyword">const</span> hasWebLN = <span class="keyword">typeof</span> window.webln !== <span class="string">'undefined'</span>
+
+<span class="comment">// Detect any Phantom-compatible wallet (Word Finance, Phantom, etc.)</span>
+<span class="keyword">const</span> hasPhantom = window.solana?.isPhantom === <span class="const">true</span></code></pre>
+
+<div class="alert alert-info">
+  <span class="alert-icon">💡</span>
+  <div>Word Finance sets <code>isPhantom: true</code> for compatibility. Use <code>isWordFinance</code> to identify specifically.</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ AI AGENTS ═══════ -->
+<h2 id="ai-agents">🤖 For AI Agents & LLMs</h2>
+
+<p><strong>This section is for AI systems (ChatGPT, Claude, Gemini, custom agents) that need to generate code integrating with Word Finance.</strong> It provides structured context that LLMs can consume to produce accurate integration code.</p>
+
+<div class="alert alert-ai">
+  <span class="alert-icon">🤖</span>
+  <div><strong>AI Agents:</strong> Copy the context block below into your system prompt or conversation context. It contains everything you need to generate Word Finance integration code correctly.</div>
+</div>
+
+<h3 id="ai-context">Context Block for AI Systems</h3>
+<p>Paste this entire block when asking an AI to integrate Word Finance:</p>
+
+<pre><code><span class="comment">/*
+ * WORD FINANCE WALLET — AI INTEGRATION CONTEXT
+ * Version: 0.4.1 | Updated: June 2026
+ * Paste this into your AI prompt for accurate code generation.
+ *
+ * Word Finance is a non-custodial multi-currency wallet supporting:
+ * - Bitcoin Lightning Network (via WebLN standard)
+ * - Solana, USDC, PIXC tokens (via Solana Wallet Adapter / Phantom standard)
+ * - PIX (Brazilian instant payment) via REST API
+ *
+ * The wallet injects providers into the browser window object:
+ * - window.webln      → Lightning payments (WebLN spec)
+ * - window.solana     → Solana transactions (Phantom-compatible)
+ * - window.wordfinanceBridge → Internal bridge (PIN verification)
+ *
+ * SECURITY: All fund-moving operations require user PIN confirmation.
+ * enable() and connect() only need visual approval, not PIN.
+ *
+ * DETECTION:
+ *   Lightning: typeof window.webln !== 'undefined'
+ *   Solana:    window.solana?.isWordFinance === true
+ *   Either:    window.solana?.isPhantom === true (Phantom-compat)
+ *
+ * WEBLN METHODS:
+ *   await webln.enable()                    → true
+ *   await webln.sendPayment(bolt11)         → { preimage }
+ *   await webln.makeInvoice({amount, memo}) → { paymentRequest }
+ *   await webln.signMessage(msg)            → { message, signature, pubkey }
+ *   await webln.getInfo()                   → { node: {alias, pubkey} }
+ *
+ * SOLANA METHODS:
+ *   await solana.connect()                  → { publicKey }
+ *   await solana.disconnect()               → void
+ *   await solana.signTransaction(tx)        → signedTx
+ *   await solana.signAllTransactions([txs]) → [signedTxs]
+ *   await solana.signMessage(Uint8Array)    → { signature, publicKey }
+ *   await solana.signAndSendTransaction(tx) → { signature }
+ *   solana.on('connect'|'disconnect'|'accountChanged', callback)
+ *
+ * REST API (base: https://webhook.wordfinance.org):
+ *   POST /api/lightning/invoice   {solanaAddress, amountSats, memo} → {bolt11}
+ *   POST /api/lightning/pay       {solanaAddress, bolt11}           → {preimage}
+ *   GET  /api/lightning/balance/:address                            → {balance}
+ *   GET  /api/btc/balance/:address                                  → {balance}
+ *   POST /api/btc/send            {toAddress, amountSats}           → {txid}
+ *
+ * PIXC TOKEN (SPL Token on Solana Mainnet):
+ *   Mint: AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq
+ *   Decimals: 2 | Parity: 1 PIXC = R$ 1.00 in Word Finance ecosystem
+ */</span></code></pre>
+
+<h3 id="ai-examples">AI Code Generation Examples</h3>
+
+<h4>Prompt → "Create a donation button that accepts Lightning"</h4>
+<pre><code><span class="comment">// AI should generate something like this:</span>
+<span class="keyword">async function</span> <span class="func">donate</span>(amountSats) {
+  <span class="keyword">if</span> (<span class="keyword">typeof</span> window.webln === <span class="string">'undefined'</span>) {
+    alert(<span class="string">'Please install Word Finance from wordfinance.org'</span>)
+    <span class="keyword">return</span>
+  }
+  <span class="keyword">try</span> {
+    <span class="keyword">await</span> window.webln.<span class="func">enable</span>()
+    <span class="comment">// Generate invoice on your server, or use Word Finance API:</span>
+    <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="func">fetch</span>(<span class="string">'https://webhook.wordfinance.org/api/lightning/invoice'</span>, {
+      method: <span class="string">'POST'</span>,
+      headers: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> },
+      body: JSON.<span class="func">stringify</span>({
+        solanaAddress: <span class="string">'YOUR_RECEIVING_ADDRESS'</span>,
+        amountSats: amountSats,
+        memo: <span class="string">'Donation - thank you!'</span>
+      })
+    })
+    <span class="keyword">const</span> { bolt11 } = <span class="keyword">await</span> res.<span class="func">json</span>()
+    <span class="keyword">const</span> result = <span class="keyword">await</span> window.webln.<span class="func">sendPayment</span>(bolt11)
+    alert(<span class="string">'Thank you for your donation! ⚡'</span>)
+  } <span class="keyword">catch</span> (err) {
+    <span class="keyword">if</span> (err.message.includes(<span class="string">'recusou'</span>)) console.log(<span class="string">'User cancelled'</span>)
+    <span class="keyword">else</span> console.error(<span class="string">'Payment error:'</span>, err)
+  }
+}</code></pre>
+
+<h4>Prompt → "Connect Solana wallet and show USDC balance"</h4>
+<pre><code><span class="keyword">async function</span> <span class="func">connectAndShowBalance</span>() {
+  <span class="keyword">if</span> (!window.solana?.isWordFinance) {
+    alert(<span class="string">'Install Word Finance at wordfinance.org'</span>)
+    <span class="keyword">return</span>
+  }
+  <span class="keyword">const</span> { publicKey } = <span class="keyword">await</span> window.solana.<span class="func">connect</span>()
+  <span class="keyword">const</span> address = publicKey.<span class="func">toBase58</span>()
+
+  <span class="comment">// Fetch USDC balance using Solana RPC or your backend</span>
+  <span class="keyword">const</span> connection = <span class="keyword">new</span> Connection(<span class="string">'https://api.mainnet-beta.solana.com'</span>)
+  <span class="keyword">const</span> USDC_MINT = <span class="keyword">new</span> PublicKey(<span class="string">'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'</span>)
+  <span class="keyword">const</span> tokenAccounts = <span class="keyword">await</span> connection.<span class="func">getTokenAccountsByOwner</span>(
+    <span class="keyword">new</span> PublicKey(address),
+    { mint: USDC_MINT }
+  )
+  console.log(<span class="string">'USDC accounts:'</span>, tokenAccounts.value.length)
+}</code></pre>
+
+<h4>Prompt → "Build a Solana dApp that works with Word Finance"</h4>
+<pre><code><span class="comment">// Full dApp integration pattern</span>
+<span class="keyword">class</span> <span class="func">WordFinanceIntegration</span> {
+  <span class="keyword">constructor</span>() {
+    <span class="keyword">this</span>.connected = <span class="const">false</span>
+    <span class="keyword">this</span>.publicKey = <span class="const">null</span>
+  }
+
+  <span class="keyword">async</span> <span class="func">connect</span>() {
+    <span class="keyword">if</span> (!window.solana) <span class="keyword">throw new</span> Error(<span class="string">'No wallet found'</span>)
+    <span class="keyword">const</span> { publicKey } = <span class="keyword">await</span> window.solana.<span class="func">connect</span>()
+    <span class="keyword">this</span>.publicKey = publicKey.<span class="func">toBase58</span>()
+    <span class="keyword">this</span>.connected = <span class="const">true</span>
+
+    window.solana.<span class="func">on</span>(<span class="string">'disconnect'</span>, () => {
+      <span class="keyword">this</span>.connected = <span class="const">false</span>
+      <span class="keyword">this</span>.publicKey = <span class="const">null</span>
+    })
+    <span class="keyword">return this</span>.publicKey
+  }
+
+  <span class="keyword">async</span> <span class="func">signAndSend</span>(transaction) {
+    <span class="keyword">if</span> (!<span class="keyword">this</span>.connected) <span class="keyword">throw new</span> Error(<span class="string">'Connect first'</span>)
+    <span class="keyword">const</span> { signature } = <span class="keyword">await</span> window.solana.<span class="func">signAndSendTransaction</span>(transaction)
+    <span class="keyword">return</span> signature
+  }
+
+  <span class="keyword">async</span> <span class="func">payLightning</span>(bolt11) {
+    <span class="keyword">if</span> (!window.webln) <span class="keyword">throw new</span> Error(<span class="string">'No Lightning support'</span>)
+    <span class="keyword">await</span> window.webln.<span class="func">enable</span>()
+    <span class="keyword">return await</span> window.webln.<span class="func">sendPayment</span>(bolt11)
+  }
+}</code></pre>
+
+<!-- ═══════════════════════════════════════════ WEBLN ═══════ -->
+<h2 id="webln">⚡ WebLN — Lightning Network</h2>
+
+<p>Word Finance implements the <a href="https://www.webln.guide" target="_blank">WebLN specification</a>, the same standard used by Alby, Zeus, and other Lightning wallets. Any website or dApp that already supports WebLN works automatically with Word Finance.</p>
+
+<h3 id="webln-enable">enable()</h3>
+<div class="method-sig">await window.webln.enable() → <span class="returns">true</span></div>
+<p>Request permission to interact with the wallet. Must be called before any other method. Shows a confirmation dialog — no PIN required.</p>
+<pre><code><span class="keyword">try</span> {
+  <span class="keyword">await</span> window.webln.<span class="func">enable</span>()
+  console.log(<span class="string">'Connected to Word Finance Lightning'</span>)
+} <span class="keyword">catch</span> (err) {
+  console.log(<span class="string">'User rejected connection'</span>)
+}</code></pre>
+
+<h3 id="webln-send">sendPayment(paymentRequest)</h3>
+<div class="method-sig">await window.webln.sendPayment(<span class="param">bolt11: string</span>) → <span class="returns">{ preimage: string }</span></div>
+<p>Pay a BOLT11 Lightning invoice. Shows the amount and requests PIN confirmation. The <code>preimage</code> in the response is cryptographic proof of payment.</p>
+<pre><code><span class="keyword">const</span> result = <span class="keyword">await</span> window.webln.<span class="func">sendPayment</span>(<span class="string">'lnbc10u1p...'</span>)
+console.log(<span class="string">'Payment proof:'</span>, result.preimage)</code></pre>
+
+<div class="alert alert-security">
+  <span class="alert-icon">🔒</span>
+  <div><strong>PIN Required.</strong> The user must enter their 4-digit PIN to authorize this payment. The modal shows the amount before confirmation.</div>
+</div>
+
+<h3 id="webln-invoice">makeInvoice(options)</h3>
+<div class="method-sig">await window.webln.makeInvoice(<span class="param">{ amount?: number, memo?: string }</span>) → <span class="returns">{ paymentRequest: string }</span></div>
+<p>Generate a Lightning invoice to receive payment. Amount is in satoshis.</p>
+<pre><code><span class="keyword">const</span> invoice = <span class="keyword">await</span> window.webln.<span class="func">makeInvoice</span>({
+  amount: <span class="const">5000</span>,         <span class="comment">// 5,000 sats</span>
+  memo: <span class="string">'Widget purchase'</span>  <span class="comment">// optional description</span>
+})
+console.log(invoice.paymentRequest) <span class="comment">// lnbc50u1p...</span></code></pre>
+
+<h3 id="webln-sign">signMessage(message)</h3>
+<div class="method-sig">await window.webln.signMessage(<span class="param">message: string</span>) → <span class="returns">{ message, signature, pubkey }</span></div>
+<p>Sign a message with the Lightning node key. Useful for LNURL-auth login flows.</p>
+<pre><code><span class="keyword">const</span> signed = <span class="keyword">await</span> window.webln.<span class="func">signMessage</span>(<span class="string">'Login to MyApp at 2026-06-07'</span>)
+<span class="comment">// Verify: signed.signature is valid for signed.pubkey over signed.message</span></code></pre>
+
+<h3 id="webln-info">getInfo()</h3>
+<div class="method-sig">await window.webln.getInfo() → <span class="returns">{ node: { alias, pubkey, color }, methods, version }</span></div>
+<p>Get information about the connected Lightning wallet/node.</p>
+<pre><code><span class="keyword">const</span> info = <span class="keyword">await</span> window.webln.<span class="func">getInfo</span>()
+console.log(<span class="string">'Node:'</span>, info.node.alias)
+console.log(<span class="string">'Pubkey:'</span>, info.node.pubkey)</code></pre>
+
+<!-- ═══════════════════════════════════════════ SOLANA ═══════ -->
+<h2 id="solana">◎ Solana Wallet Adapter</h2>
+
+<p>Word Finance implements the <a href="https://docs.phantom.com/solana/integrating-phantom" target="_blank">Phantom Wallet Standard</a>. Any dApp compatible with Phantom works with Word Finance out of the box — Jupiter, Raydium, Magic Eden, and thousands more.</p>
+
+<h3 id="sol-connect">connect(options?)</h3>
+<div class="method-sig">await window.solana.connect(<span class="param">opts?: { onlyIfTrusted?: boolean }</span>) → <span class="returns">{ publicKey }</span></div>
+<p>Connect to the wallet. Returns the user's Solana public key. Shows a confirmation dialog (no PIN).</p>
+<pre><code><span class="keyword">const</span> { publicKey } = <span class="keyword">await</span> window.solana.<span class="func">connect</span>()
+<span class="keyword">const</span> address = publicKey.<span class="func">toBase58</span>()
+console.log(<span class="string">'Connected:'</span>, address)
+<span class="comment">// e.g. HMzRd7wD2R2qacryXiQSNBUCrFhsU8JAX9sWQyus88oV</span>
+
+<span class="comment">// Check connection status anytime:</span>
+console.log(window.solana.isConnected)    <span class="comment">// true</span>
+console.log(window.solana.publicKey.<span class="func">toBase58</span>()) <span class="comment">// address</span></code></pre>
+
+<h3 id="sol-sign">signTransaction(transaction)</h3>
+<div class="method-sig">await window.solana.signTransaction(<span class="param">transaction: Transaction</span>) → <span class="returns">Transaction (signed)</span></div>
+<p>Sign a Solana transaction. PIN required. Returns the signed transaction for the dApp to submit.</p>
+<pre><code><span class="keyword">const</span> signedTx = <span class="keyword">await</span> window.solana.<span class="func">signTransaction</span>(transaction)
+<span class="comment">// Submit to network yourself:</span>
+<span class="keyword">const</span> sig = <span class="keyword">await</span> connection.<span class="func">sendRawTransaction</span>(signedTx.<span class="func">serialize</span>())</code></pre>
+
+<p><strong>signAllTransactions</strong> is also available for batch signing:</p>
+<pre><code><span class="keyword">const</span> signedTxs = <span class="keyword">await</span> window.solana.<span class="func">signAllTransactions</span>([tx1, tx2, tx3])</code></pre>
+
+<h3 id="sol-message">signMessage(message)</h3>
+<div class="method-sig">await window.solana.signMessage(<span class="param">message: Uint8Array</span>) → <span class="returns">{ signature: Uint8Array, publicKey }</span></div>
+<p>Sign an arbitrary message. Useful for authentication (Sign-In With Solana). PIN required.</p>
+<pre><code><span class="keyword">const</span> message = <span class="keyword">new</span> TextEncoder().<span class="func">encode</span>(<span class="string">'Sign in to MyApp'</span>)
+<span class="keyword">const</span> { signature, publicKey } = <span class="keyword">await</span> window.solana.<span class="func">signMessage</span>(message)
+<span class="comment">// Send signature + publicKey to your backend to verify</span></code></pre>
+
+<h3 id="sol-send">signAndSendTransaction(transaction)</h3>
+<div class="method-sig">await window.solana.signAndSendTransaction(<span class="param">transaction, opts?</span>) → <span class="returns">{ signature: string }</span></div>
+<p>Sign and broadcast a transaction in one call. PIN required.</p>
+<pre><code><span class="keyword">const</span> { signature } = <span class="keyword">await</span> window.solana.<span class="func">signAndSendTransaction</span>(transaction)
+console.log(<span class="string">'TX submitted:'</span>, signature)</code></pre>
+
+<h3 id="sol-events">Events</h3>
+<pre><code>window.solana.<span class="func">on</span>(<span class="string">'connect'</span>, (publicKey) => {
+  console.log(<span class="string">'Wallet connected:'</span>, publicKey.<span class="func">toBase58</span>())
+})
+
+window.solana.<span class="func">on</span>(<span class="string">'disconnect'</span>, () => {
+  console.log(<span class="string">'Wallet disconnected'</span>)
+})
+
+window.solana.<span class="func">on</span>(<span class="string">'accountChanged'</span>, (publicKey) => {
+  <span class="keyword">if</span> (publicKey) console.log(<span class="string">'Switched to:'</span>, publicKey.<span class="func">toBase58</span>())
+  <span class="keyword">else</span> console.log(<span class="string">'Disconnected'</span>)
+})</code></pre>
+
+<!-- ═══════════════════════════════════════════ REST API ═══════ -->
+<h2 id="api">REST API</h2>
+
+<p>For server-to-server integrations or when the wallet provider isn't available (mobile web, non-Electron). Base URL: <code>https://webhook.wordfinance.org</code></p>
+
+<h3 id="api-lightning">Lightning Endpoints</h3>
+
+<div class="endpoint"><span class="method-badge method-post">POST</span> <code>/api/lightning/invoice</code></div>
+<p>Generate a Lightning invoice to receive payment.</p>
+<pre><code><span class="comment">// Request</span>
+{
+  <span class="string">"solanaAddress"</span>: <span class="string">"HMzRd7wD2R2..."</span>,
+  <span class="string">"amountSats"</span>: <span class="const">1000</span>,
+  <span class="string">"memo"</span>: <span class="string">"Coffee payment"</span>
+}
+
+<span class="comment">// Response</span>
+{
+  <span class="string">"bolt11"</span>: <span class="string">"lnbc10u1p..."</span>,
+  <span class="string">"payment_hash"</span>: <span class="string">"abc123..."</span>,
+  <span class="string">"status"</span>: <span class="string">"pending"</span>,
+  <span class="string">"expiry"</span>: <span class="string">"2026-06-07T12:00:00Z"</span>
+}</code></pre>
+
+<div class="endpoint"><span class="method-badge method-post">POST</span> <code>/api/lightning/pay</code></div>
+<p>Pay a BOLT11 Lightning invoice.</p>
+<pre><code><span class="comment">// Request</span>
+{
+  <span class="string">"solanaAddress"</span>: <span class="string">"HMzRd7wD2R2..."</span>,
+  <span class="string">"bolt11"</span>: <span class="string">"lnbc10u1p..."</span>
+}
+
+<span class="comment">// Response</span>
+{
+  <span class="string">"payment_hash"</span>: <span class="string">"abc123..."</span>,
+  <span class="string">"preimage"</span>: <span class="string">"def456..."</span>,
+  <span class="string">"status"</span>: <span class="string">"success"</span>
+}</code></pre>
+
+<div class="endpoint"><span class="method-badge method-get">GET</span> <code>/api/lightning/balance/:solanaAddress</code></div>
+<p>Get Lightning balance for a user.</p>
+
+<h3 id="api-btc">Bitcoin On-chain Endpoints</h3>
+
+<div class="endpoint"><span class="method-badge method-get">GET</span> <code>/api/btc/balance/:solanaAddress</code></div>
+<p>Get on-chain BTC balance in satoshis.</p>
+
+<div class="endpoint"><span class="method-badge method-post">POST</span> <code>/api/btc/send</code></div>
+<p>Send BTC on-chain. Requires <code>x-user-id</code> header.</p>
+<pre><code><span class="comment">// Headers</span>
+x-user-id: HMzRd7wD2R2...
+
+<span class="comment">// Request</span>
+{
+  <span class="string">"toAddress"</span>: <span class="string">"bc1q..."</span>,
+  <span class="string">"amountSats"</span>: <span class="const">50000</span>,
+  <span class="string">"confirmed"</span>: <span class="const">true</span>
+}
+
+<span class="comment">// Response</span>
+{ <span class="string">"txid"</span>: <span class="string">"abc123..."</span> }</code></pre>
+
+<div class="endpoint"><span class="method-badge method-get">GET</span> <code>/api/btc/health</code></div>
+<p>Check if the Lightning node is online and synced.</p>
+
+<h3 id="api-pix">PIX / PIXC Endpoints</h3>
+
+<div class="endpoint"><span class="method-badge method-post">POST</span> <code>/api/deposit/pix/create</code></div>
+<p>Create a PIX QR code for depositing Brazilian Reais and receiving PIXC tokens.</p>
+<pre><code><span class="comment">// Request</span>
+{
+  <span class="string">"solanaAddress"</span>: <span class="string">"HMzRd7wD2R2..."</span>,
+  <span class="string">"amountBRL"</span>: <span class="const">50.00</span>
+}
+
+<span class="comment">// Response</span>
+{
+  <span class="string">"qrCode"</span>: <span class="string">"00020126..."</span>,
+  <span class="string">"pixKey"</span>: <span class="string">"..."</span>,
+  <span class="string">"expiresAt"</span>: <span class="string">"2026-06-07T12:30:00Z"</span>
+}</code></pre>
+
+<!-- ═══════════════════════════════════════════ SECURITY ═══════ -->
+<h2 id="security">🔒 Security Model</h2>
+
+<p>Word Finance is a <strong>non-custodial</strong> wallet. Private keys are generated and stored on the user's device. The security model ensures no transaction happens without explicit user consent.</p>
+
+<table>
+<tr><th>Operation</th><th>PIN Required</th><th>Visual Confirmation</th></tr>
+<tr><td><code>webln.enable()</code></td><td>No</td><td>Yes — site name shown</td></tr>
+<tr><td><code>webln.sendPayment()</code></td><td><strong>Yes</strong></td><td>Yes — amount + destination</td></tr>
+<tr><td><code>webln.makeInvoice()</code></td><td>No</td><td>Yes — amount shown</td></tr>
+<tr><td><code>webln.signMessage()</code></td><td><strong>Yes</strong></td><td>Yes — message shown</td></tr>
+<tr><td><code>solana.connect()</code></td><td>No</td><td>Yes — site name shown</td></tr>
+<tr><td><code>solana.signTransaction()</code></td><td><strong>Yes</strong></td><td>Yes — TX details shown</td></tr>
+<tr><td><code>solana.signMessage()</code></td><td><strong>Yes</strong></td><td>Yes — message shown</td></tr>
+<tr><td><code>solana.signAndSendTransaction()</code></td><td><strong>Yes</strong></td><td>Yes — TX details shown</td></tr>
+</table>
+
+<div class="alert alert-security">
+  <span class="alert-icon">🔐</span>
+  <div><strong>No auto-signing.</strong> Word Finance never signs or sends transactions without the user's explicit PIN entry. This is an inviolable security rule — even internal ecosystem apps must follow it.</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ COMPATIBILITY ═══════ -->
+<h2 id="compatibility">Compatibility</h2>
+
+<table>
+<tr><th>Platform / Protocol</th><th>Status</th><th>Notes</th></tr>
+<tr><td>BTCPay Server</td><td style="color:var(--green)">✅ Compatible</td><td>Via WebLN — auto-detected</td></tr>
+<tr><td>Fountain (podcasts)</td><td style="color:var(--green)">✅ Compatible</td><td>Via WebLN</td></tr>
+<tr><td>Nostr apps (Damus, Snort)</td><td style="color:var(--green)">✅ Compatible</td><td>Via WebLN + LNURL-auth</td></tr>
+<tr><td>Jupiter Aggregator</td><td style="color:var(--green)">✅ Compatible</td><td>Via Solana Adapter</td></tr>
+<tr><td>Raydium</td><td style="color:var(--green)">✅ Compatible</td><td>Via Solana Adapter</td></tr>
+<tr><td>Magic Eden</td><td style="color:var(--green)">✅ Compatible</td><td>Via Solana Adapter</td></tr>
+<tr><td>Any Phantom-compatible dApp</td><td style="color:var(--green)">✅ Compatible</td><td>isPhantom: true</td></tr>
+<tr><td>Any WebLN-compatible site</td><td style="color:var(--green)">✅ Compatible</td><td>window.webln standard</td></tr>
+<tr><td>WalletConnect / Reown</td><td style="color:var(--yellow)">🔜 Coming Soon</td><td>QR code pairing</td></tr>
+<tr><td>EVM chains (Ethereum, Polygon)</td><td style="color:var(--yellow)">🔜 Coming Soon</td><td>Requires ETH key derivation</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════ PIXC TOKEN ═══════ -->
+<h2 id="pixc-token">PIXC Token Info</h2>
+
+<table>
+<tr><th>Property</th><th>Value</th></tr>
+<tr><td>Name</td><td>PIXCOIN (PIXC)</td></tr>
+<tr><td>Network</td><td>Solana Mainnet</td></tr>
+<tr><td>Token Standard</td><td>SPL Token</td></tr>
+<tr><td>Mint Address</td><td><code>AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq</code></td></tr>
+<tr><td>Decimals</td><td>2</td></tr>
+<tr><td>Parity</td><td>1 PIXC = R$ 1.00 within Word Finance ecosystem</td></tr>
+<tr><td>Mechanism</td><td>Mint on deposit, burn on withdrawal</td></tr>
+<tr><td>Fee</td><td>0.5% platform fee on transactions</td></tr>
+</table>
+
+<div class="alert alert-warn">
+  <span class="alert-icon">⚠️</span>
+  <div><strong>PIXC is not a stablecoin.</strong> It is a digital token valued at R$ 1.00 within the Word Finance ecosystem and partner sites. It is not backed by reserves in the traditional stablecoin sense.</div>
+</div>
+
+</main>
+</div>
+
+<!-- ── Footer ── -->
+<div class="footer">
+  <p>Word Finance Integration Docs v1.0 — June 2026</p>
+  <p>Built by Luiz Gustavo Ferreira — Itajubá/MG, Brasil · <a href="https://wordfinance.org">wordfinance.org</a> · <a href="https://github.com/luizendIA/word-finance-site">GitHub</a></p>
+  <p style="margin-top:8px">Soli Deo Gloria ✝️</p>
+</div>
+
+<script>
+// Sidebar active state
+const links = document.querySelectorAll('.sidebar-link')
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'))
+      const id = entry.target.id
+      const link = document.querySelector(`.sidebar-link[href="#${id}"]`)
+      if (link) link.classList.add('active')
+    }
+  })
+}, { rootMargin: '-80px 0px -60% 0px' })
+
+document.querySelectorAll('h2[id], h3[id], section[id]').forEach(el => observer.observe(el))
+</script>
+</body>
+</html>
