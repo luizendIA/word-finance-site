@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Finance — Criptografia Pos-Quantica Real (PQC)</title>
+    <meta name="description" content="Word Finance: primeira wallet brasileira com criptografia pos-quantica real usando CRYSTALS-Dilithium e CRYSTALS-Kyber, algoritmos aprovados pelo NIST.">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #080c14;
+            --surface: #0f1520;
+            --surface-2: #151d2e;
+            --border: rgba(247,147,26,0.15);
+            --text: #e8ecf2;
+            --text-dim: #7a8599;
+            --btc: #f7931a;
+            --sol: #9945ff;
+            --green: #10b981;
+            --blue: #3b82f6;
+            --red: #ef4444;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
+        .container { max-width:900px; margin:0 auto; padding:40px 20px; }
+
+        .hero-pqc { text-align:center; padding:80px 20px 40px; position:relative; }
+        .hero-pqc::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:600px; height:600px; background:radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%); pointer-events:none; }
+        .badge { display:inline-block; background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); padding:6px 16px; border-radius:20px; font-size:0.8rem; color:var(--blue); margin-bottom:20px; font-family:'JetBrains Mono',monospace; letter-spacing:1px; }
+        .hero-pqc h1 { font-size:clamp(2rem,5vw,3.2rem); font-weight:900; line-height:1.1; margin-bottom:16px; }
+        .hero-pqc h1 .gradient { background:linear-gradient(135deg, var(--blue), var(--sol)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .hero-pqc p { color:var(--text-dim); font-size:1.05rem; max-width:600px; margin:0 auto 30px; line-height:1.7; }
+
+        .algo-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:40px; }
+        .algo-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px; }
+        .algo-card h3 { font-size:1rem; font-weight:700; margin-bottom:4px; }
+        .algo-card .sub { color:var(--blue); font-family:'JetBrains Mono',monospace; font-size:0.75rem; margin-bottom:12px; }
+        .algo-card p { color:var(--text-dim); font-size:0.85rem; line-height:1.6; }
+
+        .demo-section { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:32px; margin-bottom:30px; }
+        .demo-section h2 { font-size:1.3rem; margin-bottom:6px; }
+        .demo-section .desc { color:var(--text-dim); font-size:0.9rem; margin-bottom:20px; }
+
+        .input-group { margin-bottom:16px; }
+        .input-group label { display:block; font-size:0.8rem; color:var(--text-dim); margin-bottom:6px; font-family:'JetBrains Mono',monospace; }
+        .input-group input, .input-group textarea {
+            width:100%; padding:10px 14px; background:var(--surface-2); border:1px solid var(--border);
+            border-radius:8px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:0.82rem; resize:vertical;
+        }
+        .input-group textarea { min-height:60px; }
+
+        .btn { padding:12px 28px; border:none; border-radius:8px; font-weight:700; font-size:0.9rem; cursor:pointer; transition:all 0.2s; font-family:'Outfit',sans-serif; }
+        .btn-primary { background:var(--blue); color:#fff; }
+        .btn-primary:hover { background:#2563eb; transform:translateY(-2px); }
+        .btn-sign { background:var(--sol); color:#fff; }
+        .btn-sign:hover { background:#7c3aed; }
+        .btn-kem { background:var(--green); color:#fff; }
+        .btn-kem:hover { background:#059669; }
+        .btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+
+        .result-box {
+            margin-top:16px; padding:16px; background:rgba(0,0,0,0.3); border-radius:8px;
+            font-family:'JetBrains Mono',monospace; font-size:0.75rem; line-height:1.6;
+            max-height:300px; overflow-y:auto; display:none;
+        }
+        .result-box.show { display:block; }
+        .r-label { color:var(--text-dim); }
+        .r-value { color:var(--btc); }
+        .r-ok { color:var(--green); }
+        .r-time { color:var(--blue); }
+        .r-hex { color:var(--sol); word-break:break-all; }
+
+        .specs-table { width:100%; border-collapse:collapse; margin-top:16px; }
+        .specs-table th, .specs-table td { padding:10px 14px; text-align:left; border-bottom:1px solid rgba(255,255,255,0.06); font-size:0.85rem; }
+        .specs-table th { color:var(--text-dim); font-weight:400; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; }
+        .specs-table td { font-family:'JetBrains Mono',monospace; font-size:0.8rem; }
+
+        .status-bar { display:flex; align-items:center; gap:8px; margin-bottom:16px; padding:10px 14px; background:rgba(59,130,246,0.08); border-radius:8px; }
+        .status-dot { width:8px; height:8px; border-radius:50%; }
+        .status-dot.loading { background:var(--btc); animation:pulse 1s infinite; }
+        .status-dot.ready { background:var(--green); }
+        .status-dot.error { background:var(--red); }
+        .status-text { font-size:0.82rem; color:var(--text-dim); }
+
+        .back-link { display:inline-block; color:var(--btc); text-decoration:none; font-size:0.9rem; margin-bottom:30px; }
+        .back-link:hover { text-decoration:underline; }
+
+        .footer-pqc { text-align:center; padding:40px 20px; color:var(--text-dim); font-size:0.8rem; }
+        .footer-pqc a { color:var(--btc); text-decoration:none; }
+
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+        @media(max-width:768px) { .algo-grid { grid-template-columns:1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="back-link">&larr; Voltar para wordfinance.org</a>
+
+    <div class="hero-pqc">
+        <div class="badge">NIST FIPS 203 &amp; 204 &mdash; REAL IMPLEMENTATION</div>
+        <h1>Criptografia <span class="gradient">Pos-Quantica</span></h1>
+        <p>Algoritmos reais aprovados pelo NIST rodando no seu navegador. Nenhuma simulacao. Nenhum mock. Criptografia de verdade protegendo contra computadores quanticos.</p>
+    </div>
+
+    <!-- Status -->
+    <div class="status-bar">
+        <div class="status-dot loading" id="status-dot"></div>
+        <span class="status-text" id="status-text">Carregando bibliotecas PQC...</span>
+    </div>
+
+    <!-- Algorithm cards -->
+    <div class="algo-grid">
+        <div class="algo-card">
+            <h3>ML-DSA-65</h3>
+            <div class="sub">CRYSTALS-Dilithium &middot; FIPS 204</div>
+            <p>Assinatura digital pos-quantica baseada em reticulados. Substitui ECDSA/Ed25519. Seguranca NIST Nivel 3 (128-bit quantum).</p>
+        </div>
+        <div class="algo-card">
+            <h3>ML-KEM-768</h3>
+            <div class="sub">CRYSTALS-Kyber &middot; FIPS 203</div>
+            <p>Encapsulamento de chave pos-quantico. Protege a troca de chaves contra ataques Harvest Now, Decrypt Later.</p>
+        </div>
+    </div>
+
+    <!-- DEMO 1: Assinatura Digital -->
+    <div class="demo-section">
+        <h2>&#9989; Demo: Assinatura Digital Pos-Quantica</h2>
+        <p class="desc">Assine uma transacao com ML-DSA-65 (Dilithium) e verifique a assinatura. Tudo real, no seu navegador.</p>
+
+        <div class="input-group">
+            <label>Mensagem para assinar (simule uma transacao):</label>
+            <input type="text" id="sign-message" value="Enviar 0.005 BTC de bc1q...abc para bc1q...xyz | Word Finance" />
+        </div>
+
+        <button class="btn btn-sign" id="btn-sign" onclick="runSign()" disabled>&#128274; Assinar com Dilithium</button>
+
+        <div class="result-box" id="sign-result"></div>
+    </div>
+
+    <!-- DEMO 2: Key Encapsulation -->
+    <div class="demo-section">
+        <h2>&#128272; Demo: Encapsulamento de Chave Pos-Quantico</h2>
+        <p class="desc">Gere um segredo compartilhado usando ML-KEM-768 (Kyber). Protege seed phrases contra ataques quanticos futuros.</p>
+
+        <button class="btn btn-kem" id="btn-kem" onclick="runKEM()" disabled>&#128274; Executar Kyber KEM</button>
+
+        <div class="result-box" id="kem-result"></div>
+    </div>
+
+    <!-- DEMO 3: Benchmark -->
+    <div class="demo-section">
+        <h2>&#9889; Benchmark: Velocidade PQC</h2>
+        <p class="desc">Execute 10 assinaturas + verificacoes e 10 encapsulamentos. Mede a performance real no seu dispositivo.</p>
+
+        <button class="btn btn-primary" id="btn-bench" onclick="runBenchmark()" disabled>&#128640; Executar Benchmark</button>
+
+        <div class="result-box" id="bench-result"></div>
+    </div>
+
+    <!-- Specs table -->
+    <div class="demo-section">
+        <h2>Especificacoes Tecnicas</h2>
+        <table class="specs-table">
+            <tr><th>Parametro</th><th>ML-DSA-65</th><th>ML-KEM-768</th></tr>
+            <tr><td>Padrao NIST</td><td>FIPS 204</td><td>FIPS 203</td></tr>
+            <tr><td>Seguranca</td><td>Nivel 3 (128-bit)</td><td>Nivel 3 (128-bit)</td></tr>
+            <tr><td>Familia</td><td>CRYSTALS-Dilithium</td><td>CRYSTALS-Kyber</td></tr>
+            <tr><td>Base matematica</td><td>Reticulados (Module-LWE)</td><td>Reticulados (Module-LWE)</td></tr>
+            <tr><td>Chave publica</td><td>1.952 bytes</td><td>1.184 bytes</td></tr>
+            <tr><td>Chave secreta</td><td>4.032 bytes</td><td>2.400 bytes</td></tr>
+            <tr><td>Assinatura / CipherText</td><td>3.309 bytes</td><td>1.088 bytes</td></tr>
+            <tr><td>Biblioteca</td><td colspan="2">@noble/post-quantum v0.6.1 (Paul Miller)</td></tr>
+            <tr><td>Uso na Word Finance</td><td>Assinar transacoes</td><td>Proteger seed phrases</td></tr>
+        </table>
+    </div>
+</div>
+
+<div class="footer-pqc">
+    <p>Word Finance PQC &mdash; Implementacao real, nao simulacao.</p>
+    <p>Algoritmos: <a href="https://csrc.nist.gov/projects/post-quantum-cryptography" target="_blank">NIST Post-Quantum Cryptography</a> | Lib: <a href="https://github.com/paulmillr/noble-post-quantum" target="_blank">@noble/post-quantum</a></p>
+    <p style="margin-top:12px;">Soli Deo Gloria &#10013;&#65039;</p>
+</div>
+
+<script type="module">
+    // Import PQC from CDN (real library, not mock)
+    let ml_dsa65, ml_kem768;
+
+    async function loadPQC() {
+        try {
+            const dsa = await import('https://esm.sh/@noble/post-quantum@0.6.1/ml-dsa.js');
+            const kem = await import('https://esm.sh/@noble/post-quantum@0.6.1/ml-kem.js');
+            ml_dsa65 = dsa.ml_dsa65;
+            ml_kem768 = kem.ml_kem768;
+
+            // Quick validation
+            const k = ml_dsa65.keygen();
+            const s = ml_dsa65.sign(new Uint8Array([1]), k.secretKey);
+            const v = ml_dsa65.verify(k.publicKey, s, new Uint8Array([1]));
+            if (!v) throw new Error('Validation failed');
+
+            document.getElementById('status-dot').className = 'status-dot ready';
+            document.getElementById('status-text').textContent = 'PQC carregado — ML-DSA-65 + ML-KEM-768 prontos';
+            document.getElementById('btn-sign').disabled = false;
+            document.getElementById('btn-kem').disabled = false;
+            document.getElementById('btn-bench').disabled = false;
+        } catch(err) {
+            document.getElementById('status-dot').className = 'status-dot error';
+            document.getElementById('status-text').textContent = 'Erro ao carregar PQC: ' + err.message;
+            console.error(err);
+        }
+    }
+
+    function toHex(bytes, max) {
+        const full = Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
+        if (max && full.length > max) return full.slice(0, max) + '...';
+        return full;
+    }
+
+    window.runSign = async function() {
+        const btn = document.getElementById('btn-sign');
+        const box = document.getElementById('sign-result');
+        btn.disabled = true;
+        btn.textContent = 'Assinando...';
+        box.className = 'result-box show';
+        box.innerHTML = '<span class="r-label">Gerando par de chaves ML-DSA-65...</span>';
+
+        await new Promise(r => setTimeout(r, 50));
+
+        const msg = new TextEncoder().encode(document.getElementById('sign-message').value);
+        let html = '';
+
+        // Keygen
+        let t = performance.now();
+        const keys = ml_dsa65.keygen();
+        const kgTime = (performance.now() - t).toFixed(1);
+        html += `<span class="r-label">Keygen:</span> <span class="r-time">${kgTime}ms</span>\n`;
+        html += `<span class="r-label">Chave publica:</span> <span class="r-value">${keys.publicKey.length} bytes</span>\n`;
+        html += `<span class="r-label">PK:</span> <span class="r-hex">${toHex(keys.publicKey, 80)}</span>\n\n`;
+
+        // Sign
+        t = performance.now();
+        const sig = ml_dsa65.sign(msg, keys.secretKey);
+        const signTime = (performance.now() - t).toFixed(1);
+        html += `<span class="r-label">Assinatura:</span> <span class="r-value">${sig.length} bytes</span> <span class="r-time">(${signTime}ms)</span>\n`;
+        html += `<span class="r-label">SIG:</span> <span class="r-hex">${toHex(sig, 80)}</span>\n\n`;
+
+        // Verify
+        t = performance.now();
+        const valid = ml_dsa65.verify(keys.publicKey, sig, msg);
+        const verifyTime = (performance.now() - t).toFixed(1);
+        html += `<span class="r-label">Verificacao:</span> <span class="r-ok">${valid ? 'VALIDA' : 'INVALIDA'}</span> <span class="r-time">(${verifyTime}ms)</span>\n\n`;
+        html += `<span class="r-ok">Transacao assinada com criptografia pos-quantica real (ML-DSA-65 / FIPS 204)</span>`;
+
+        box.innerHTML = html;
+        btn.disabled = false;
+        btn.textContent = '\u{1F512} Assinar com Dilithium';
+    };
+
+    window.runKEM = async function() {
+        const btn = document.getElementById('btn-kem');
+        const box = document.getElementById('kem-result');
+        btn.disabled = true;
+        btn.textContent = 'Executando...';
+        box.className = 'result-box show';
+        box.innerHTML = '<span class="r-label">Gerando par de chaves ML-KEM-768...</span>';
+
+        await new Promise(r => setTimeout(r, 50));
+        let html = '';
+
+        // Keygen
+        let t = performance.now();
+        const keys = ml_kem768.keygen();
+        html += `<span class="r-label">Keygen:</span> <span class="r-time">${(performance.now()-t).toFixed(1)}ms</span>\n`;
+        html += `<span class="r-label">Chave publica:</span> <span class="r-value">${keys.publicKey.length} bytes</span>\n\n`;
+
+        // Encapsulate
+        t = performance.now();
+        const enc = ml_kem768.encapsulate(keys.publicKey);
+        html += `<span class="r-label">Encapsulate:</span> <span class="r-time">${(performance.now()-t).toFixed(1)}ms</span>\n`;
+        html += `<span class="r-label">CipherText:</span> <span class="r-value">${enc.cipherText.length} bytes</span>\n`;
+        html += `<span class="r-label">Shared Secret (Alice):</span> <span class="r-hex">${toHex(enc.sharedSecret, 64)}</span>\n\n`;
+
+        // Decapsulate
+        t = performance.now();
+        const ss2 = ml_kem768.decapsulate(enc.cipherText, keys.secretKey);
+        html += `<span class="r-label">Decapsulate:</span> <span class="r-time">${(performance.now()-t).toFixed(1)}ms</span>\n`;
+        html += `<span class="r-label">Shared Secret (Bob):</span>   <span class="r-hex">${toHex(ss2, 64)}</span>\n\n`;
+
+        const match = enc.sharedSecret.every((b,i) => b === ss2[i]);
+        html += `<span class="r-label">Segredos identicos:</span> <span class="r-ok">${match ? 'SIM — Canal seguro estabelecido' : 'NAO'}</span>\n`;
+        html += `<span class="r-ok">Chave compartilhada protegida contra ataques quanticos (ML-KEM-768 / FIPS 203)</span>`;
+
+        box.innerHTML = html;
+        btn.disabled = false;
+        btn.textContent = '\u{1F510} Executar Kyber KEM';
+    };
+
+    window.runBenchmark = async function() {
+        const btn = document.getElementById('btn-bench');
+        const box = document.getElementById('bench-result');
+        btn.disabled = true;
+        btn.textContent = 'Benchmarking...';
+        box.className = 'result-box show';
+        box.innerHTML = '<span class="r-label">Executando benchmark...</span>';
+        await new Promise(r => setTimeout(r, 50));
+
+        const N = 10;
+        const msg = new Uint8Array(64);
+        let html = `<span class="r-label">Iteracoes: ${N} cada</span>\n\n`;
+
+        // DSA benchmark
+        let times = { keygen:[], sign:[], verify:[] };
+        for (let i = 0; i < N; i++) {
+            let t = performance.now();
+            const k = ml_dsa65.keygen();
+            times.keygen.push(performance.now()-t);
+
+            t = performance.now();
+            const s = ml_dsa65.sign(msg, k.secretKey);
+            times.sign.push(performance.now()-t);
+
+            t = performance.now();
+            ml_dsa65.verify(k.publicKey, s, msg);
+            times.verify.push(performance.now()-t);
+        }
+
+        const avg = arr => (arr.reduce((a,b)=>a+b,0)/arr.length).toFixed(1);
+        html += `<span class="r-value">ML-DSA-65 (Dilithium)</span>\n`;
+        html += `  <span class="r-label">Keygen avg:</span>  <span class="r-time">${avg(times.keygen)}ms</span>\n`;
+        html += `  <span class="r-label">Sign avg:</span>    <span class="r-time">${avg(times.sign)}ms</span>\n`;
+        html += `  <span class="r-label">Verify avg:</span>  <span class="r-time">${avg(times.verify)}ms</span>\n\n`;
+
+        // KEM benchmark
+        let kemTimes = { keygen:[], enc:[], dec:[] };
+        for (let i = 0; i < N; i++) {
+            let t = performance.now();
+            const k = ml_kem768.keygen();
+            kemTimes.keygen.push(performance.now()-t);
+
+            t = performance.now();
+            const e = ml_kem768.encapsulate(k.publicKey);
+            kemTimes.enc.push(performance.now()-t);
+
+            t = performance.now();
+            ml_kem768.decapsulate(e.cipherText, k.secretKey);
+            kemTimes.dec.push(performance.now()-t);
+        }
+
+        html += `<span class="r-value">ML-KEM-768 (Kyber)</span>\n`;
+        html += `  <span class="r-label">Keygen avg:</span>       <span class="r-time">${avg(kemTimes.keygen)}ms</span>\n`;
+        html += `  <span class="r-label">Encapsulate avg:</span>  <span class="r-time">${avg(kemTimes.enc)}ms</span>\n`;
+        html += `  <span class="r-label">Decapsulate avg:</span>  <span class="r-time">${avg(kemTimes.dec)}ms</span>\n\n`;
+        html += `<span class="r-ok">Benchmark completo — ${N*6} operacoes PQC reais executadas no seu dispositivo</span>`;
+
+        box.innerHTML = html;
+        btn.disabled = false;
+        btn.textContent = '\u{1F680} Executar Benchmark';
+    };
+
+    loadPQC();
+</script>
+
+</body>
+</html>
