@@ -618,13 +618,18 @@ h1 {
 
   #wallet-panel {
     top: auto;
-    bottom: 200px;
+    bottom: 6px;
     left: 50%;
     right: auto;
     transform: translateX(-50%);
-    width: min(280px, calc(100vw - 24px));
-    padding: 8px;
+    width: min(240px, calc(100vw - 140px));
+    padding: 6px;
+    opacity: 0.35;
+    transition: opacity 0.2s ease;
+    pointer-events: auto;
   }
+  #wallet-panel:active,
+  #wallet-panel:focus-within { opacity: 1; }
   .wallet-actions { gap: 6px; }
   #wallet-btn, #word-wallet-btn { min-height: 34px; padding: 6px 10px; font-size: 0.75rem; }
   #airdrop-sol, #mint-selected { min-height: 32px; padding: 5px 8px; font-size: 0.72rem; }
@@ -717,9 +722,14 @@ h1 {
   .mission-progress { height: 2px; margin-top: 3px; }
 
   #wallet-panel {
-    bottom: 190px;
-    width: min(240px, calc(100vw - 20px));
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(200px, calc(100vw - 140px));
+    opacity: 0.3;
   }
+  #wallet-panel:active,
+  #wallet-panel:focus-within { opacity: 1; }
 
   .touch-stick {
     left: 10px;

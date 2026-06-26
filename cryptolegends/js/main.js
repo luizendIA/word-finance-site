@@ -804,7 +804,7 @@
       loot.position.y = loot.userData.baseY + Math.sin(world.elapsed * 3 + loot.position.x) * 0.16;
       const dist = loot.position.distanceTo(world.player.group.position);
       loot.scale.setScalar(dist < 1.9 ? 1.1 + Math.sin(world.elapsed * 8) * 0.06 : 1);
-      if (dist < 1.45 && loot.userData.loot?.type === "cred") collectLoot(loot);
+      if (dist < 2.2) collectLoot(loot);
     });
   }
 
