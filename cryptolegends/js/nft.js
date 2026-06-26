@@ -16,7 +16,7 @@
     wallet: null,
     connection: null,
     mode: "off-chain",
-    autoMint: true,
+    autoMint: false,
     chainItems: []
   };
 
