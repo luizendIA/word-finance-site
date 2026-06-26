@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Legends: A Era da Liberdade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="boot-screen">
+    <div class="boot-panel">
+      <div class="brand">Crypto Legends</div>
+      <h1>A Era da Liberdade</h1>
+      <p>Um TPS educacional em terceira pessoa com fases progressivas, loot, CRED, NFTs devnet e recompensas assinadas pela Word Finance no dApp browser ou pela Phantom no desktop.</p>
+      <div class="hero-select">
+        <button class="hero-card selected" data-hero="satoshi">
+          <img src="assets/concept-art/satoshi-cinematic.png" alt="">
+          <span>Satoshi</span>
+          <small>Ninja Criptógrafo</small>
+        </button>
+        <button class="hero-card" data-hero="anatoly">
+          <img src="assets/concept-art/anatoly-cinematic.png" alt="">
+          <span>Anatoly</span>
+          <small>Velocista da Solana</small>
+        </button>
+      </div>
+      <div class="concept-strip" aria-label="Galeria de ameaças">
+        <figure>
+          <img src="assets/concept-art/inflator-squad-cinematic.png" alt="">
+          <figcaption>Inflatores</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/concept-art/tesoureiro-inflador-cinematic.png" alt="">
+          <figcaption>Tesoureiro</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/concept-art/senador-impressora-cinematic.png" alt="">
+          <figcaption>Boss Final</figcaption>
+        </figure>
+      </div>
+      <button id="start-game">Iniciar Operação</button>
+      <div class="boot-note">Abra <b>index.html</b> diretamente. No Android, a Word Finance é detectada automaticamente dentro do dApp browser; no desktop, use Phantom.</div>
+    </div>
+  </div>
+
+  <main id="game-shell">
+    <canvas id="game-canvas"></canvas>
+
+    <section id="hud">
+      <div class="hud-row vitals">
+        <div class="meter">
+          <span>Vida</span>
+          <div class="bar"><i id="health-bar"></i></div>
+          <b id="health">100</b>
+        </div>
+        <div class="meter">
+          <span>Escudo</span>
+          <div class="bar shield"><i id="shield-bar"></i></div>
+          <b id="shield">50</b>
+        </div>
+        <div class="meter">
+          <span>Stamina</span>
+          <div class="bar stamina"><i id="stamina-bar"></i></div>
+          <b id="stamina">100</b>
+        </div>
+      </div>
+      <div class="hud-row combat">
+        <div>
+          <span>Arma</span>
+          <b id="weapon">Rifle da Descentralização</b>
+        </div>
+        <div>
+          <span>Munição</span>
+          <b id="ammo">30/120</b>
+        </div>
+        <div>
+          <span>CRED</span>
+          <b id="cred">0</b>
+        </div>
+        <div>
+          <span>Tempo</span>
+          <b id="timer">00:00</b>
+        </div>
+      </div>
+    </section>
+
+    <aside id="wallet-panel">
+      <div class="wallet-actions">
+        <button id="word-wallet-btn">Word Finance</button>
+        <button id="wallet-btn">Phantom</button>
+      </div>
+      <div id="wallet-address">Carteira: desconectada</div>
+      <button id="airdrop-sol">Pedir SOL devnet</button>
+      <button id="mint-selected">Mintar NFT pendente</button>
+    </aside>
+
+    <section id="mission-panel">
+      <div id="phase-name">Fase 1 - Cidade Fiat</div>
+      <div id="mission-text">Sobreviva às ondas e colete 50 CRED.</div>
+      <div class="mission-progress"><i id="mission-progress"></i></div>
+    </section>
+
+    <section id="dialogue" class="hidden">
+      <b id="dialogue-speaker">Rede</b>
+      <p id="dialogue-text"></p>
+    </section>
+
+    <section id="inventory-panel">
+      <div class="panel-title">Inventário NFT</div>
+      <div id="inventory-list"></div>
+    </section>
+
+    <section id="codex-panel" class="hidden">
+      <div class="panel-title">Terminal da Cidadela</div>
+      <div id="codex-list"></div>
+    </section>
+
+    <section id="controls-panel">
+      <span>WASD mover</span>
+      <span>Mouse mirar</span>
+      <span>Esq. atirar</span>
+      <span>Dir. zoom</span>
+      <span>Shift correr</span>
+      <span>Espaço pular</span>
+      <span>F interagir</span>
+      <span>Q/E habilidades</span>
+      <span>1-5 armas</span>
+      <span>R recarregar</span>
+    </section>
+
+    <section id="mobile-controls" aria-label="Controles mobile">
+      <div id="move-stick" class="touch-stick"><i></i></div>
+      <div class="touch-actions">
+        <button id="touch-q">Q</button>
+        <button id="touch-jump">⤴</button>
+        <button id="touch-e">E</button>
+        <button id="touch-reload">R</button>
+        <button id="touch-fire">●</button>
+      </div>
+    </section>
+
+    <div id="crosshair"></div>
+    <div id="damage-vignette"></div>
+    <div id="toast-stack"></div>
+  </main>
+
+  <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/@solana/web3.js@1.95.4/lib/index.iife.min.js"></script>
+  <script src="js/economy.js"></script>
+  <script src="js/weapons.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/enemies.js"></script>
+  <script src="js/missions.js"></script>
+  <script src="js/nft.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
