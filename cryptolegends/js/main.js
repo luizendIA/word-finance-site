@@ -455,43 +455,119 @@
   function createAudio() {
     let ctx = null;
     let stepAccum = 0;
+    let noiseBuffer = null;
     function unlock() {
       if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
       if (ctx.state === "suspended") ctx.resume();
+      if (!noiseBuffer && ctx) {
+        var sr = ctx.sampleRate;
+        noiseBuffer = ctx.createBuffer(1, sr, sr);
+        var d = noiseBuffer.getChannelData(0);
+        for (var i = 0; i < sr; i++) d[i] = Math.random() * 2 - 1;
+      }
     }
     function tone(freq, dur, type, gain, slide) {
       if (!ctx) return;
-      const osc = ctx.createOscillator();
-      const amp = ctx.createGain();
+      var t = ctx.currentTime;
+      var osc = ctx.createOscillator();
+      var amp = ctx.createGain();
       osc.type = type || "square";
-      osc.frequency.value = freq;
-      if (slide) osc.frequency.exponentialRampToValueAtTime(slide, ctx.currentTime + dur);
-      amp.gain.setValueAtTime(gain || 0.03, ctx.currentTime);
-      amp.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+      osc.frequency.setValueAtTime(freq, t);
+      if (slide) osc.frequency.exponentialRampToValueAtTime(slide, t + dur);
+      amp.gain.setValueAtTime(gain || 0.03, t);
+      amp.gain.exponentialRampToValueAtTime(0.001, t + dur);
       osc.connect(amp).connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + dur);
+      osc.start(t);
+      osc.stop(t + dur);
+    }
+    function noise(dur, gain, hpFreq) {
+      if (!ctx || !noiseBuffer) return;
+      var t = ctx.currentTime;
+      var src = ctx.createBufferSource();
+      src.buffer = noiseBuffer;
+      var amp = ctx.createGain();
+      amp.gain.setValueAtTime(gain || 0.04, t);
+      amp.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      var filt = ctx.createBiquadFilter();
+      filt.type = "highpass";
+      filt.frequency.value = hpFreq || 800;
+      src.connect(filt).connect(amp).connect(ctx.destination);
+      src.start(t);
+      src.stop(t + dur);
     }
     function play(name) {
       unlock();
-      const map = {
-        shot: () => tone(220, 0.08, "sawtooth", 0.035, 90),
-        flame: () => tone(90, 0.06, "sawtooth", 0.025, 60),
-        reload: () => tone(420, 0.12, "triangle", 0.02, 210),
-        coin: () => tone(880, 0.12, "sine", 0.035, 1320),
-        hurt: () => tone(120, 0.18, "sawtooth", 0.04, 70),
-        jump: () => tone(260, 0.12, "sine", 0.025, 540),
-        ability: () => tone(520, 0.2, "triangle", 0.04, 1040),
-        shield: () => tone(320, 0.35, "sine", 0.035, 680),
-        explosion: () => tone(70, 0.3, "sawtooth", 0.055, 35)
+      var map = {
+        shot: function() {
+          noise(0.08, 0.06, 1200);
+          tone(180, 0.06, "sawtooth", 0.04, 60);
+          tone(90, 0.04, "square", 0.02, 40);
+        },
+        flame: function() {
+          noise(0.15, 0.03, 400);
+          tone(80, 0.1, "sawtooth", 0.03, 40);
+        },
+        reload: function() {
+          tone(600, 0.06, "triangle", 0.025, 900);
+          setTimeout(function(){ tone(800, 0.08, "sine", 0.02, 1200); }, 80);
+        },
+        coin: function() {
+          tone(1200, 0.08, "sine", 0.04, 1800);
+          setTimeout(function(){ tone(1600, 0.12, "sine", 0.035, 2400); }, 60);
+        },
+        hurt: function() {
+          noise(0.12, 0.05, 200);
+          tone(100, 0.2, "sawtooth", 0.05, 50);
+          tone(160, 0.15, "square", 0.03, 80);
+        },
+        jump: function() {
+          tone(300, 0.15, "sine", 0.03, 700);
+        },
+        ability: function() {
+          tone(440, 0.08, "sine", 0.04, 880);
+          setTimeout(function(){ tone(660, 0.12, "triangle", 0.035, 1320); }, 60);
+          setTimeout(function(){ tone(880, 0.15, "sine", 0.03, 1760); }, 130);
+        },
+        shield: function() {
+          tone(280, 0.4, "sine", 0.035, 560);
+          tone(420, 0.3, "triangle", 0.02, 840);
+        },
+        explosion: function() {
+          noise(0.4, 0.08, 100);
+          tone(50, 0.35, "sawtooth", 0.07, 20);
+          tone(35, 0.5, "square", 0.04, 15);
+          setTimeout(function(){ noise(0.2, 0.04, 300); }, 100);
+        },
+        kill: function() {
+          tone(600, 0.06, "square", 0.03, 300);
+          setTimeout(function(){ tone(800, 0.08, "sine", 0.025, 400); }, 50);
+          noise(0.06, 0.02, 2000);
+        },
+        levelup: function() {
+          tone(523, 0.1, "sine", 0.04, 523);
+          setTimeout(function(){ tone(659, 0.1, "sine", 0.04, 659); }, 100);
+          setTimeout(function(){ tone(784, 0.1, "sine", 0.04, 784); }, 200);
+          setTimeout(function(){ tone(1047, 0.2, "sine", 0.05, 1047); }, 300);
+        },
+        pickup: function() {
+          tone(1000, 0.06, "sine", 0.03, 1400);
+          setTimeout(function(){ tone(1400, 0.1, "sine", 0.025, 1800); }, 50);
+        },
+        boss: function() {
+          tone(60, 0.5, "sawtooth", 0.06, 30);
+          tone(90, 0.4, "square", 0.04, 45);
+          noise(0.3, 0.05, 100);
+          setTimeout(function(){ tone(50, 0.6, "sawtooth", 0.05, 25); }, 300);
+        }
       };
-      map[name]?.();
+      if (map[name]) map[name]();
     }
     function step(dt, sprint) {
       stepAccum += dt;
       if (stepAccum > (sprint ? 0.23 : 0.34)) {
         stepAccum = 0;
-        tone(sprint ? 150 : 120, 0.035, "triangle", 0.012, 80);
+        tone(sprint ? 150 : 120, 0.04, "triangle", 0.015, 80);
+        noise(0.03, 0.008, 2000);
       }
     }
     return { unlock, play, step };
@@ -674,7 +750,7 @@
       CryptoApex.economy.addItem(loot);
     }
     if (loot.lesson) dialogue("Rede", loot.lesson);
-    audio.play("coin");
+    audio.play("kill"); audio.play("coin");
   }
 
   function tryFuseWeapon(fragmentKey) {

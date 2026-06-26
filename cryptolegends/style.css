@@ -573,54 +573,175 @@ h1 {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
+/* ====== INVENTARIO GAVETA (toggle) ====== */
+#inv-toggle {
+  display: none;
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 26;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(5,13,20,0.85);
+  border: 1px solid var(--line);
+  color: var(--cyan);
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+#inv-toggle.open { background: rgba(93,242,255,0.18); }
+
+/* ====== TABLET (860px) ====== */
 @media (max-width: 860px) {
-  .vitals,
-  .combat { grid-template-columns: 1fr 1fr; }
-  #wallet-panel {
-    top: 10px;
-    right: 10px;
-    width: min(220px, calc(100vw - 20px));
-  }
-  #inventory-panel { display: none; }
-  #mission-panel {
-    bottom: 154px;
-    width: min(620px, calc(100vw - 176px));
-  }
   #controls-panel { display: none; }
   #mobile-controls { display: block; }
-  #hud {
-    top: 10px;
-    left: 10px;
-    width: min(520px, calc(100vw - 250px));
-  }
-}
+  #inv-toggle { display: block; }
 
-@media (max-width: 560px) {
-  .hero-select,
-  .concept-strip,
-  .vitals,
-  .combat { grid-template-columns: 1fr; }
   #hud {
-    max-height: 42vh;
-    overflow: auto;
-    width: calc(100vw - 20px);
+    top: 6px;
+    left: 6px;
+    width: calc(100vw - 56px);
+    gap: 4px;
   }
+  .hud-row {
+    padding: 5px 8px;
+    gap: 6px;
+    border-radius: 6px;
+  }
+  .vitals { grid-template-columns: repeat(3, 1fr); }
+  .combat { grid-template-columns: 1.4fr 0.8fr 0.7fr 0.7fr; }
+  .hud-row span { font-size: 0.6rem; }
+  .hud-row b { font-size: 0.78rem; }
+  .bar { height: 4px; margin: 3px 0 2px; }
+
   #wallet-panel {
     top: auto;
-    bottom: 158px;
-    right: 10px;
-    width: min(210px, calc(100vw - 20px));
+    bottom: 200px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(280px, calc(100vw - 24px));
+    padding: 8px;
   }
+  .wallet-actions { gap: 6px; }
+  #wallet-btn, #word-wallet-btn { min-height: 34px; padding: 6px 10px; font-size: 0.75rem; }
+  #airdrop-sol, #mint-selected { min-height: 32px; padding: 5px 8px; font-size: 0.72rem; }
+  #wallet-address { font-size: 0.7rem; }
+
+  #inventory-panel {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    bottom: 0;
+    left: auto;
+    width: min(260px, 70vw);
+    max-height: 100vh;
+    border-radius: 0;
+    z-index: 25;
+    transition: right 0.25s ease;
+    overflow-y: auto;
+    padding: 48px 10px 10px;
+  }
+  #inventory-panel.drawer-open { right: 0; }
+  .inv-item { padding: 6px; margin-top: 5px; }
+  .inv-item span { font-size: 0.7rem; }
+
   #mission-panel {
-    bottom: 150px;
-    left: 10px;
-    right: 10px;
+    bottom: auto;
+    top: 6px;
+    left: auto;
+    right: 50px;
     width: auto;
+    max-width: calc(100vw - 120px);
     transform: none;
+    padding: 5px 10px;
+    border-radius: 6px;
   }
+  #phase-name { font-size: 0.7rem; }
+  #mission-text { font-size: 0.68rem; margin-top: 2px; }
+  .mission-progress { height: 3px; margin-top: 4px; }
+
+  #dialogue {
+    bottom: 200px;
+    width: calc(100vw - 24px);
+    padding: 10px;
+    font-size: 0.82rem;
+  }
+  #dialogue p { margin: 4px 0 0; font-size: 0.78rem; }
+
   #toast-stack {
     top: auto;
-    bottom: 286px;
-    right: 10px;
+    bottom: 200px;
+    right: 8px;
+    width: min(220px, 50vw);
   }
+  .toast { padding: 6px 8px; font-size: 0.75rem; }
+}
+
+/* ====== CELULAR (560px) ====== */
+@media (max-width: 560px) {
+  .hero-select { grid-template-columns: 1fr 1fr; }
+  .hero-card { min-height: 140px; padding: 6px; }
+  .hero-card img { aspect-ratio: 3/4; }
+  .concept-strip { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .boot-panel { padding: 14px; }
+  h1 { font-size: 1.6rem; }
+
+  #hud {
+    top: 4px;
+    left: 4px;
+    width: calc(100vw - 48px);
+    gap: 3px;
+  }
+  .hud-row {
+    padding: 4px 6px;
+    gap: 4px;
+    border-radius: 4px;
+  }
+  .vitals { grid-template-columns: repeat(3, 1fr); }
+  .combat { grid-template-columns: repeat(4, 1fr); }
+  .hud-row span { font-size: 0.52rem; }
+  .hud-row b { font-size: 0.65rem; }
+  .bar { height: 3px; margin: 2px 0 1px; }
+
+  #mission-panel {
+    top: 4px;
+    right: 44px;
+    max-width: 50vw;
+    padding: 4px 8px;
+  }
+  #phase-name { font-size: 0.6rem; }
+  #mission-text { font-size: 0.58rem; }
+  .mission-progress { height: 2px; margin-top: 3px; }
+
+  #wallet-panel {
+    bottom: 190px;
+    width: min(240px, calc(100vw - 20px));
+  }
+
+  .touch-stick {
+    left: 10px;
+    bottom: 14px;
+    width: 100px;
+    height: 100px;
+  }
+  .touch-stick i { width: 44px; height: 44px; }
+  .touch-actions {
+    right: 10px;
+    bottom: 12px;
+    grid-template-columns: 44px 44px 44px;
+    grid-template-rows: 44px 44px;
+    gap: 7px;
+  }
+  #touch-fire {
+    width: 95px;
+    height: 95px;
+    font-size: 1.6rem;
+  }
+
+  #dialogue { bottom: 180px; padding: 8px; font-size: 0.75rem; }
+  #toast-stack { bottom: 180px; width: min(180px, 45vw); }
+  .toast { font-size: 0.68rem; padding: 5px 6px; }
 }
