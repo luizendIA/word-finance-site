@@ -34,6 +34,9 @@
     if ((!preferred || preferred === "wordfinance") && window.wordfinance) {
       return { type: "wordfinance", wallet: window.wordfinance };
     }
+    if ((!preferred || preferred === "wordfinance") && window.solana && window.solana.isWordFinance) {
+      return { type: "wf-dapp", wallet: window.solana };
+    }
     if ((!preferred || preferred === "phantom") && window.phantom?.solana) {
       return { type: "phantom", wallet: window.phantom.solana };
     }
@@ -97,8 +100,9 @@
       state.wallet = selected.wallet;
       state.publicKeyString = publicKeyString;
       state.publicKey = hasWeb3() ? new solanaWeb3.PublicKey(publicKeyString) : { toString: () => publicKeyString };
-      state.mode = selected.type === "wordfinance" ? "wordfinance-dapp-devnet" : "phantom-devnet";
-      window.CryptoApex.economy.addCred(100, `${selected.type === "wordfinance" ? "Word Finance" : "Phantom"} CRED`);
+      var isWF = selected.type === "wordfinance" || selected.type === "wf-dapp";
+      state.mode = isWF ? "wordfinance-dapp" : "phantom-devnet";
+      window.CryptoApex.economy.addCred(100, (isWF ? "Word Finance" : "Phantom") + " CRED");
       await writeRewardMemo("claim-airdrop", {
         amount: 100,
         token: "CRED",
@@ -106,7 +110,7 @@
         pixcDecimals: PIXC_DECIMALS,
         note: "Crédito local. Mint real de CRED com autoridade da tesouraria exige backend ou chave privada da tesouraria."
       }).catch(() => null);
-      window.CryptoApex.ui.toast(`${selected.type === "wordfinance" ? "Word Finance" : "Phantom"} conectada. +100 CRED no jogo.`);
+      window.CryptoApex.ui.toast((isWF ? "Word Finance" : "Phantom") + " conectada. +100 CRED no jogo.");
       window.CryptoApex.ui.updateWallet();
       return true;
     } catch (err) {
@@ -162,6 +166,9 @@
     if (state.walletType === "wordfinance") {
       const serialized = tx.serialize({ requireAllSignatures: false, verifySignatures: false });
       const result = await state.wallet.signAndSendTransaction(uint8ToBase64(serialized));
+      sig = typeof result === "string" ? result : result.signature;
+    } else if (state.walletType === "wf-dapp") {
+      const result = await state.wallet.signAndSendTransaction(tx);
       sig = typeof result === "string" ? result : result.signature;
     } else {
       const signed = await state.wallet.signTransaction(tx);
@@ -287,6 +294,9 @@
     if (state.walletType === "wordfinance") {
       const serialized = tx.serialize({ requireAllSignatures: false, verifySignatures: false });
       const result = await state.wallet.signAndSendTransaction(uint8ToBase64(serialized));
+      sig = typeof result === "string" ? result : result.signature;
+    } else if (state.walletType === "wf-dapp") {
+      const result = await state.wallet.signAndSendTransaction(tx);
       sig = typeof result === "string" ? result : result.signature;
     } else {
       const signed = await state.wallet.signTransaction(tx);
