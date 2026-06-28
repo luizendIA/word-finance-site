@@ -76,11 +76,103 @@
     document.getElementById("word-wallet-btn").addEventListener("click", CryptoApex.nft.connectWordFinance);
     document.getElementById("airdrop-sol").addEventListener("click", CryptoApex.nft.requestDevnetSol);
     document.getElementById("mint-selected").addEventListener("click", CryptoApex.nft.mintNextPending);
-    CryptoApex.ui = { toast, dialogue, renderInventory, renderChainItems, updateWallet, flashDamage, updateHUD };
+    CryptoApex.ui = { toast, dialogue, renderInventory, renderChainItems, renderStore, openStore, closeStore, updateWallet, flashDamage, updateHUD };
+    createStoreUI();
+    createRadarUI();
+    setupPixcBalanceTimer();
     setupMobileControls();
     renderInventory();
     renderChainItems();
+    renderStore();
     updateWallet();
+  }
+
+  function createStoreUI() {
+    if (document.getElementById("store-panel")) return;
+    const walletPanel = document.getElementById("wallet-panel");
+    const toggle = document.createElement("button");
+    toggle.id = "store-toggle";
+    toggle.type = "button";
+    toggle.textContent = "Loja PIXC";
+    toggle.addEventListener("click", openStore);
+    walletPanel.appendChild(toggle);
+
+    const panel = document.createElement("section");
+    panel.id = "store-panel";
+    panel.className = "hidden";
+    panel.innerHTML = `
+      <div class="store-head">
+        <div>
+          <div class="panel-title">Loja PIXC</div>
+          <div id="store-balance">Saldo: -- PIXC</div>
+        </div>
+        <button id="store-close" type="button" aria-label="Fechar loja">×</button>
+      </div>
+      <div class="store-note">Compras usam PIXC real na Solana mainnet e creditam o item depois da confirmação.</div>
+      <div id="store-list"></div>
+    `;
+    document.getElementById("game-shell").appendChild(panel);
+    document.getElementById("store-close").addEventListener("click", closeStore);
+    panel.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-buy-store]");
+      if (!button) return;
+      CryptoApex.nft.buyStoreItem(button.dataset.buyStore);
+    });
+  }
+
+  function openStore() {
+    const panel = document.getElementById("store-panel");
+    if (!panel) return;
+    panel.classList.remove("hidden");
+    renderStore();
+    CryptoApex.nft.refreshPixcBalance(true).catch(() => {});
+  }
+
+  function closeStore() {
+    document.getElementById("store-panel")?.classList.add("hidden");
+  }
+
+  function renderStore() {
+    const list = document.getElementById("store-list");
+    const balance = document.getElementById("store-balance");
+    if (!list || !balance) return;
+    balance.textContent = `Saldo: ${CryptoApex.nft.formatPixcBalance()} PIXC`;
+    list.innerHTML = "";
+    CryptoApex.economy.storeCatalog.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = `store-item rarity-${item.rarity}`;
+      const busy = CryptoApex.nft.state.storeBusy;
+      card.innerHTML = `
+        <div>
+          <b>${item.name}</b>
+          <span>${item.effect}</span>
+        </div>
+        <div class="store-buy">
+          <strong>${Number(item.pricePixc).toFixed(2)} PIXC</strong>
+          <button type="button" data-buy-store="${item.key}" ${busy ? "disabled" : ""}>Comprar</button>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  function setupPixcBalanceTimer() {
+    window.setInterval(() => {
+      if (CryptoApex.nft.state.connected) CryptoApex.nft.refreshPixcBalance().catch(() => {});
+    }, 10000);
+  }
+
+  function createRadarUI() {
+    if (document.getElementById("radar-panel")) return;
+    const radar = document.createElement("section");
+    radar.id = "radar-panel";
+    radar.innerHTML = `
+      <div class="radar-title">MAPA</div>
+      <div id="radar-disc">
+        <i class="radar-player"></i>
+      </div>
+    `;
+    document.getElementById("game-shell").appendChild(radar);
   }
 
   function startGame() {
@@ -455,119 +547,43 @@
   function createAudio() {
     let ctx = null;
     let stepAccum = 0;
-    let noiseBuffer = null;
     function unlock() {
       if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
       if (ctx.state === "suspended") ctx.resume();
-      if (!noiseBuffer && ctx) {
-        var sr = ctx.sampleRate;
-        noiseBuffer = ctx.createBuffer(1, sr, sr);
-        var d = noiseBuffer.getChannelData(0);
-        for (var i = 0; i < sr; i++) d[i] = Math.random() * 2 - 1;
-      }
     }
     function tone(freq, dur, type, gain, slide) {
       if (!ctx) return;
-      var t = ctx.currentTime;
-      var osc = ctx.createOscillator();
-      var amp = ctx.createGain();
+      const osc = ctx.createOscillator();
+      const amp = ctx.createGain();
       osc.type = type || "square";
-      osc.frequency.setValueAtTime(freq, t);
-      if (slide) osc.frequency.exponentialRampToValueAtTime(slide, t + dur);
-      amp.gain.setValueAtTime(gain || 0.03, t);
-      amp.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      osc.frequency.value = freq;
+      if (slide) osc.frequency.exponentialRampToValueAtTime(slide, ctx.currentTime + dur);
+      amp.gain.setValueAtTime(gain || 0.03, ctx.currentTime);
+      amp.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
       osc.connect(amp).connect(ctx.destination);
-      osc.start(t);
-      osc.stop(t + dur);
-    }
-    function noise(dur, gain, hpFreq) {
-      if (!ctx || !noiseBuffer) return;
-      var t = ctx.currentTime;
-      var src = ctx.createBufferSource();
-      src.buffer = noiseBuffer;
-      var amp = ctx.createGain();
-      amp.gain.setValueAtTime(gain || 0.04, t);
-      amp.gain.exponentialRampToValueAtTime(0.001, t + dur);
-      var filt = ctx.createBiquadFilter();
-      filt.type = "highpass";
-      filt.frequency.value = hpFreq || 800;
-      src.connect(filt).connect(amp).connect(ctx.destination);
-      src.start(t);
-      src.stop(t + dur);
+      osc.start();
+      osc.stop(ctx.currentTime + dur);
     }
     function play(name) {
       unlock();
-      var map = {
-        shot: function() {
-          noise(0.08, 0.06, 1200);
-          tone(180, 0.06, "sawtooth", 0.04, 60);
-          tone(90, 0.04, "square", 0.02, 40);
-        },
-        flame: function() {
-          noise(0.15, 0.03, 400);
-          tone(80, 0.1, "sawtooth", 0.03, 40);
-        },
-        reload: function() {
-          tone(600, 0.06, "triangle", 0.025, 900);
-          setTimeout(function(){ tone(800, 0.08, "sine", 0.02, 1200); }, 80);
-        },
-        coin: function() {
-          tone(1200, 0.08, "sine", 0.04, 1800);
-          setTimeout(function(){ tone(1600, 0.12, "sine", 0.035, 2400); }, 60);
-        },
-        hurt: function() {
-          noise(0.12, 0.05, 200);
-          tone(100, 0.2, "sawtooth", 0.05, 50);
-          tone(160, 0.15, "square", 0.03, 80);
-        },
-        jump: function() {
-          tone(300, 0.15, "sine", 0.03, 700);
-        },
-        ability: function() {
-          tone(440, 0.08, "sine", 0.04, 880);
-          setTimeout(function(){ tone(660, 0.12, "triangle", 0.035, 1320); }, 60);
-          setTimeout(function(){ tone(880, 0.15, "sine", 0.03, 1760); }, 130);
-        },
-        shield: function() {
-          tone(280, 0.4, "sine", 0.035, 560);
-          tone(420, 0.3, "triangle", 0.02, 840);
-        },
-        explosion: function() {
-          noise(0.4, 0.08, 100);
-          tone(50, 0.35, "sawtooth", 0.07, 20);
-          tone(35, 0.5, "square", 0.04, 15);
-          setTimeout(function(){ noise(0.2, 0.04, 300); }, 100);
-        },
-        kill: function() {
-          tone(600, 0.06, "square", 0.03, 300);
-          setTimeout(function(){ tone(800, 0.08, "sine", 0.025, 400); }, 50);
-          noise(0.06, 0.02, 2000);
-        },
-        levelup: function() {
-          tone(523, 0.1, "sine", 0.04, 523);
-          setTimeout(function(){ tone(659, 0.1, "sine", 0.04, 659); }, 100);
-          setTimeout(function(){ tone(784, 0.1, "sine", 0.04, 784); }, 200);
-          setTimeout(function(){ tone(1047, 0.2, "sine", 0.05, 1047); }, 300);
-        },
-        pickup: function() {
-          tone(1000, 0.06, "sine", 0.03, 1400);
-          setTimeout(function(){ tone(1400, 0.1, "sine", 0.025, 1800); }, 50);
-        },
-        boss: function() {
-          tone(60, 0.5, "sawtooth", 0.06, 30);
-          tone(90, 0.4, "square", 0.04, 45);
-          noise(0.3, 0.05, 100);
-          setTimeout(function(){ tone(50, 0.6, "sawtooth", 0.05, 25); }, 300);
-        }
+      const map = {
+        shot: () => tone(220, 0.08, "sawtooth", 0.035, 90),
+        flame: () => tone(90, 0.06, "sawtooth", 0.025, 60),
+        reload: () => tone(420, 0.12, "triangle", 0.02, 210),
+        coin: () => tone(880, 0.12, "sine", 0.035, 1320),
+        hurt: () => tone(120, 0.18, "sawtooth", 0.04, 70),
+        jump: () => tone(260, 0.12, "sine", 0.025, 540),
+        ability: () => tone(520, 0.2, "triangle", 0.04, 1040),
+        shield: () => tone(320, 0.35, "sine", 0.035, 680),
+        explosion: () => tone(70, 0.3, "sawtooth", 0.055, 35)
       };
-      if (map[name]) map[name]();
+      map[name]?.();
     }
     function step(dt, sprint) {
       stepAccum += dt;
       if (stepAccum > (sprint ? 0.23 : 0.34)) {
         stepAccum = 0;
-        tone(sprint ? 150 : 120, 0.04, "triangle", 0.015, 80);
-        noise(0.03, 0.008, 2000);
+        tone(sprint ? 150 : 120, 0.035, "triangle", 0.012, 80);
       }
     }
     return { unlock, play, step };
@@ -750,7 +766,7 @@
       CryptoApex.economy.addItem(loot);
     }
     if (loot.lesson) dialogue("Rede", loot.lesson);
-    audio.play("kill"); audio.play("coin");
+    audio.play("coin");
   }
 
   function tryFuseWeapon(fragmentKey) {
@@ -778,6 +794,7 @@
     world.phase = CryptoApex.missions.currentPhase();
     world.difficulty = 1 + CryptoApex.missions.state.totalTime / 1200;
     CryptoApex.missions.update(dt, world);
+    CryptoApex.economy.updateStoreEffects(dt, world);
     updateCamera(dt);
     world.player.update(dt, input, world);
     updateCamera(dt);
@@ -795,6 +812,7 @@
     updateShields(dt);
     updateTransient(dt);
     handleInteraction();
+    updateRadar();
     updateHUD();
   }
 
@@ -804,7 +822,7 @@
       loot.position.y = loot.userData.baseY + Math.sin(world.elapsed * 3 + loot.position.x) * 0.16;
       const dist = loot.position.distanceTo(world.player.group.position);
       loot.scale.setScalar(dist < 1.9 ? 1.1 + Math.sin(world.elapsed * 8) * 0.06 : 1);
-      if (dist < 2.2) collectLoot(loot);
+      if (dist < 1.45 && loot.userData.loot?.type === "cred") collectLoot(loot);
     });
   }
 
@@ -867,6 +885,37 @@
     });
   }
 
+  function updateRadar() {
+    const disc = document.getElementById("radar-disc");
+    if (!disc || !world.player) return;
+    const playerPos = world.player.group.position;
+    const rotation = world.player.group.rotation.y;
+    disc.style.setProperty("--radar-rotation", `${-rotation}rad`);
+    disc.querySelectorAll(".radar-blip").forEach((node) => node.remove());
+    world.enemies.slice(0, 16).forEach((enemy) => {
+      const rel = enemy.group.position.clone().sub(playerPos);
+      const cos = Math.cos(-rotation);
+      const sin = Math.sin(-rotation);
+      const x = THREE.MathUtils.clamp((rel.x * cos - rel.z * sin) * 0.72, -42, 42);
+      const y = THREE.MathUtils.clamp((rel.x * sin + rel.z * cos) * 0.72, -42, 42);
+      const blip = document.createElement("i");
+      blip.className = enemy.classKey.includes("boss") ? "radar-blip boss" : "radar-blip";
+      blip.style.transform = `translate(${x}px, ${y}px)`;
+      disc.appendChild(blip);
+    });
+    world.loots.slice(0, 8).forEach((loot) => {
+      const rel = loot.position.clone().sub(playerPos);
+      const cos = Math.cos(-rotation);
+      const sin = Math.sin(-rotation);
+      const x = THREE.MathUtils.clamp((rel.x * cos - rel.z * sin) * 0.72, -42, 42);
+      const y = THREE.MathUtils.clamp((rel.x * sin + rel.z * cos) * 0.72, -42, 42);
+      const blip = document.createElement("i");
+      blip.className = "radar-blip loot";
+      blip.style.transform = `translate(${x}px, ${y}px)`;
+      disc.appendChild(blip);
+    });
+  }
+
   function nearestEnemy(position, maxDist) {
     let best = null;
     let dist = maxDist || Infinity;
@@ -906,12 +955,8 @@
         renderChainItems();
         toast("Terminal da Cidadela aberto.");
       } else if (pos.distanceTo(new THREE.Vector3(11, 0, 4)) < 4) {
-        if (CryptoApex.economy.buyDecoration("miningDesk")) {
-          toast("Decoração comprada.");
-          createArena("citadel");
-        } else {
-          toast("CRED insuficiente para decoração.");
-        }
+        openStore();
+        toast("Loja PIXC aberta.");
       } else if (pos.distanceTo(new THREE.Vector3(-13, 0, 5)) < 5) {
         if (CryptoApex.economy.expandHouse()) {
           world.player.doubleJump = true;
@@ -938,8 +983,12 @@
     world.player.health = world.player.maxHealth;
     world.player.shield = 35;
     world.player.group.position.set(0, 0, 8);
-    CryptoApex.economy.spendCred(Math.min(50, CryptoApex.economy.state.cred));
-    toast("Você foi reimplantado. Parte do CRED foi queimada.");
+    if (CryptoApex.economy.consumeRevive()) {
+      toast("Reviver Instantâneo usado. CRED protegido.");
+    } else {
+      CryptoApex.economy.spendCred(Math.min(50, CryptoApex.economy.state.cred));
+      toast("Você foi reimplantado. Parte do CRED foi queimada.");
+    }
   }
 
   function updateHUD() {
@@ -955,7 +1004,7 @@
     document.getElementById("stamina-bar").style.width = `${p.stamina}%`;
     document.getElementById("weapon").textContent = weapon.name;
     document.getElementById("ammo").textContent = `${ammo.clip}/${ammo.reserve}${p.reloadTimer > 0 ? " recarregando" : ""}`;
-    document.getElementById("cred").textContent = CryptoApex.economy.state.cred;
+    document.getElementById("cred").textContent = `${CryptoApex.economy.state.cred} | ${CryptoApex.nft.formatPixcBalance()} PIXC`;
     document.getElementById("timer").textContent = CryptoApex.missions.formatTime(CryptoApex.missions.state.totalTime);
     document.getElementById("phase-name").textContent = world.phase.name;
     document.getElementById("mission-text").textContent = world.phase.target;
@@ -970,6 +1019,8 @@
     document.getElementById("wallet-btn").textContent = type === "phantom" ? "Phantom conectada" : "Phantom";
     document.getElementById("word-wallet-btn").textContent = type === "wordfinance" ? "Word conectada" : (hasWord ? "Word padrão" : "Word Finance");
     document.getElementById("word-wallet-btn").classList.toggle("recommended", hasWord && type !== "phantom");
+    if (CryptoApex.nft.state.connected) CryptoApex.nft.refreshPixcBalance().catch(() => {});
+    renderStore();
   }
 
   function renderInventory() {

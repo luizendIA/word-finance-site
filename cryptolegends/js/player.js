@@ -58,6 +58,7 @@
 
   function createSatoshi() {
     const group = new THREE.Group();
+    group.userData.animatedLimbs = [];
     const black = mat(0x111820);
     const cloth = mat(0x18252d, 0x070b0e, 0.06);
     const skin = mat(0xd3a27d);
@@ -125,10 +126,16 @@
       const upper = limb(0.09, 0.55, 0x151e25);
       upper.position.set(side * 0.55, 1.18, -0.02);
       upper.rotation.z = side * 0.26;
+      upper.userData.animRole = "arm";
+      upper.userData.animSide = side;
+      group.userData.animatedLimbs.push(upper);
       group.add(upper);
       const fore = limb(0.082, 0.52, 0x101820);
       fore.position.set(side * 0.62, 0.86, -0.08);
       fore.rotation.z = side * 0.12;
+      fore.userData.animRole = "forearm";
+      fore.userData.animSide = side;
+      group.userData.animatedLimbs.push(fore);
       group.add(fore);
       const wrist = armorBox(0.16, 0.12, 0.18, orange);
       wrist.position.set(side * 0.62, 0.6, -0.12);
@@ -140,9 +147,15 @@
       const thigh = limb(0.13, 0.58, 0x101820);
       thigh.position.set(side * 0.18, 0.42, 0);
       thigh.rotation.z = -side * 0.05;
+      thigh.userData.animRole = "leg";
+      thigh.userData.animSide = side;
+      group.userData.animatedLimbs.push(thigh);
       group.add(thigh);
       const shin = limb(0.105, 0.58, 0x0f171d);
       shin.position.set(side * 0.18, 0.08, -0.02);
+      shin.userData.animRole = "shin";
+      shin.userData.animSide = side;
+      group.userData.animatedLimbs.push(shin);
       group.add(shin);
       const boot = armorBox(0.22, 0.14, 0.36, leather);
       boot.position.set(side * 0.18, -0.22, -0.08);
@@ -162,6 +175,7 @@
 
   function createAnatoly() {
     const group = new THREE.Group();
+    group.userData.animatedLimbs = [];
     const armor = mat(0x2c254d, 0x23114f, 0.18);
     const skin = mat(0xc88f7a);
     const black = mat(0x101019);
@@ -211,10 +225,16 @@
       const upper = limb(0.085, 0.55, 0x332866);
       upper.position.set(side * 0.52, 1.16, -0.03);
       upper.rotation.z = side * 0.24;
+      upper.userData.animRole = "arm";
+      upper.userData.animSide = side;
+      group.userData.animatedLimbs.push(upper);
       group.add(upper);
       const fore = limb(0.075, 0.5, 0x19172b);
       fore.position.set(side * 0.6, 0.85, -0.08);
       fore.rotation.z = side * 0.12;
+      fore.userData.animRole = "forearm";
+      fore.userData.animSide = side;
+      group.userData.animatedLimbs.push(fore);
       group.add(fore);
       const wrist = armorBox(0.16, 0.12, 0.18, green);
       wrist.position.set(side * 0.6, 0.6, -0.12);
@@ -226,9 +246,15 @@
       const thigh = limb(0.105, 0.68, 0x231e42);
       thigh.position.set(side * 0.18, 0.43, 0);
       thigh.rotation.z = -side * 0.06;
+      thigh.userData.animRole = "leg";
+      thigh.userData.animSide = side;
+      group.userData.animatedLimbs.push(thigh);
       group.add(thigh);
       const shin = limb(0.085, 0.66, 0x151431);
       shin.position.set(side * 0.2, 0.04, -0.02);
+      shin.userData.animRole = "shin";
+      shin.userData.animSide = side;
+      group.userData.animatedLimbs.push(shin);
       group.add(shin);
       const calfBlade = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.24, 10), green);
       calfBlade.position.set(side * 0.2, 0.18, -0.11);
@@ -315,12 +341,14 @@
       this.grounded = true;
       this.jumpCount = 0;
       this.doubleJump = false;
-      this.maxHealth = 100;
-      this.health = 100;
-      this.maxShield = 70;
-      this.shield = 50;
+      this.maxHealth = 150;
+      this.health = 150;
+      this.baseMaxShield = 90;
+      this.maxShield = 90;
+      this.shield = 70;
       this.stamina = 100;
       this.speedBuff = 0;
+      this.animTime = Math.random() * 10;
       this.cooldowns = { q: 0, e: 0 };
       this.weaponIndex = 0;
       this.unlockedWeapons = ["rifle"];
@@ -376,13 +404,15 @@
         move.addScaledVector(right, input.mobileMove.x);
         move.addScaledVector(forward, -input.mobileMove.y);
       }
+      const moving = move.lengthSq() > 0;
 
       const wantsSprint = input.keys.shift && this.stamina > 4 && move.lengthSq() > 0;
-      const speed = (wantsSprint ? 9.2 : 5.4) * (this.speedBuff > 0 ? 1.15 : 1);
+      const storeSpeed = window.CryptoApex?.economy?.speedMultiplier?.() || 1;
+      const speed = (wantsSprint ? 9.2 : 5.4) * (this.speedBuff > 0 ? 1.15 : 1) * storeSpeed;
       if (wantsSprint) this.stamina = Math.max(0, this.stamina - dt * 28);
       else this.stamina = Math.min(100, this.stamina + dt * 18);
 
-      if (move.lengthSq() > 0) {
+      if (moving) {
         move.normalize();
         this.group.position.addScaledVector(move, speed * dt);
         this.group.rotation.y = Math.atan2(-move.x, -move.z);
@@ -390,6 +420,7 @@
       } else if (input.mouseDown || input.rightMouse) {
         this.group.rotation.y = Math.atan2(-forward.x, -forward.z);
       }
+      this.animate(dt, moving, wantsSprint);
 
       if (input.consume(" ") && (this.grounded || (this.doubleJump && this.jumpCount < 2))) {
         this.velocity.y = 7.5;
@@ -419,6 +450,37 @@
       if (this.weaponModel) this.weaponModel.position.z = THREE.MathUtils.lerp(this.weaponModel.position.z, 0, 0.18);
     }
 
+    animate(dt, moving, sprinting) {
+      this.animTime += dt * (moving ? (sprinting ? 13 : 8) : 2.1);
+      const walk = Math.sin(this.animTime);
+      const counter = Math.cos(this.animTime);
+      const energy = moving ? 1 : 0.18;
+      const limbs = this.group.userData.animatedLimbs || [];
+      limbs.forEach((part) => {
+        if (!part.userData.baseRotation) {
+          part.userData.baseRotation = part.rotation.clone();
+          part.userData.baseY = part.position.y;
+        }
+        const side = part.userData.animSide || 1;
+        const base = part.userData.baseRotation;
+        part.rotation.x = base.x;
+        part.rotation.y = base.y;
+        part.rotation.z = base.z;
+        if (part.userData.animRole === "arm") {
+          part.rotation.x += walk * side * 0.5 * energy;
+          part.rotation.z += side * 0.05 * Math.sin(this.animTime * 0.5);
+        } else if (part.userData.animRole === "forearm") {
+          part.rotation.x += counter * side * 0.34 * energy;
+        } else if (part.userData.animRole === "leg") {
+          part.rotation.x -= walk * side * 0.62 * energy;
+        } else if (part.userData.animRole === "shin") {
+          part.rotation.x += Math.max(0, walk * side) * 0.55 * energy;
+        }
+      });
+      const breathe = 1 + Math.sin(this.animTime * 0.55) * 0.012;
+      this.group.scale.set(1, breathe, 1);
+    }
+
     reload(world) {
       const def = this.weapon;
       const ammo = this.weaponAmmo[def.key];
@@ -441,7 +503,7 @@
         this.reload(world);
         return;
       }
-      ammo.clip -= 1;
+      if (!window.CryptoApex?.economy?.hasInfiniteAmmo?.()) ammo.clip -= 1;
       this.fireCooldown = 1 / def.fireRate;
       if (this.weaponModel) this.weaponModel.position.z = 0.12;
       world.audio.play(def.flame ? "flame" : "shot");

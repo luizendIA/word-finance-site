@@ -2,11 +2,14 @@
   const TREASURY_PUBLIC_KEY = "BMLCCnhkwCAW9e2Y3hot5Ti7QMu5hdFKbTML4iaMcVWB";
   const SOLANA_NETWORK = "devnet";
   const RPC_ENDPOINT = "https://api.devnet.solana.com";
+  const MAINNET_RPC_ENDPOINT = "https://mainnet.helius-rpc.com/?api-key=05918f7b-c6ec-4ada-bbc1-52349cedb334";
   const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
   const ASSOCIATED_TOKEN_PROGRAM_ID = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL";
   const MEMO_PROGRAM_ID = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr";
   const PIXC_MINT_ADDRESS = "AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq";
   const PIXC_DECIMALS = 2;
+  const USDC_MINT_ADDRESS = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
+  const FEE_WALLET_PUBLIC_KEY = "BLPZSYEmU1gvESB1jKRE4e8LbMvNxFN9GFyhu38VzAbe";
 
   const state = {
     connected: false,
@@ -15,9 +18,15 @@
     walletType: null,
     wallet: null,
     connection: null,
+    pixcConnection: null,
     mode: "off-chain",
     autoMint: false,
-    chainItems: []
+    chainItems: [],
+    pixcBalanceBaseUnits: null,
+    pixcBalanceText: "--",
+    pixcLastUpdated: 0,
+    storeBusy: false,
+    storePurchases: []
   };
 
   function hasWeb3() {
@@ -28,6 +37,12 @@
     if (!hasWeb3()) return null;
     if (!state.connection) state.connection = new solanaWeb3.Connection(RPC_ENDPOINT, "confirmed");
     return state.connection;
+  }
+
+  function pixcConnection() {
+    if (!hasWeb3()) return null;
+    if (!state.pixcConnection) state.pixcConnection = new solanaWeb3.Connection(MAINNET_RPC_ENDPOINT, "confirmed");
+    return state.pixcConnection;
   }
 
   function getWallet(preferred) {
@@ -250,6 +265,186 @@
     });
   }
 
+  function transferCheckedInstruction(source, mint, destination, owner, amount, decimals) {
+    const data = new Uint8Array(10);
+    data[0] = 12;
+    data.set(u64(amount), 1);
+    data[9] = decimals;
+    return new solanaWeb3.TransactionInstruction({
+      programId: new solanaWeb3.PublicKey(TOKEN_PROGRAM_ID),
+      keys: [
+        { pubkey: source, isSigner: false, isWritable: true },
+        { pubkey: mint, isSigner: false, isWritable: false },
+        { pubkey: destination, isSigner: false, isWritable: true },
+        { pubkey: owner, isSigner: true, isWritable: false }
+      ],
+      data
+    });
+  }
+
+  async function getAssociatedTokenAddress(owner, mint) {
+    const tokenProgram = new solanaWeb3.PublicKey(TOKEN_PROGRAM_ID);
+    const ataProgram = new solanaWeb3.PublicKey(ASSOCIATED_TOKEN_PROGRAM_ID);
+    const [ata] = await solanaWeb3.PublicKey.findProgramAddress(
+      [owner.toBuffer(), tokenProgram.toBuffer(), mint.toBuffer()],
+      ataProgram
+    );
+    return ata;
+  }
+
+  function readTokenAccountAmount(accountInfo) {
+    if (!accountInfo?.data || accountInfo.data.length < 72) return 0n;
+    let value = 0n;
+    for (let i = 0; i < 8; i += 1) {
+      value += BigInt(accountInfo.data[64 + i]) << (8n * BigInt(i));
+    }
+    return value;
+  }
+
+  function pixcBaseUnits(pricePixc) {
+    return BigInt(Math.round(Number(pricePixc) * (10 ** PIXC_DECIMALS)));
+  }
+
+  function formatPixcBaseUnits(baseUnits) {
+    if (baseUnits === null || typeof baseUnits === "undefined") return "--";
+    const value = BigInt(baseUnits);
+    const divisor = 10n ** BigInt(PIXC_DECIMALS);
+    const whole = value / divisor;
+    const fraction = String(value % divisor).padStart(PIXC_DECIMALS, "0");
+    return `${whole}.${fraction}`;
+  }
+
+  function formatPixcBalance() {
+    return state.pixcBalanceText || "--";
+  }
+
+  async function refreshPixcBalance(force) {
+    if (!state.connected || !state.publicKey || !pixcConnection()) {
+      state.pixcBalanceBaseUnits = null;
+      state.pixcBalanceText = "--";
+      window.CryptoApex?.ui?.updateHUD?.();
+      window.CryptoApex?.ui?.renderStore?.();
+      return null;
+    }
+    const now = Date.now();
+    if (!force && state.pixcLastUpdated && now - state.pixcLastUpdated < 9500) {
+      return state.pixcBalanceBaseUnits;
+    }
+    try {
+      const mint = new solanaWeb3.PublicKey(PIXC_MINT_ADDRESS);
+      const accounts = await pixcConnection().getTokenAccountsByOwner(state.publicKey, { mint }, "confirmed");
+      let total = 0n;
+      accounts.value.forEach((entry) => {
+        total += readTokenAccountAmount(entry.account);
+      });
+      state.pixcBalanceBaseUnits = total;
+      state.pixcBalanceText = formatPixcBaseUnits(total);
+      state.pixcLastUpdated = now;
+      window.CryptoApex?.ui?.updateHUD?.();
+      window.CryptoApex?.ui?.renderStore?.();
+      return total;
+    } catch (err) {
+      state.pixcBalanceText = "--";
+      window.CryptoApex?.ui?.renderStore?.();
+      return null;
+    }
+  }
+
+  async function buildPixcTransferTransaction(baseUnits) {
+    const conn = pixcConnection();
+    if (!conn || !state.connected || !state.publicKey || !state.wallet) {
+      throw new Error("Conecte uma carteira primeiro.");
+    }
+    const payer = state.publicKey;
+    const mint = new solanaWeb3.PublicKey(PIXC_MINT_ADDRESS);
+    const escrow = new solanaWeb3.PublicKey(TREASURY_PUBLIC_KEY);
+    const sourceAta = await getAssociatedTokenAddress(payer, mint);
+    const destinationAta = await getAssociatedTokenAddress(escrow, mint);
+    const sourceInfo = await conn.getAccountInfo(sourceAta, "confirmed");
+    if (!sourceInfo) throw new Error("Sua carteira ainda nao tem uma conta PIXC.");
+    if (readTokenAccountAmount(sourceInfo) < BigInt(baseUnits)) {
+      throw new Error("Saldo PIXC insuficiente na conta associada.");
+    }
+
+    const tx = new solanaWeb3.Transaction();
+    const destinationInfo = await conn.getAccountInfo(destinationAta, "confirmed");
+    if (!destinationInfo) {
+      tx.add(createAtaInstruction(payer, destinationAta, escrow, mint));
+    }
+    tx.add(transferCheckedInstruction(sourceAta, mint, destinationAta, payer, baseUnits, PIXC_DECIMALS));
+    const latest = await conn.getLatestBlockhash("confirmed");
+    tx.feePayer = payer;
+    tx.recentBlockhash = latest.blockhash;
+    tx.lastValidBlockHeight = latest.lastValidBlockHeight;
+    return { tx, latest };
+  }
+
+  async function buyStoreItem(itemKey) {
+    if (state.storeBusy) {
+      window.CryptoApex?.ui?.toast?.("Compra PIXC em andamento.");
+      return null;
+    }
+    const item = window.CryptoApex?.economy?.storeCatalog?.find((entry) => entry.key === itemKey);
+    if (!item) {
+      window.CryptoApex?.ui?.toast?.("Item da loja nao encontrado.");
+      return null;
+    }
+    if (!state.connected || !state.publicKey || !state.wallet) {
+      window.CryptoApex?.ui?.toast?.("Conecte Word Finance ou Phantom para comprar com PIXC.");
+      return null;
+    }
+    state.storeBusy = true;
+    window.CryptoApex?.ui?.renderStore?.();
+    try {
+      const amount = pixcBaseUnits(item.pricePixc);
+      const balance = await refreshPixcBalance(true);
+      if (balance !== null && BigInt(balance) < amount) {
+        window.CryptoApex?.ui?.toast?.("Saldo PIXC insuficiente.");
+        return null;
+      }
+      const { tx, latest } = await buildPixcTransferTransaction(amount);
+      window.CryptoApex?.ui?.toast?.(`Confirme a compra: ${item.name}`);
+      let sig;
+      if (state.walletType === "wf-dapp") {
+        const result = await state.wallet.signAndSendTransaction(tx);
+        sig = typeof result === "string" ? result : result.signature;
+      } else {
+        const result = await state.wallet.signAndSendTransaction(tx);
+        sig = typeof result === "string" ? result : result.signature;
+      }
+      if (!sig) throw new Error("Carteira nao retornou assinatura.");
+      const confirmation = await pixcConnection().confirmTransaction({
+        signature: sig,
+        blockhash: latest.blockhash,
+        lastValidBlockHeight: latest.lastValidBlockHeight
+      }, "confirmed");
+      if (confirmation.value?.err) throw new Error("Transacao PIXC rejeitada pela rede.");
+      const applied = window.CryptoApex.economy.applyStorePurchase(itemKey, {
+        signature: sig,
+        amount: amount.toString(),
+        pricePixc: item.pricePixc,
+        mint: PIXC_MINT_ADDRESS,
+        escrow: TREASURY_PUBLIC_KEY
+      });
+      if (applied) {
+        state.storePurchases.unshift({ ...item, signature: sig, at: new Date().toISOString() });
+        state.chainItems.unshift({ type: "pixc-shop", name: item.name, signature: sig, mintAddress: PIXC_MINT_ADDRESS });
+        window.CryptoApex?.ui?.toast?.(`Compra confirmada: ${item.name}`);
+        window.CryptoApex?.ui?.renderInventory?.();
+        window.CryptoApex?.ui?.renderChainItems?.();
+        window.__CryptoApexWorld?.audio?.play?.("coin");
+      }
+      await refreshPixcBalance(true);
+      return sig;
+    } catch (err) {
+      window.CryptoApex?.ui?.toast?.(err.message || "Compra PIXC cancelada ou falhou.");
+      return null;
+    } finally {
+      state.storeBusy = false;
+      window.CryptoApex?.ui?.renderStore?.();
+    }
+  }
+
   async function mintPlayerSignedCollectible(item) {
     if (!state.connected || !state.publicKey || !connection()) {
       window.CryptoApex.ui.toast("Conecte uma carteira para mintar.");
@@ -294,9 +489,6 @@
     if (state.walletType === "wordfinance") {
       const serialized = tx.serialize({ requireAllSignatures: false, verifySignatures: false });
       const result = await state.wallet.signAndSendTransaction(uint8ToBase64(serialized));
-      sig = typeof result === "string" ? result : result.signature;
-    } else if (state.walletType === "wf-dapp") {
-      const result = await state.wallet.signAndSendTransaction(tx);
       sig = typeof result === "string" ? result : result.signature;
     } else {
       const signed = await state.wallet.signTransaction(tx);
@@ -347,12 +539,21 @@
     TREASURY_PUBLIC_KEY,
     PIXC_MINT_ADDRESS,
     PIXC_DECIMALS,
+    USDC_MINT_ADDRESS,
+    FEE_WALLET_PUBLIC_KEY,
     SOLANA_NETWORK,
+    MAINNET_RPC_ENDPOINT,
     state,
     getWallet,
     connectWallet,
     connectPhantom,
     connectWordFinance,
+    pixcConnection,
+    refreshPixcBalance,
+    formatPixcBalance,
+    formatPixcBaseUnits,
+    pixcBaseUnits,
+    buyStoreItem,
     requestDevnetSol,
     writeRewardMemo,
     signAuthMessage,

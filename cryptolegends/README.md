@@ -1,6 +1,6 @@
 # Crypto Legends: A Era da Liberdade
 
-Jogo TPS educacional em Three.js com assets procedurais, fases de 30 minutos, loot, CRED local, NFTs pendentes, controles desktop/mobile e integração Word Finance/Phantom na Solana devnet.
+Jogo TPS educacional em Three.js com assets procedurais, fases de 30 minutos, loot, CRED local, loja PIXC mainnet, NFTs pendentes, controles desktop/mobile e integração Word Finance/Phantom.
 
 ## Como rodar
 
@@ -27,14 +27,19 @@ A tesouraria oficial configurada é:
 
 `BMLCCnhkwCAW9e2Y3hot5Ti7QMu5hdFKbTML4iaMcVWB`
 
-O jogo detecta `window.wordfinance` primeiro quando roda no dApp browser Android da Word Finance. No desktop, usa Phantom como fallback. O mint PIXC configurado para referência de economia é:
+O jogo detecta a carteira Word Finance no dApp browser Android e Phantom no desktop. A loja PIXC usa Solana mainnet pelo RPC Helius configurado no código. O mint PIXC é:
 
 `AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq`
+
+Na loja in-game, o jogador pode comprar kits de vida, escudo, munição infinita, boost de velocidade, revive, turret, cura regenerativa, skin dourada e arma lendária. Cada compra monta no browser uma transação SPL Token TransferChecked do PIXC para a tesouraria/escrow:
+
+`BMLCCnhkwCAW9e2Y3hot5Ti7QMu5hdFKbTML4iaMcVWB`
 
 Como a chave privada da tesouraria não foi fornecida, o jogo não consegue assinar mint/transfer real de CRED ou uma Metaplex Certified Collection com `updateAuthority` da tesouraria diretamente no navegador. Por isso:
 
 - CRED funciona localmente para gameplay.
 - Recompensas NFT ficam pendentes até a Word Finance ou Phantom conectar.
+- Compras PIXC da loja são mainnet e exigem saldo PIXC + SOL mainnet para taxa.
 - O botão de mint cria um collectible SPL devnet assinado pelo jogador e registra a tesouraria no memo/metadado do jogo.
 - Em produção, um backend/faucet precisa coassinar com a chave privada da tesouraria para mint real de CRED e NFTs certificados.
 
