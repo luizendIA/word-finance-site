@@ -11,6 +11,9 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.18;
+  renderer.outputEncoding = THREE.sRGBEncoding;
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x071217);
@@ -34,6 +37,8 @@
     traps: [],
     shields: [],
     buildings: [],
+    playerAura: null,
+    skyObjects: [],
     elapsed: 0,
     kills: 0,
     spawnTimer: 0,
@@ -57,6 +62,8 @@
 
   let selectedHero = "satoshi";
   let started = false;
+  let saveTimer = 0;
+  let loadedSaveKey = null;
 
   setupUI();
   createLighting();
@@ -76,15 +83,41 @@
     document.getElementById("word-wallet-btn").addEventListener("click", CryptoApex.nft.connectWordFinance);
     document.getElementById("airdrop-sol").addEventListener("click", CryptoApex.nft.requestDevnetSol);
     document.getElementById("mint-selected").addEventListener("click", CryptoApex.nft.mintNextPending);
-    CryptoApex.ui = { toast, dialogue, renderInventory, renderChainItems, renderStore, openStore, closeStore, updateWallet, flashDamage, updateHUD };
+    CryptoApex.ui = {
+      toast,
+      dialogue,
+      renderInventory,
+      renderChainItems,
+      renderStore,
+      renderCrafting,
+      renderMarketplace,
+      renderLeaderboard,
+      openStore,
+      openCrafting,
+      openMarketplace,
+      openLeaderboard,
+      closeStore,
+      updateWallet,
+      flashDamage,
+      flashGold,
+      showPhaseComplete,
+      updateHUD
+    };
     createStoreUI();
+    createV3Panels();
     createRadarUI();
+    createGoldFlashUI();
+    createPhaseCompleteUI();
     setupPixcBalanceTimer();
     setupMobileControls();
     renderInventory();
     renderChainItems();
     renderStore();
+    renderCrafting();
+    renderMarketplace();
+    renderLeaderboard();
     updateWallet();
+    window.addEventListener("beforeunload", () => CryptoApex.economy.saveGame(world));
   }
 
   function createStoreUI() {
@@ -120,9 +153,109 @@
     });
   }
 
+  function createV3Panels() {
+    const walletPanel = document.getElementById("wallet-panel");
+    [
+      ["craft-toggle", "Crafting", openCrafting],
+      ["market-toggle", "Mercado", openMarketplace],
+      ["leaderboard-toggle", "Ranking", openLeaderboard]
+    ].forEach(([id, label, handler]) => {
+      if (document.getElementById(id)) return;
+      const btn = document.createElement("button");
+      btn.id = id;
+      btn.type = "button";
+      btn.textContent = label;
+      btn.addEventListener("click", handler);
+      walletPanel.appendChild(btn);
+    });
+
+    const shell = document.getElementById("game-shell");
+    if (!document.getElementById("craft-panel")) {
+      const craft = document.createElement("section");
+      craft.id = "craft-panel";
+      craft.className = "economy-panel hidden";
+      craft.innerHTML = `
+        <div class="store-head">
+          <div>
+            <div class="panel-title">Estação de Crafting</div>
+            <div class="store-note">Combine fragmentos coletados + PIXC real na mainnet.</div>
+          </div>
+          <button class="panel-close" type="button" data-close-panel="craft-panel">×</button>
+        </div>
+        <div id="craft-list"></div>
+      `;
+      shell.appendChild(craft);
+    }
+    if (!document.getElementById("market-panel")) {
+      const market = document.createElement("section");
+      market.id = "market-panel";
+      market.className = "economy-panel hidden";
+      market.innerHTML = `
+        <div class="store-head">
+          <div>
+            <div class="panel-title">Mercado P2P</div>
+            <div class="store-note">Listagens locais simulam o mercado; compras enviam PIXC direto ao vendedor + 1% taxa.</div>
+          </div>
+          <button class="panel-close" type="button" data-close-panel="market-panel">×</button>
+        </div>
+        <div class="market-columns">
+          <div>
+            <b class="subpanel-title">Meus Itens</b>
+            <div id="market-owned-list"></div>
+          </div>
+          <div>
+            <b class="subpanel-title">À Venda</b>
+            <div id="market-listings"></div>
+          </div>
+        </div>
+      `;
+      shell.appendChild(market);
+    }
+    if (!document.getElementById("leaderboard-panel")) {
+      const leaderboard = document.createElement("section");
+      leaderboard.id = "leaderboard-panel";
+      leaderboard.className = "economy-panel hidden";
+      leaderboard.innerHTML = `
+        <div class="store-head">
+          <div>
+            <div class="panel-title">Ranking CRED</div>
+            <div class="store-note">Top 10 local por CRED acumulado.</div>
+          </div>
+          <button class="panel-close" type="button" data-close-panel="leaderboard-panel">×</button>
+        </div>
+        <div id="leaderboard-list"></div>
+      `;
+      shell.appendChild(leaderboard);
+    }
+
+    document.body.addEventListener("click", (event) => {
+      const close = event.target.closest("[data-close-panel]");
+      if (close) document.getElementById(close.dataset.closePanel)?.classList.add("hidden");
+
+      const craft = event.target.closest("[data-craft-recipe]");
+      if (craft) CryptoApex.nft.craftRecipe(craft.dataset.craftRecipe);
+
+      const list = event.target.closest("[data-list-market]");
+      if (list) {
+        const input = document.querySelector(`[data-market-price="${list.dataset.listMarket}"]`);
+        CryptoApex.economy.listMarketItem(list.dataset.listMarket, input?.value || 1);
+      }
+
+      const buy = event.target.closest("[data-buy-listing]");
+      if (buy) CryptoApex.nft.buyMarketplaceListing(buy.dataset.buyListing);
+    });
+  }
+
+  function hideEconomyPanels(exceptId) {
+    ["store-panel", "craft-panel", "market-panel", "leaderboard-panel"].forEach((id) => {
+      if (id !== exceptId) document.getElementById(id)?.classList.add("hidden");
+    });
+  }
+
   function openStore() {
     const panel = document.getElementById("store-panel");
     if (!panel) return;
+    hideEconomyPanels("store-panel");
     panel.classList.remove("hidden");
     renderStore();
     CryptoApex.nft.refreshPixcBalance(true).catch(() => {});
@@ -130,6 +263,27 @@
 
   function closeStore() {
     document.getElementById("store-panel")?.classList.add("hidden");
+  }
+
+  function openCrafting() {
+    hideEconomyPanels("craft-panel");
+    document.getElementById("craft-panel")?.classList.remove("hidden");
+    renderCrafting();
+    CryptoApex.nft.refreshPixcBalance(true).catch(() => {});
+  }
+
+  function openMarketplace() {
+    hideEconomyPanels("market-panel");
+    document.getElementById("market-panel")?.classList.remove("hidden");
+    renderMarketplace();
+    CryptoApex.nft.refreshPixcBalance(true).catch(() => {});
+  }
+
+  function openLeaderboard() {
+    hideEconomyPanels("leaderboard-panel");
+    document.getElementById("leaderboard-panel")?.classList.remove("hidden");
+    CryptoApex.economy.updateLeaderboard(world);
+    renderLeaderboard();
   }
 
   function renderStore() {
@@ -156,6 +310,84 @@
     });
   }
 
+  function renderCrafting() {
+    const list = document.getElementById("craft-list");
+    if (!list) return;
+    list.innerHTML = "";
+    CryptoApex.economy.craftRecipes.forEach((recipe) => {
+      const owned = CryptoApex.economy.state.fragments[recipe.fragmentKey] || 0;
+      const canCraft = owned >= recipe.fragmentCost && !CryptoApex.nft.state.storeBusy;
+      const card = document.createElement("article");
+      card.className = `store-item rarity-${recipe.rarity}`;
+      card.innerHTML = `
+        <div>
+          <b>${recipe.name}</b>
+          <span>${recipe.effect}</span>
+          <span>${owned}/${recipe.fragmentCost} ${recipe.fragmentLabel}</span>
+        </div>
+        <div class="store-buy">
+          <strong>${Number(recipe.pricePixc).toFixed(2)} PIXC</strong>
+          <button type="button" data-craft-recipe="${recipe.key}" ${canCraft ? "" : "disabled"}>Craftar</button>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  function renderMarketplace() {
+    const owned = document.getElementById("market-owned-list");
+    const listings = document.getElementById("market-listings");
+    if (!owned || !listings) return;
+    const inventory = CryptoApex.economy.state.inventory.slice(0, 10);
+    owned.innerHTML = inventory.length ? "" : "<div class='inv-item'><span>Nenhum item para listar.</span></div>";
+    inventory.forEach((item) => {
+      const row = document.createElement("div");
+      row.className = "market-row";
+      row.innerHTML = `
+        <div>
+          <b>${item.name}</b>
+          <span>${item.rarity || "Comum"} ${item.nft ? "| NFT" : "| local"}</span>
+        </div>
+        <div class="market-actions">
+          <input data-market-price="${item.id}" type="number" min="0.01" step="0.01" value="5.00" aria-label="Preço PIXC">
+          <button type="button" data-list-market="${item.id}">Listar</button>
+        </div>
+      `;
+      owned.appendChild(row);
+    });
+
+    const market = CryptoApex.economy.getMarketplaceListings();
+    listings.innerHTML = market.length ? "" : "<div class='inv-item'><span>Nenhuma listagem local.</span></div>";
+    market.slice(0, 14).forEach((listing) => {
+      const row = document.createElement("div");
+      row.className = "market-row";
+      row.innerHTML = `
+        <div>
+          <b>${listing.item.name}</b>
+          <span>${listing.item.rarity || "Comum"} | vendedor ${listing.sellerShort}</span>
+        </div>
+        <div class="market-actions">
+          <strong>${Number(listing.pricePixc).toFixed(2)} PIXC</strong>
+          <button type="button" data-buy-listing="${listing.id}" ${CryptoApex.nft.state.storeBusy ? "disabled" : ""}>Comprar</button>
+        </div>
+      `;
+      listings.appendChild(row);
+    });
+  }
+
+  function renderLeaderboard() {
+    const list = document.getElementById("leaderboard-list");
+    if (!list) return;
+    const rows = CryptoApex.economy.getLeaderboard();
+    list.innerHTML = rows.length ? "" : "<div class='inv-item'><span>Sem pontuação salva ainda.</span></div>";
+    rows.forEach((row, index) => {
+      const div = document.createElement("div");
+      div.className = "leader-row";
+      div.innerHTML = `<b>#${index + 1} ${row.name}</b><span>${row.score} CRED | ${row.hero}</span>`;
+      list.appendChild(div);
+    });
+  }
+
   function setupPixcBalanceTimer() {
     window.setInterval(() => {
       if (CryptoApex.nft.state.connected) CryptoApex.nft.refreshPixcBalance().catch(() => {});
@@ -175,21 +407,87 @@
     document.getElementById("game-shell").appendChild(radar);
   }
 
+  function createGoldFlashUI() {
+    if (document.getElementById("gold-flash")) return;
+    const flash = document.createElement("div");
+    flash.id = "gold-flash";
+    document.getElementById("game-shell").appendChild(flash);
+  }
+
+  function createPhaseCompleteUI() {
+    if (document.getElementById("phase-complete")) return;
+    const overlay = document.createElement("section");
+    overlay.id = "phase-complete";
+    overlay.className = "hidden";
+    overlay.innerHTML = `
+      <div class="phase-complete-inner">
+        <span>FASE COMPLETA</span>
+        <b id="phase-complete-name">Crypto Legends</b>
+        <small id="phase-complete-next">Próxima operação sincronizada</small>
+      </div>
+    `;
+    document.getElementById("game-shell").appendChild(overlay);
+  }
+
+  function flashGold() {
+    const flash = document.getElementById("gold-flash");
+    if (!flash) return;
+    flash.classList.remove("pulse");
+    void flash.offsetWidth;
+    flash.classList.add("pulse");
+  }
+
+  function showPhaseComplete(oldPhase, nextPhase) {
+    const overlay = document.getElementById("phase-complete");
+    if (!overlay) return;
+    document.getElementById("phase-complete-name").textContent = oldPhase?.name || "Fase completa";
+    document.getElementById("phase-complete-next").textContent = nextPhase ? `Próximo: ${nextPhase.name}` : "Operação concluída";
+    overlay.classList.remove("hidden");
+    overlay.classList.remove("show");
+    void overlay.offsetWidth;
+    overlay.classList.add("show");
+    window.setTimeout(() => overlay.classList.add("hidden"), 2500);
+  }
+
   function startGame() {
     document.getElementById("boot-screen").classList.add("hidden");
     started = true;
     audio.unlock();
     world.player = new CryptoApex.Player(scene, selectedHero);
     CryptoApex.missions.showDialogue("Rede", CryptoApex.missions.currentPhase().lesson);
-    CryptoApex.economy.addItem({
-      type: "arma",
-      weaponKey: "rifle",
-      name: "Rifle da Descentralização",
-      rarity: "Comum",
-      nft: true,
-      lesson: "Primeira arma construída para resistir à inflação."
-    });
-    CryptoApex.missions.showLesson("firstWeapon");
+    const restored = restoreCurrentSave(true);
+    if (!restored) {
+      CryptoApex.economy.addItem({
+        type: "arma",
+        weaponKey: "rifle",
+        name: "Rifle da Descentralização",
+        rarity: "Comum",
+        nft: true,
+        lesson: "Primeira arma construída para resistir à inflação."
+      });
+      CryptoApex.missions.showLesson("firstWeapon");
+    } else {
+      toast("Progresso restaurado.");
+    }
+  }
+
+  function restoreCurrentSave(force) {
+    const key = CryptoApex.economy.walletId();
+    if (!force && loadedSaveKey === key) return false;
+    if (!world.player) return false;
+    const restored = CryptoApex.economy.restoreGame(world, key);
+    if (restored) {
+      loadedSaveKey = key;
+      world.phase = CryptoApex.missions.currentPhase();
+      createArena(world.phase.key);
+      world.player.group.position.set(0, 0, 8);
+      renderInventory();
+      renderCrafting();
+      renderMarketplace();
+      renderLeaderboard();
+      updateHUD();
+    }
+    return restored;
   }
 
   function createLighting() {
@@ -207,6 +505,38 @@
     const rim = new THREE.PointLight(0x14f195, 1.2, 50);
     rim.position.set(-18, 8, -18);
     scene.add(rim);
+    const magenta = new THREE.PointLight(0xff6ac1, 0.9, 70);
+    magenta.position.set(28, 12, -34);
+    scene.add(magenta);
+    const gold = new THREE.PointLight(0xffd166, 0.75, 58);
+    gold.position.set(-30, 9, 24);
+    scene.add(gold);
+    createSkylineAtmosphere();
+  }
+
+  function createSkylineAtmosphere() {
+    const starGeo = new THREE.BufferGeometry();
+    const positions = [];
+    for (let i = 0; i < 520; i += 1) {
+      const radius = 80 + Math.random() * 180;
+      const angle = Math.random() * Math.PI * 2;
+      positions.push(Math.cos(angle) * radius, 22 + Math.random() * 80, Math.sin(angle) * radius);
+    }
+    starGeo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x9ffaff, size: 0.5, transparent: true, opacity: 0.65 }));
+    scene.add(stars);
+    world.skyObjects.push(stars);
+
+    for (let i = 0; i < 7; i += 1) {
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(28 + i * 10, 0.018, 6, 96),
+        new THREE.MeshBasicMaterial({ color: i % 2 ? 0x14f195 : 0x5df2ff, transparent: true, opacity: 0.08 })
+      );
+      ring.rotation.x = Math.PI / 2;
+      ring.position.y = 0.04 + i * 0.012;
+      scene.add(ring);
+      world.skyObjects.push(ring);
+    }
   }
 
   function clearArena() {
@@ -321,6 +651,28 @@
       scene.add(tower);
       world.buildings.push(tower);
     }
+    for (let i = 0; i < 14; i += 1) {
+      const sign = new THREE.Group();
+      const color = i % 3 === 0 ? 0xffd166 : i % 3 === 1 ? 0x14f195 : 0x5df2ff;
+      const frame = new THREE.Mesh(new THREE.BoxGeometry(3.8, 1.1, 0.08), new THREE.MeshStandardMaterial({
+        color: 0x101a20,
+        metalness: 0.35,
+        roughness: 0.28,
+        emissive: color,
+        emissiveIntensity: 0.12
+      }));
+      frame.castShadow = true;
+      sign.add(frame);
+      const stripe = createNeonStrip(3.1, 0.08, color);
+      stripe.position.z = -0.07;
+      sign.add(stripe);
+      const ring = 46 + Math.random() * 54;
+      const ang = Math.random() * Math.PI * 2;
+      sign.position.set(Math.cos(ang) * ring, 4 + Math.random() * 7, Math.sin(ang) * ring);
+      sign.lookAt(0, sign.position.y, 0);
+      scene.add(sign);
+      world.buildings.push(sign);
+    }
     if (mint) {
       const printer = new THREE.Mesh(new THREE.BoxGeometry(7, 5, 5), new THREE.MeshStandardMaterial({ color: 0x4a3940, metalness: 0.2 }));
       printer.position.set(0, 2.5, -22);
@@ -355,6 +707,24 @@
     terminal.position.set(4, 0.7, -6);
     scene.add(terminal);
     world.buildings.push(terminal);
+
+    const crafting = new THREE.Group();
+    const benchMat = new THREE.MeshStandardMaterial({ color: 0x263b44, metalness: 0.24, roughness: 0.36 });
+    const glowMat = new THREE.MeshStandardMaterial({ color: 0xffd166, emissive: 0xffd166, emissiveIntensity: 0.48 });
+    const bench = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.55, 1.2), benchMat);
+    bench.position.y = 0.42;
+    bench.castShadow = true;
+    crafting.add(bench);
+    const holo = new THREE.Mesh(new THREE.OctahedronGeometry(0.48, 1), glowMat);
+    holo.position.set(0, 1.18, 0);
+    crafting.add(holo);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.78, 0.03, 8, 32), new THREE.MeshBasicMaterial({ color: 0xffd166, transparent: true, opacity: 0.72 }));
+    ring.position.y = 1.18;
+    ring.rotation.x = Math.PI / 2;
+    crafting.add(ring);
+    crafting.position.set(-4, 0, -6);
+    scene.add(crafting);
+    world.buildings.push(crafting);
 
     const shop = new THREE.Mesh(new THREE.BoxGeometry(2.8, 2.3, 1.2), new THREE.MeshStandardMaterial({ color: 0xffd166, emissive: 0x553900, emissiveIntensity: 0.2 }));
     shop.position.set(11, 1.15, 4);
@@ -575,7 +945,25 @@
         jump: () => tone(260, 0.12, "sine", 0.025, 540),
         ability: () => tone(520, 0.2, "triangle", 0.04, 1040),
         shield: () => tone(320, 0.35, "sine", 0.035, 680),
-        explosion: () => tone(70, 0.3, "sawtooth", 0.055, 35)
+        explosion: () => tone(70, 0.3, "sawtooth", 0.055, 35),
+        buy: () => {
+          tone(660, 0.08, "sine", 0.035, 990);
+          window.setTimeout(() => tone(880, 0.08, "sine", 0.03, 1320), 70);
+          window.setTimeout(() => tone(1170, 0.1, "triangle", 0.026, 1560), 140);
+        },
+        levelup: () => {
+          tone(392, 0.16, "triangle", 0.035, 784);
+          window.setTimeout(() => tone(523, 0.16, "triangle", 0.032, 1046), 110);
+          window.setTimeout(() => tone(784, 0.22, "sine", 0.038, 1568), 220);
+        },
+        boss: () => {
+          tone(92, 0.38, "sawtooth", 0.05, 46);
+          window.setTimeout(() => tone(138, 0.28, "square", 0.035, 69), 180);
+        },
+        pickup: () => {
+          tone(1040, 0.07, "sine", 0.03, 1560);
+          window.setTimeout(() => tone(1320, 0.08, "sine", 0.026, 1760), 60);
+        }
       };
       map[name]?.();
     }
@@ -661,6 +1049,8 @@
     const pos = world.player.group.position.clone().add(world.cameraForward.clone().multiplyScalar(25));
     const enemy = new CryptoApex.enemies.Enemy(scene, key, pos);
     world.enemies.push(enemy);
+    audio.play("boss");
+    addCameraShake(0.3);
     toast(`${enemy.def.label} entrou na arena.`);
   }
 
@@ -752,18 +1142,25 @@
     world.loots = world.loots.filter((entry) => entry !== lootObj);
     if (loot.type === "cred") {
       CryptoApex.economy.addCred(loot.amount, "loot");
+      createPickupBurst(lootObj.position, 0xffd166, 18);
+      audio.play("pickup");
     } else if (loot.type === "fragment") {
       const total = CryptoApex.economy.addFragment(loot.fragmentKey, loot.amount);
       toast(`${loot.name}: ${total}`);
       tryFuseWeapon(loot.fragmentKey);
+      createPickupBurst(lootObj.position, CryptoApex.economy.rarityColors[loot.rarity] || 0x5df2ff, loot.rarity === "Raro" || loot.rarity === "Lendario" ? 28 : 16);
+      audio.play(loot.rarity === "Raro" || loot.rarity === "Lendario" ? "pickup" : "coin");
     } else if (loot.type === "weapon") {
       world.player.unlockWeapon(loot.weaponKey);
       CryptoApex.economy.addItem(loot);
+      createPickupBurst(lootObj.position, 0x7b8cff, 26);
     } else if (loot.type === "emblema") {
       CryptoApex.economy.addCred(loot.amount || 0, "boss final");
       CryptoApex.economy.addItem(loot);
+      createPickupBurst(lootObj.position, 0xffd166, 32);
     } else {
       CryptoApex.economy.addItem(loot);
+      createPickupBurst(lootObj.position, 0x5df2ff, 18);
     }
     if (loot.lesson) dialogue("Rede", loot.lesson);
     audio.play("coin");
@@ -791,6 +1188,7 @@
 
   function updateWorld(dt) {
     world.elapsed += dt;
+    updateSkyObjects(dt);
     world.phase = CryptoApex.missions.currentPhase();
     world.difficulty = 1 + CryptoApex.missions.state.totalTime / 1200;
     CryptoApex.missions.update(dt, world);
@@ -810,10 +1208,16 @@
     updateTurrets(dt);
     updateTraps(dt);
     updateShields(dt);
+    updatePlayerAura(dt);
     updateTransient(dt);
     handleInteraction();
     updateRadar();
     updateHUD();
+    saveTimer += dt;
+    if (saveTimer >= 3) {
+      saveTimer = 0;
+      CryptoApex.economy.saveGame(world);
+    }
   }
 
   function updateLoot(dt) {
@@ -875,10 +1279,77 @@
     });
   }
 
+  function ensurePlayerAura() {
+    if (world.playerAura) return world.playerAura;
+    const aura = new THREE.Group();
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0x14f195, transparent: true, opacity: 0.42, side: THREE.DoubleSide });
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.05, 0.025, 10, 48), ringMat);
+    ring.rotation.x = Math.PI / 2;
+    aura.add(ring);
+    const halo = new THREE.Mesh(
+      new THREE.SphereGeometry(1.16, 24, 14),
+      new THREE.MeshBasicMaterial({ color: 0x5df2ff, transparent: true, opacity: 0.08, wireframe: true })
+    );
+    aura.add(halo);
+    aura.visible = false;
+    scene.add(aura);
+    world.playerAura = aura;
+    return aura;
+  }
+
+  function updatePlayerAura(dt) {
+    if (!world.player) return;
+    const active = CryptoApex.economy.isBoostActive("shield") ||
+      CryptoApex.economy.isBoostActive("speed") ||
+      CryptoApex.economy.isBoostActive("regen") ||
+      CryptoApex.economy.isBoostActive("infiniteAmmo");
+    const aura = ensurePlayerAura();
+    aura.visible = active;
+    if (!active) return;
+    aura.position.copy(world.player.group.position).add(new THREE.Vector3(0, 1.02, 0));
+    aura.rotation.y += dt * 1.8;
+    aura.rotation.z += dt * 0.8;
+    const speed = CryptoApex.economy.isBoostActive("speed");
+    const shield = CryptoApex.economy.isBoostActive("shield");
+    aura.children.forEach((child) => {
+      if (child.material) {
+        child.material.color.setHex(speed ? 0xffd166 : shield ? 0x5df2ff : 0x14f195);
+        child.material.opacity = child.geometry.type === "SphereGeometry" ? 0.08 : 0.36 + Math.sin(world.elapsed * 5) * 0.08;
+      }
+    });
+  }
+
+  function updateSkyObjects(dt) {
+    world.skyObjects.forEach((obj, index) => {
+      obj.rotation.y += dt * (0.01 + index * 0.0008);
+      if (obj.material && "opacity" in obj.material && obj.type === "Points") {
+        obj.material.opacity = 0.48 + Math.sin(world.elapsed * 0.5) * 0.12;
+      }
+    });
+  }
+
+  function createPickupBurst(position, color, count) {
+    for (let i = 0; i < count; i += 1) {
+      const particle = new THREE.Mesh(
+        new THREE.SphereGeometry(0.045 + Math.random() * 0.045, 8, 6),
+        new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9 })
+      );
+      particle.position.copy(position).add(new THREE.Vector3(0, 0.55, 0));
+      particle.userData.life = 0.65 + Math.random() * 0.35;
+      particle.userData.velocity = new THREE.Vector3(
+        (Math.random() - 0.5) * 3.6,
+        1.4 + Math.random() * 2.2,
+        (Math.random() - 0.5) * 3.6
+      );
+      scene.add(particle);
+    }
+  }
+
   function updateTransient(dt) {
     scene.children.slice().forEach((obj) => {
       if (obj.userData && typeof obj.userData.life === "number" && !world.turrets.includes(obj) && !world.traps.includes(obj) && !world.shields.includes(obj)) {
         obj.userData.life -= dt;
+        if (obj.userData.velocity) obj.position.addScaledVector(obj.userData.velocity, dt);
         if (obj.material && "opacity" in obj.material) obj.material.opacity = Math.max(0, obj.userData.life * 7);
         if (obj.userData.life <= 0) scene.remove(obj);
       }
@@ -954,6 +1425,9 @@
         document.getElementById("codex-panel").classList.toggle("hidden");
         renderChainItems();
         toast("Terminal da Cidadela aberto.");
+      } else if (pos.distanceTo(new THREE.Vector3(-4, 0, -6)) < 4) {
+        openCrafting();
+        toast("Estação de crafting aberta.");
       } else if (pos.distanceTo(new THREE.Vector3(11, 0, 4)) < 4) {
         openStore();
         toast("Loja PIXC aberta.");
@@ -976,6 +1450,9 @@
     world.loots.forEach((loot) => scene.remove(loot));
     world.loots = [];
     if (world.player) world.player.group.position.set(0, 0, 8);
+    audio.play("levelup");
+    showPhaseComplete(oldPhase, phase);
+    CryptoApex.economy.saveGame(world);
     toast(phase.name);
   }
 
@@ -1021,6 +1498,10 @@
     document.getElementById("word-wallet-btn").classList.toggle("recommended", hasWord && type !== "phantom");
     if (CryptoApex.nft.state.connected) CryptoApex.nft.refreshPixcBalance().catch(() => {});
     renderStore();
+    renderCrafting();
+    renderMarketplace();
+    renderLeaderboard();
+    if (started && CryptoApex.nft.state.connected) restoreCurrentSave(false);
   }
 
   function renderInventory() {

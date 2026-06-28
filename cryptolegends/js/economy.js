@@ -73,6 +73,53 @@
     }
   ];
 
+  const craftRecipes = [
+    {
+      key: "epic-shield",
+      name: "Escudo Épico",
+      rarity: "Epico",
+      fragmentKey: "rifle",
+      fragmentLabel: "fragmentos comuns",
+      fragmentCost: 5,
+      pricePixc: 3,
+      effect: "Cria um módulo NFT de escudo e libera +35 escudo permanente."
+    },
+    {
+      key: "pow-shotgun-core",
+      name: "Núcleo Proof-of-Work",
+      rarity: "Raro",
+      fragmentKey: "shotgun",
+      fragmentLabel: "peças de escopeta",
+      fragmentCost: 4,
+      pricePixc: 4,
+      effect: "Funde peças para desbloquear a Escopeta Proof-of-Work."
+    },
+    {
+      key: "lightning-accelerator",
+      name: "Acelerador Lightning",
+      rarity: "Raro",
+      fragmentKey: "smg",
+      fragmentLabel: "fragmentos Lightning",
+      fragmentCost: 4,
+      pricePixc: 2.5,
+      effect: "Libera a SMG Lightning Network e melhora mobilidade."
+    },
+    {
+      key: "sovereign-vault",
+      name: "Cofre Soberano",
+      rarity: "Lendario",
+      fragmentKey: "revolver",
+      fragmentLabel: "fragmentos Cold Wallet",
+      fragmentCost: 3,
+      pricePixc: 6,
+      effect: "Cria item NFT pendente que representa autocustódia."
+    }
+  ];
+
+  const MARKET_KEY = "cryptoLegends.market.v3";
+  const SAVE_PREFIX = "cryptoLegends.save.v3.";
+  const LEADERBOARD_KEY = "cryptoLegends.leaderboard.v3";
+
   const state = {
     cred: 0,
     lifetimeCred: 0,
@@ -83,10 +130,14 @@
     pendingMints: [],
     minted: [],
     storePurchases: [],
+    crafted: [],
+    marketSales: [],
+    bossVouchers: [],
     activeBoosts: {},
     reviveCharges: 0,
     goldenSkin: false,
     legendaryWeapon: false,
+    permanentShieldBonus: 0,
     house: { rooms: 1, items: [] }
   };
 
@@ -326,6 +377,10 @@
     const player = world?.player;
     if (!player) return;
     if (state.goldenSkin) applyGoldenSkin(player);
+    if (state.permanentShieldBonus > 0) {
+      player.baseMaxShield = Math.max(player.baseMaxShield, 90 + state.permanentShieldBonus);
+      player.maxShield = Math.max(player.maxShield, player.baseMaxShield);
+    }
     if (isBoostActive("shield")) {
       player.maxShield = Math.max(player.maxShield, player.baseMaxShield + 50);
     } else if (player.maxShield > player.baseMaxShield) {
@@ -337,11 +392,296 @@
     }
   }
 
+  function canCraft(recipeKey) {
+    const recipe = craftRecipes.find((entry) => entry.key === recipeKey);
+    if (!recipe) return { ok: false, reason: "Receita não encontrada." };
+    const owned = state.fragments[recipe.fragmentKey] || 0;
+    if (owned < recipe.fragmentCost) {
+      return { ok: false, reason: `Faltam ${recipe.fragmentCost - owned} fragmentos.` };
+    }
+    return { ok: true, recipe };
+  }
+
+  function applyCraftRecipe(recipeKey, receipt) {
+    const check = canCraft(recipeKey);
+    if (!check.ok) {
+      window.CryptoApex?.ui?.toast?.(check.reason);
+      return false;
+    }
+    const recipe = check.recipe;
+    state.fragments[recipe.fragmentKey] -= recipe.fragmentCost;
+    state.crafted.unshift({
+      key: recipe.key,
+      name: recipe.name,
+      signature: receipt?.signature || null,
+      pricePixc: recipe.pricePixc,
+      at: new Date().toISOString()
+    });
+    if (recipe.key === "epic-shield") {
+      state.permanentShieldBonus = Math.max(state.permanentShieldBonus, 35);
+      if (window.__CryptoApexWorld?.player) {
+        const player = window.__CryptoApexWorld.player;
+        player.baseMaxShield = Math.max(player.baseMaxShield, 90 + state.permanentShieldBonus);
+        player.maxShield = Math.max(player.maxShield, player.baseMaxShield);
+        player.shield = player.maxShield;
+      }
+    } else if (recipe.key === "pow-shotgun-core") {
+      window.__CryptoApexWorld?.player?.unlockWeapon?.("shotgun");
+    } else if (recipe.key === "lightning-accelerator") {
+      window.__CryptoApexWorld?.player?.unlockWeapon?.("smg");
+      setBoost("speed", 60);
+    }
+    addItem({
+      type: "craft",
+      weaponKey: recipe.key === "pow-shotgun-core" ? "shotgun" : recipe.key === "lightning-accelerator" ? "smg" : undefined,
+      name: recipe.name,
+      rarity: recipe.rarity,
+      nft: true,
+      pixcSignature: receipt?.signature || null,
+      pixcReceipt: receipt || null,
+      lesson: "Crafting une trabalho coletado no jogo com PIXC on-chain, criando um item escasso e rastreável."
+    });
+    window.CryptoApex?.ui?.toast?.(`Craft concluído: ${recipe.name}`);
+    window.CryptoApex?.ui?.renderCrafting?.();
+    window.CryptoApex?.ui?.renderInventory?.();
+    window.CryptoApex?.ui?.flashGold?.();
+    window.__CryptoApexWorld?.audio?.play?.("buy");
+    return true;
+  }
+
+  function readJson(key, fallback) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (err) {
+      return fallback;
+    }
+  }
+
+  function writeJson(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  function walletId() {
+    return window.CryptoApex?.nft?.state?.publicKeyString ||
+      window.CryptoApex?.nft?.state?.publicKey?.toString?.() ||
+      "local-player";
+  }
+
+  function saveKeyForWallet(id) {
+    return `${SAVE_PREFIX}${id || walletId()}`;
+  }
+
+  function getMarketplaceListings() {
+    return readJson(MARKET_KEY, []).filter((entry) => !entry.sold);
+  }
+
+  function saveMarketplaceListings(listings) {
+    writeJson(MARKET_KEY, listings);
+    window.CryptoApex?.ui?.renderMarketplace?.();
+  }
+
+  function listMarketItem(itemId, pricePixc) {
+    const seller = walletId();
+    if (!window.CryptoApex?.nft?.state?.connected || seller === "local-player") {
+      window.CryptoApex?.ui?.toast?.("Conecte uma carteira para listar no mercado P2P.");
+      return false;
+    }
+    const item = state.inventory.find((entry) => entry.id === itemId);
+    const price = Number(pricePixc);
+    if (!item || !Number.isFinite(price) || price <= 0) {
+      window.CryptoApex?.ui?.toast?.("Item ou preço inválido.");
+      return false;
+    }
+    const listings = getMarketplaceListings();
+    const listing = {
+      id: `listing-${Date.now()}-${Math.floor(Math.random() * 99999)}`,
+      seller,
+      sellerShort: `${seller.slice(0, 4)}...${seller.slice(-4)}`,
+      pricePixc: Math.round(price * 100) / 100,
+      item: {
+        id: item.id,
+        type: item.type,
+        name: item.name,
+        rarity: item.rarity || "Comum",
+        weaponKey: item.weaponKey || null,
+        nft: Boolean(item.nft)
+      },
+      createdAt: new Date().toISOString()
+    };
+    listings.unshift(listing);
+    saveMarketplaceListings(listings);
+    window.CryptoApex?.ui?.toast?.(`Listado: ${item.name}`);
+    return listing;
+  }
+
+  function completeMarketPurchase(listingId, receipt) {
+    const listings = readJson(MARKET_KEY, []);
+    const listing = listings.find((entry) => entry.id === listingId && !entry.sold);
+    if (!listing) return null;
+    listing.sold = true;
+    listing.buyer = walletId();
+    listing.signature = receipt?.signature || null;
+    listing.soldAt = new Date().toISOString();
+    writeJson(MARKET_KEY, listings);
+    state.marketSales.unshift(listing);
+    const boughtItem = { ...listing.item };
+    delete boughtItem.id;
+    addItem({
+      ...boughtItem,
+      nft: true,
+      marketSignature: receipt?.signature || null,
+      marketReceipt: receipt || null,
+      lesson: "Mercados P2P permitem que jogadores negociem propriedade digital sem loja centralizada."
+    });
+    window.CryptoApex?.ui?.toast?.(`Compra P2P confirmada: ${listing.item.name}`);
+    window.CryptoApex?.ui?.renderMarketplace?.();
+    window.CryptoApex?.ui?.renderInventory?.();
+    window.CryptoApex?.ui?.flashGold?.();
+    window.__CryptoApexWorld?.audio?.play?.("buy");
+    return listing;
+  }
+
+  function addBossVoucher(classKey) {
+    const label = classKey === "finalBoss" ? "Senador" : "Tesoureiro";
+    const voucher = addItem({
+      type: "voucher",
+      name: `Vale 0.50 PIXC - ${label}`,
+      rarity: classKey === "finalBoss" ? "Lendario" : "Epico",
+      nft: true,
+      amountPixc: 0.5,
+      redeemStatus: "backend-pendente",
+      lesson: "O escrow não assina no navegador. Este vale registra a recompensa para resgate futuro via backend."
+    });
+    state.bossVouchers.unshift(voucher);
+    window.CryptoApex?.ui?.toast?.("Voucher PIXC pendente: 0.50 PIXC");
+    return voucher;
+  }
+
+  function updateLeaderboard(world) {
+    const id = walletId();
+    const hero = world?.player?.heroKey || "satoshi";
+    const rows = readJson(LEADERBOARD_KEY, []);
+    const existing = rows.find((entry) => entry.id === id);
+    const score = state.lifetimeCred;
+    if (existing) {
+      existing.score = Math.max(existing.score || 0, score);
+      existing.hero = hero;
+      existing.updatedAt = new Date().toISOString();
+    } else {
+      rows.push({
+        id,
+        name: id === "local-player" ? "Jogador Local" : `${id.slice(0, 4)}...${id.slice(-4)}`,
+        hero,
+        score,
+        updatedAt: new Date().toISOString()
+      });
+    }
+    rows.sort((a, b) => b.score - a.score);
+    writeJson(LEADERBOARD_KEY, rows.slice(0, 20));
+    window.CryptoApex?.ui?.renderLeaderboard?.();
+  }
+
+  function getLeaderboard() {
+    const rows = readJson(LEADERBOARD_KEY, []);
+    rows.sort((a, b) => b.score - a.score);
+    return rows.slice(0, 10);
+  }
+
+  function makeSavePayload(world) {
+    const player = world?.player;
+    return {
+      version: 3,
+      wallet: walletId(),
+      savedAt: new Date().toISOString(),
+      missions: {
+        phaseIndex: window.CryptoApex?.missions?.state?.phaseIndex || 0,
+        phaseTime: window.CryptoApex?.missions?.state?.phaseTime || 0,
+        totalTime: window.CryptoApex?.missions?.state?.totalTime || 0,
+        finalBossDefeated: Boolean(window.CryptoApex?.missions?.state?.finalBossDefeated)
+      },
+      economy: {
+        cred: state.cred,
+        lifetimeCred: state.lifetimeCred,
+        inventory: state.inventory.slice(0, 60),
+        fragments: state.fragments,
+        pendingMints: state.pendingMints.slice(0, 60),
+        minted: state.minted.slice(0, 30),
+        house: state.house,
+        goldenSkin: state.goldenSkin,
+        legendaryWeapon: state.legendaryWeapon,
+        permanentShieldBonus: state.permanentShieldBonus,
+        reviveCharges: state.reviveCharges,
+        crafted: state.crafted.slice(0, 30),
+        bossVouchers: state.bossVouchers.slice(0, 20)
+      },
+      player: player ? {
+        heroKey: player.heroKey,
+        unlockedWeapons: player.unlockedWeapons,
+        weaponIndex: player.weaponIndex,
+        doubleJump: player.doubleJump
+      } : null
+    };
+  }
+
+  function saveGame(world) {
+    const payload = makeSavePayload(world);
+    writeJson(saveKeyForWallet(payload.wallet), payload);
+    updateLeaderboard(world);
+    return payload;
+  }
+
+  function loadGameData(id) {
+    return readJson(saveKeyForWallet(id), null);
+  }
+
+  function restoreGame(world, id) {
+    const data = loadGameData(id || walletId());
+    if (!data || data.version !== 3) return false;
+    const eco = data.economy || {};
+    state.cred = Number(eco.cred || 0);
+    state.lifetimeCred = Number(eco.lifetimeCred || 0);
+    state.inventory = Array.isArray(eco.inventory) ? eco.inventory : [];
+    state.fragments = eco.fragments || {};
+    state.pendingMints = Array.isArray(eco.pendingMints) ? eco.pendingMints : [];
+    state.minted = Array.isArray(eco.minted) ? eco.minted : [];
+    state.house = eco.house || { rooms: 1, items: [] };
+    state.goldenSkin = Boolean(eco.goldenSkin);
+    state.legendaryWeapon = Boolean(eco.legendaryWeapon);
+    state.permanentShieldBonus = Number(eco.permanentShieldBonus || 0);
+    state.reviveCharges = Number(eco.reviveCharges || 0);
+    state.crafted = Array.isArray(eco.crafted) ? eco.crafted : [];
+    state.bossVouchers = Array.isArray(eco.bossVouchers) ? eco.bossVouchers : [];
+    if (window.CryptoApex?.missions && data.missions) {
+      Object.assign(window.CryptoApex.missions.state, data.missions);
+    }
+    const playerData = data.player;
+    if (world?.player && playerData) {
+      playerData.unlockedWeapons?.forEach((key) => world.player.unlockWeapon?.(key));
+      world.player.weaponIndex = Math.min(playerData.weaponIndex || 0, world.player.unlockedWeapons.length - 1);
+      world.player.doubleJump = Boolean(playerData.doubleJump);
+      world.player.setWeapon?.(world.player.weaponIndex);
+      if (state.goldenSkin) applyGoldenSkin(world.player);
+    }
+    window.CryptoApex?.ui?.renderInventory?.();
+    window.CryptoApex?.ui?.renderCrafting?.();
+    window.CryptoApex?.ui?.renderMarketplace?.();
+    window.CryptoApex?.ui?.renderLeaderboard?.();
+    window.CryptoApex?.ui?.updateHUD?.();
+    return true;
+  }
+
   window.CryptoApex = window.CryptoApex || {};
   window.CryptoApex.economy = {
     state,
     rarityColors,
     storeCatalog,
+    craftRecipes,
     addCred,
     spendCred,
     addFragment,
@@ -356,6 +696,18 @@
     boostRemaining,
     hasInfiniteAmmo,
     speedMultiplier,
-    consumeRevive
+    consumeRevive,
+    canCraft,
+    applyCraftRecipe,
+    getMarketplaceListings,
+    listMarketItem,
+    completeMarketPurchase,
+    addBossVoucher,
+    updateLeaderboard,
+    getLeaderboard,
+    saveGame,
+    loadGameData,
+    restoreGame,
+    walletId
   };
 })();

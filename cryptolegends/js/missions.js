@@ -152,6 +152,7 @@
     if (classKey === "finalBoss") {
       state.finalBossDefeated = true;
       window.CryptoApex.economy.addCred(1000, "vitória final");
+      window.CryptoApex.economy.addBossVoucher("finalBoss");
       window.CryptoApex.economy.addItem({
         type: "emblema",
         name: "Emblema Lendário da Liberdade",
@@ -162,6 +163,7 @@
       showDialogue("Rede", "Boss final derrotado. O endgame continua com ondas infinitas para farmar CRED, fragmentos e NFTs.");
     }
     if (classKey === "boss") {
+      window.CryptoApex.economy.addBossVoucher("boss");
       window.CryptoApex.economy.addItem({
         type: "chave",
         name: "Chave da Cidadela",
