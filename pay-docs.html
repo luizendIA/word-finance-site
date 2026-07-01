@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentacao WordFinance Pay | API USDC Solana</title>
+    <meta name="description" content="Documentacao para integrar WordFinance Pay em WooCommerce, SaaS, marketplaces e checkouts proprios. Receba USDC Solana direto na carteira.">
+    <link rel="canonical" href="https://wordfinance.org/pay-docs.html">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#080c14; --surface:#0f1520; --surface-2:#151d2e; --border:rgba(247,147,26,0.18); --text:#e8ecf2; --text-dim:#8b96aa; --btc:#f7931a; --green:#10b981; }
+        * { box-sizing:border-box; margin:0; padding:0; }
+        body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text); line-height:1.65; }
+        nav { position:sticky; top:0; z-index:10; padding:16px 6%; background:rgba(8,12,20,0.94); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; gap:18px; align-items:center; }
+        .logo { color:var(--text); text-decoration:none; font-weight:900; font-size:1.25rem; }
+        .logo span { color:var(--btc); }
+        .nav-links { display:flex; gap:18px; flex-wrap:wrap; }
+        .nav-links a { color:var(--text-dim); text-decoration:none; }
+        .nav-links a:hover { color:var(--btc); }
+        main { width:min(1040px,100%); margin:0 auto; padding:70px 20px; }
+        .eyebrow { color:var(--btc); font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:2px; font-size:0.75rem; margin-bottom:14px; }
+        h1 { font-size:clamp(2.2rem,5vw,4.5rem); line-height:1; margin-bottom:18px; letter-spacing:-1px; }
+        h2 { font-size:clamp(1.5rem,3vw,2.2rem); margin:46px 0 14px; }
+        p { color:var(--text-dim); margin-bottom:14px; max-width:780px; }
+        a { color:var(--btc); }
+        .hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin:28px 0 42px; }
+        .btn { min-height:46px; display:inline-flex; align-items:center; justify-content:center; padding:12px 20px; border-radius:8px; font-weight:800; text-decoration:none; }
+        .btn-primary { background:var(--btc); color:#080c14; }
+        .btn-secondary { border:1px solid var(--border); color:var(--text); }
+        .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin:20px 0; }
+        .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; }
+        .card strong { display:block; margin-bottom:8px; color:var(--text); }
+        pre { background:#060a12; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:18px; overflow:auto; color:#a5d6ff; font-family:'JetBrains Mono',monospace; font-size:0.82rem; line-height:1.7; margin:16px 0 24px; }
+        code { font-family:'JetBrains Mono',monospace; color:#a5d6ff; }
+        table { width:100%; border-collapse:collapse; margin:18px 0 28px; background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; display:table; }
+        th,td { padding:12px; border-bottom:1px solid rgba(255,255,255,0.08); text-align:left; color:var(--text-dim); }
+        th { color:var(--text); background:var(--surface-2); }
+        .notice { border:1px solid rgba(16,185,129,0.25); background:rgba(16,185,129,0.08); border-radius:12px; padding:18px; color:var(--text); }
+        footer { padding:34px 20px; border-top:1px solid var(--border); color:var(--text-dim); text-align:center; }
+        @media(max-width:760px){ .grid{grid-template-columns:1fr} nav{align-items:flex-start;flex-direction:column} }
+    </style>
+</head>
+<body>
+    <nav>
+        <a class="logo" href="/">Word<span>Finance</span></a>
+        <div class="nav-links">
+            <a href="/pay.html">WordFinance Pay</a>
+            <a href="/downloads/wordfinance-pay.zip">Baixar plugin</a>
+            <a href="/partners.html">Parceiros</a>
+        </div>
+    </nav>
+    <main>
+        <div class="eyebrow">Documentacao</div>
+        <h1>Integre USDC Solana no seu checkout.</h1>
+        <p>WordFinance Pay e um gateway nao-custodial. Ele cria cobrancas, exibe QR/deep link e notifica sua loja quando o pagamento e confirmado. O dinheiro vai direto para a carteira Solana do lojista.</p>
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="/downloads/wordfinance-pay.zip">Baixar plugin WooCommerce</a>
+            <a class="btn btn-secondary" href="https://wordfinance-gateway-production.up.railway.app/api/gateway/health">Ver health do gateway</a>
+        </div>
+
+        <section>
+            <h2>URL base</h2>
+            <pre>https://wordfinance-gateway-production.up.railway.app</pre>
+            <div class="notice">Para WooCommerce, cole esta URL no campo <strong>URL do Gateway</strong> do plugin.</div>
+        </section>
+
+        <section>
+            <h2>WooCommerce</h2>
+            <div class="grid">
+                <article class="card"><strong>1. Instale</strong><p>Envie a pasta/zip `wordfinance-pay` para o WordPress e ative o plugin.</p></article>
+                <article class="card"><strong>2. Configure</strong><p>Em WooCommerce > Pagamentos, cole a URL do gateway e sua carteira Solana.</p></article>
+                <article class="card"><strong>3. Salve</strong><p>O plugin registra automaticamente o Merchant ID.</p></article>
+                <article class="card"><strong>4. Venda</strong><p>O cliente escolhe Bitcoin & USDC e e redirecionado para a pagina de pagamento.</p></article>
+            </div>
+        </section>
+
+        <section>
+            <h2>Registrar lojista</h2>
+            <pre>POST /api/gateway/merchant/register
+Content-Type: application/json
+
+{
+  "name": "Minha loja",
+  "solanaWallet": "carteira_solana_do_lojista",
+  "webhookUrl": "https://minhaloja.com/wc-api/wf_confirm",
+  "platform": "woocommerce",
+  "siteUrl": "https://minhaloja.com"
+}</pre>
+        </section>
+
+        <section>
+            <h2>Criar cobranca</h2>
+            <pre>POST /api/gateway/charge
+Content-Type: application/json
+
+{
+  "merchantId": "wf_merch_xxx",
+  "amountBRL": 99.90,
+  "description": "Pedido #123",
+  "orderId": "123",
+  "customerEmail": "cliente@email.com",
+  "webhookUrl": "https://minhaloja.com/wc-api/wf_confirm",
+  "returnUrl": "https://minhaloja.com/obrigado"
+}</pre>
+        </section>
+
+        <section>
+            <h2>Resposta</h2>
+            <pre>{
+  "chargeId": "ch_xxx",
+  "status": "pending",
+  "paymentUrl": "https://wordfinance-gateway.../pay/ch_xxx",
+  "deepLink": "wordfinance://pay?...",
+  "totalUsdc": 18.54,
+  "merchantUsdc": 18.35,
+  "feeUsdc": 0.19
+}</pre>
+        </section>
+
+        <section>
+            <h2>Webhook enviado para a loja</h2>
+            <pre>{
+  "chargeId": "ch_xxx",
+  "orderId": "123",
+  "status": "paid",
+  "paymentMethod": "usdc",
+  "amountBRL": 99.90,
+  "totalUsdc": 18.54,
+  "merchantId": "wf_merch_xxx",
+  "provider": "wordfinance",
+  "txSignature": "assinatura_solana"
+}</pre>
+        </section>
+
+        <section>
+            <h2>Endpoints</h2>
+            <table>
+                <thead><tr><th>Metodo</th><th>Rota</th><th>Uso</th></tr></thead>
+                <tbody>
+                    <tr><td><code>GET</code></td><td><code>/api/gateway/health</code></td><td>Status do gateway</td></tr>
+                    <tr><td><code>POST</code></td><td><code>/api/gateway/merchant/register</code></td><td>Registrar lojista</td></tr>
+                    <tr><td><code>POST</code></td><td><code>/api/gateway/charge</code></td><td>Criar cobranca</td></tr>
+                    <tr><td><code>GET</code></td><td><code>/pay/:chargeId</code></td><td>Pagina de pagamento</td></tr>
+                    <tr><td><code>POST</code></td><td><code>/api/gateway/charge/:chargeId/check</code></td><td>Verificar pagamento</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>WordFinance Pay - aceite USDC Solana sem custodiar fundos.</footer>
+</body>
+</html>
