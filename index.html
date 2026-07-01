@@ -69,6 +69,16 @@
             font-weight:600; font-size:1rem; text-decoration:none; border:1px solid var(--border); transition:all 0.2s; }
         .btn-secondary:hover { border-color:var(--btc); color:var(--btc); }
 
+        .partners-strip { padding:72px 6%; background:linear-gradient(135deg, rgba(247,147,26,0.08), rgba(153,69,255,0.08)); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+        .partners-strip-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1.2fr 0.8fr; gap:32px; align-items:center; }
+        .partners-strip h2 { font-size:clamp(1.8rem,4vw,2.8rem); line-height:1.1; margin-bottom:14px; }
+        .partners-strip p { color:var(--text-dim); line-height:1.7; font-size:1rem; max-width:620px; }
+        .partners-actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:24px; }
+        .partners-mini-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+        .partners-mini-card { background:rgba(15,21,32,0.86); border:1px solid rgba(247,147,26,0.18); border-radius:12px; padding:18px; }
+        .partners-mini-card strong { display:block; margin-bottom:6px; }
+        .partners-mini-card span { color:var(--text-dim); font-size:0.84rem; line-height:1.4; }
+
         .stats { display:flex; justify-content:center; gap:60px; padding:0 6% 80px; flex-wrap:wrap; }
         .stat { text-align:center; }
         .stat-num { font-size:2.2rem; font-weight:900; color:var(--btc);
@@ -162,6 +172,8 @@
         @media(max-width:768px) {
             .nav-links { display:none; }
             .api-grid, .ai-grid { grid-template-columns:1fr; }
+            .partners-strip-inner { grid-template-columns:1fr; }
+            .partners-mini-grid { grid-template-columns:1fr; }
             .stats { gap:30px; }
             footer { flex-direction:column; text-align:center; }
         }
@@ -183,6 +195,7 @@
         <a href="#api">API</a>
         <a href="#ai-agents">Agentes IA</a>
         <a href="#pqc">Pos-Quantica</a>
+        <a href="partners.html">Parceiros</a>
         <a href="#download">Download</a>
         <a href="#investidores">Investidores</a>
         <a href="#roadmap">Roadmap</a>
@@ -203,6 +216,7 @@
     <p>Carteira soberana multi-moeda com Bitcoin Lightning, on-chain, Solana, USDC e PixCoin. API aberta para desenvolvedores e agentes de IA participarem da economia global.</p>
     <div class="hero-btns">
         <a href="#download" class="btn-primary">Baixar Word Finance</a>
+        <a href="partners.html" class="btn-secondary">Parceiros que aceitam</a>
         <a href="#api" class="btn-secondary">Documentacao API</a>
     </div>
 </section>
@@ -435,6 +449,26 @@ Roadmap Tecnológico
         </div>
     </div>
     <p style="margin-top:30px;font-size:0.85rem;color:var(--text-dim);">🌍 Em breve disponivel em 10+ idiomas: Ingles, Espanhol, Frances, Alemao, Japones, Chines, Arabe, Hindi, Russo e mais.</p>
+</section>
+
+<section class="partners-strip" id="parceiros">
+    <div class="partners-strip-inner">
+        <div>
+            <div class="section-label">Ecossistema</div>
+            <h2>Parceiros que aceitam WordFinance como pagamento.</h2>
+            <p>Jogos, experiencias digitais e produtos de IA que podem receber Bitcoin Lightning, USDC e ativos da rede WordFinance. Uma vitrine simples para mostrar onde a moeda ja ganha utilidade real.</p>
+            <div class="partners-actions">
+                <a href="partners.html" class="btn-primary">Ver parceiros</a>
+                <a href="docs.html" class="btn-secondary">Integrar meu negocio</a>
+            </div>
+        </div>
+        <div class="partners-mini-grid">
+            <div class="partners-mini-card"><strong>Jogos</strong><span>Reino PIXC, Crypto Legends e PIXC Quest em uma pagina propria.</span></div>
+            <div class="partners-mini-card"><strong>Skills IA</strong><span>Marketplace de Knowledge Skills para agentes trabalharem de verdade.</span></div>
+            <div class="partners-mini-card"><strong>Gateway</strong><span>Receba BTC Lightning e USDC com checkout cripto.</span></div>
+            <div class="partners-mini-card"><strong>SEO</strong><span>Pagina indexavel para o Google entender o ecossistema.</span></div>
+        </div>
+    </div>
 </section>
 
 <section class="receive-section">
@@ -760,29 +794,6 @@ html.translated-ltr,html.translated-rtl{margin-top:0!important;}
 </style>
 <!-- ========== FIM TRADUCAO ========== -->
 
-
-<!-- JOGOS EDUCATIVOS -->
-<section id="games" style="background:linear-gradient(135deg,#0a0a1a,#1a1a3a);padding:60px 20px;text-align:center">
-  <h2 style="color:#ffd700;font-size:28px;margin-bottom:10px">Jogos Educativos</h2>
-  <p style="color:#aaa;margin-bottom:30px;font-size:15px">Aprenda economia jogando. Gaste PIXC de verdade dentro dos jogos.</p>
-  <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:900px;margin:0 auto">
-    <a href="https://reino-pixc-production.up.railway.app" target="_blank" style="background:linear-gradient(135deg,#2a1a0a,#5a3a1a);border-radius:16px;padding:20px;width:260px;text-decoration:none;border:1px solid #5a3a1a">
-      <div style="font-size:32px;margin-bottom:8px">&#9876;</div>
-      <div style="color:#ffd700;font-weight:700;font-size:17px">Reino PIXC</div>
-      <div style="color:#d4a76a;font-size:12px;margin-top:6px">MMO 3D multiplayer. Explore 5 biomas, lute, negocie e aprenda economia austriaca.</div>
-    </a>
-    <a href="https://wordfinance.org/cryptolegends/" target="_blank" style="background:linear-gradient(135deg,#0a1628,#1a2d5a);border-radius:16px;padding:20px;width:260px;text-decoration:none;border:1px solid #1a2d5a">
-      <div style="font-size:32px;margin-bottom:8px">&#9876;</div>
-      <div style="color:#5df2ff;font-weight:700;font-size:17px">Crypto Legends</div>
-      <div style="color:#98f5d4;font-size:12px;margin-top:6px">TPS 3D. Lute contra a inflacao, colete NFTs e gaste PIXC na loja.</div>
-    </a>
-    <a href="https://game.wordfinance.org" target="_blank" style="background:linear-gradient(135deg,#2d5016,#4a8c2a);border-radius:16px;padding:20px;width:260px;text-decoration:none;border:1px solid #4a8c2a">
-      <div style="font-size:32px;margin-bottom:8px">P</div>
-      <div style="color:#c8e6c9;font-weight:700;font-size:17px">PIXC Quest</div>
-      <div style="color:#a5d6a7;font-size:12px;margin-top:6px">RPG 2D top-down. Colete recursos, construa e aprenda economia.</div>
-    </a>
-  </div>
-</section>
 
 </body>
 </html>

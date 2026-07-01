@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parceiros que aceitam WordFinance | Jogos, Skills IA e Pagamentos Cripto</title>
+    <meta name="description" content="Conheca jogos, experiencias digitais e marketplaces que aceitam WordFinance como pagamento com Bitcoin Lightning, USDC e PIXC.">
+    <meta name="keywords" content="WordFinance parceiros, aceitar Bitcoin Lightning, aceitar USDC, jogos PIXC, marketplace skills IA, pagamentos cripto">
+    <link rel="canonical" href="https://wordfinance.org/partners.html">
+    <meta property="og:title" content="Parceiros que aceitam WordFinance">
+    <meta property="og:description" content="Jogos, experiencias digitais e Knowledge Skills de IA no ecossistema WordFinance Pay.">
+    <meta property="og:url" content="https://wordfinance.org/partners.html">
+    <meta property="og:type" content="website">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:#080c14;
+            --surface:#0f1520;
+            --surface-2:#151d2e;
+            --border:rgba(247,147,26,0.18);
+            --text:#e8ecf2;
+            --text-dim:#8b96aa;
+            --btc:#f7931a;
+            --ln:#ffd166;
+            --sol:#9945ff;
+            --green:#10b981;
+            --blue:#3b82f6;
+        }
+        * { box-sizing:border-box; margin:0; padding:0; }
+        html { scroll-behavior:smooth; }
+        body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
+        a { color:inherit; }
+        nav { position:fixed; top:0; width:100%; z-index:100; padding:16px 6%; background:rgba(8,12,20,0.93); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; gap:18px; }
+        .logo { font-size:1.35rem; font-weight:800; text-decoration:none; letter-spacing:-0.4px; }
+        .logo span { color:var(--btc); }
+        .nav-links { display:flex; gap:22px; align-items:center; }
+        .nav-links a { color:var(--text-dim); text-decoration:none; font-size:0.9rem; }
+        .nav-links a:hover { color:var(--btc); }
+        .nav-cta { background:var(--btc); color:#080c14 !important; padding:9px 18px; border-radius:8px; font-weight:800; }
+        .hero { padding:150px 6% 76px; position:relative; overflow:hidden; }
+        .hero::before { content:''; position:absolute; inset:-20% -10% auto auto; width:620px; height:620px; background:radial-gradient(circle, rgba(247,147,26,0.22), transparent 70%); pointer-events:none; }
+        .wrap { width:min(1120px,100%); margin:0 auto; position:relative; }
+        .eyebrow { display:inline-flex; align-items:center; gap:8px; color:var(--btc); border:1px solid var(--border); background:rgba(247,147,26,0.08); padding:7px 14px; border-radius:999px; font-family:'JetBrains Mono',monospace; font-size:0.75rem; text-transform:uppercase; letter-spacing:1.8px; margin-bottom:22px; }
+        h1 { font-size:clamp(2.4rem,6vw,4.8rem); line-height:0.98; letter-spacing:-1px; max-width:880px; margin-bottom:24px; }
+        .gradient { background:linear-gradient(135deg,var(--btc),var(--ln),var(--sol)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .lead { color:var(--text-dim); font-size:1.16rem; line-height:1.75; max-width:720px; margin-bottom:34px; }
+        .actions { display:flex; gap:12px; flex-wrap:wrap; }
+        .btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:13px 24px; border-radius:8px; text-decoration:none; font-weight:800; transition:all 0.2s; border:1px solid transparent; }
+        .btn-primary { background:var(--btc); color:#080c14; box-shadow:0 0 36px rgba(247,147,26,0.26); }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 52px rgba(247,147,26,0.34); }
+        .btn-secondary { border-color:var(--border); color:var(--text); background:rgba(15,21,32,0.55); }
+        .btn-secondary:hover { border-color:var(--btc); color:var(--btc); }
+        section { padding:76px 6%; }
+        .section-head { max-width:780px; margin-bottom:34px; }
+        .section-label { font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--btc); letter-spacing:2.4px; text-transform:uppercase; margin-bottom:10px; }
+        .section-title { font-size:clamp(1.8rem,4vw,3rem); line-height:1.08; margin-bottom:14px; letter-spacing:-0.6px; }
+        .section-desc { color:var(--text-dim); line-height:1.75; font-size:1rem; }
+        .trust-row { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-top:46px; }
+        .trust-card { background:rgba(15,21,32,0.78); border:1px solid var(--border); border-radius:12px; padding:18px; }
+        .trust-card strong { display:block; color:var(--text); font-size:1.2rem; margin-bottom:5px; }
+        .trust-card span { color:var(--text-dim); font-size:0.86rem; }
+        .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+        .partner-card { min-height:360px; background:linear-gradient(180deg,rgba(21,29,46,0.98),rgba(12,17,28,0.98)); border:1px solid rgba(255,255,255,0.08); border-radius:14px; overflow:hidden; text-decoration:none; display:flex; flex-direction:column; transition:transform 0.22s,border-color 0.22s; }
+        .partner-card:hover { transform:translateY(-5px); border-color:var(--btc); }
+        .card-art { min-height:138px; padding:22px; display:flex; flex-direction:column; justify-content:space-between; background:linear-gradient(135deg,rgba(247,147,26,0.2),rgba(153,69,255,0.18)); }
+        .card-art.blue { background:linear-gradient(135deg,rgba(59,130,246,0.24),rgba(16,185,129,0.16)); }
+        .card-art.green { background:linear-gradient(135deg,rgba(16,185,129,0.22),rgba(247,147,26,0.12)); }
+        .card-art.purple { background:linear-gradient(135deg,rgba(153,69,255,0.3),rgba(247,147,26,0.16)); }
+        .badge { align-self:flex-start; background:rgba(8,12,20,0.72); border:1px solid rgba(255,255,255,0.14); color:var(--text); padding:5px 10px; border-radius:999px; font-family:'JetBrains Mono',monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:1px; }
+        .card-art .symbol { font-family:'JetBrains Mono',monospace; font-weight:900; font-size:2.4rem; color:white; }
+        .card-body { padding:22px; display:flex; flex-direction:column; flex:1; }
+        .card-body h3 { font-size:1.24rem; margin-bottom:10px; }
+        .card-body p { color:var(--text-dim); line-height:1.6; font-size:0.95rem; margin-bottom:18px; }
+        .tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:auto; }
+        .tag { color:var(--btc); background:rgba(247,147,26,0.09); border:1px solid rgba(247,147,26,0.18); border-radius:999px; padding:6px 9px; font-size:0.75rem; }
+        .marketplace { background:linear-gradient(135deg,rgba(153,69,255,0.13),rgba(247,147,26,0.1)); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+        .split { display:grid; grid-template-columns:0.95fr 1.05fr; gap:36px; align-items:center; }
+        .panel { background:rgba(15,21,32,0.9); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:26px; }
+        .feature-list { display:grid; gap:12px; }
+        .feature-item { display:flex; gap:12px; align-items:flex-start; color:var(--text-dim); line-height:1.55; }
+        .check { min-width:24px; height:24px; border-radius:50%; background:rgba(16,185,129,0.14); color:var(--green); display:flex; align-items:center; justify-content:center; font-weight:900; }
+        .merchant-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+        .merchant-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:22px; }
+        .merchant-card h3 { margin-bottom:10px; }
+        .merchant-card p { color:var(--text-dim); line-height:1.6; font-size:0.94rem; }
+        .cta { text-align:center; background:linear-gradient(135deg,rgba(247,147,26,0.16),rgba(59,130,246,0.12)); }
+        .cta .wrap { max-width:820px; }
+        footer { padding:42px 6%; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:22px; flex-wrap:wrap; color:var(--text-dim); font-size:0.88rem; }
+        footer a { color:var(--text-dim); text-decoration:none; margin-left:16px; }
+        footer a:hover { color:var(--btc); }
+        @media(max-width:900px) {
+            .nav-links { display:none; }
+            .grid, .split, .merchant-grid, .trust-row { grid-template-columns:1fr; }
+            .hero { padding-top:124px; }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"CollectionPage",
+      "name":"Parceiros que aceitam WordFinance",
+      "url":"https://wordfinance.org/partners.html",
+      "description":"Vitrine de parceiros, jogos e produtos digitais que aceitam WordFinance como pagamento.",
+      "isPartOf":{"@type":"WebSite","name":"Word Finance","url":"https://wordfinance.org"}
+    }
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">Word<span>Finance</span></a>
+        <div class="nav-links">
+            <a href="index.html#features">Recursos</a>
+            <a href="index.html#api">API</a>
+            <a href="#jogos">Jogos</a>
+            <a href="#marketplace-ia">Skills IA</a>
+            <a href="#comerciantes">Comerciantes</a>
+            <a href="docs.html" class="nav-cta">Integrar Pay</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="wrap">
+                <span class="eyebrow">WordFinance Pay Network</span>
+                <h1>Parceiros que aceitam <span class="gradient">WordFinance</span> como pagamento.</h1>
+                <p class="lead">Uma vitrine para jogos, produtos digitais, Knowledge Skills e negocios que querem receber Bitcoin Lightning, USDC e ativos do ecossistema WordFinance com checkout simples e global.</p>
+                <div class="actions">
+                    <a href="#jogos" class="btn btn-primary">Ver parceiros</a>
+                    <a href="#comerciantes" class="btn btn-secondary">Quero aceitar WordFinance</a>
+                </div>
+                <div class="trust-row" aria-label="Indicadores do ecossistema">
+                    <div class="trust-card"><strong>BTC LN</strong><span>Pagamentos instantaneos para clientes cripto.</span></div>
+                    <div class="trust-card"><strong>USDC</strong><span>Dolar digital na rede Solana para produtos globais.</span></div>
+                    <div class="trust-card"><strong>PIXC</strong><span>Utilidade real em jogos e experiencias educativas.</span></div>
+                    <div class="trust-card"><strong>API</strong><span>Integre checkout e agentes de IA via documentacao.</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="jogos">
+            <div class="wrap">
+                <div class="section-head">
+                    <div class="section-label">Jogos e experiencias</div>
+                    <h2 class="section-title">Os jogos agora moram na aba de parceiros.</h2>
+                    <p class="section-desc">Aqui ficam as experiencias que ajudam o usuario a aprender economia, usar PIXC e experimentar pagamentos digitais dentro do universo WordFinance.</p>
+                </div>
+                <div class="grid">
+                    <a class="partner-card" href="https://reino-pixc-production.up.railway.app" target="_blank" rel="noopener">
+                        <div class="card-art">
+                            <span class="badge">MMO 3D</span>
+                            <span class="symbol">PIXC</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Reino PIXC</h3>
+                            <p>Explore biomas, negocie recursos, lute e aprenda economia austriaca em uma experiencia multiplayer com utilidade para PIXC.</p>
+                            <div class="tags"><span class="tag">Jogo educativo</span><span class="tag">PIXC</span><span class="tag">Economia</span></div>
+                        </div>
+                    </a>
+
+                    <a class="partner-card" href="https://wordfinance.org/cryptolegends/" target="_blank" rel="noopener">
+                        <div class="card-art blue">
+                            <span class="badge">TPS 3D</span>
+                            <span class="symbol">NFT</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Crypto Legends</h3>
+                            <p>Lute contra a inflacao, colete itens digitais e experimente uma camada gamer conectada ao ecossistema WordFinance.</p>
+                            <div class="tags"><span class="tag">Crypto game</span><span class="tag">NFT</span><span class="tag">Web</span></div>
+                        </div>
+                    </a>
+
+                    <a class="partner-card" href="https://game.wordfinance.org" target="_blank" rel="noopener">
+                        <div class="card-art green">
+                            <span class="badge">RPG 2D</span>
+                            <span class="symbol">QST</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>PIXC Quest</h3>
+                            <p>RPG top-down para coletar recursos, construir progresso e visualizar conceitos de dinheiro digital em uma interface leve.</p>
+                            <div class="tags"><span class="tag">RPG</span><span class="tag">Aprendizado</span><span class="tag">PIXC</span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="marketplace" id="marketplace-ia">
+            <div class="wrap split">
+                <div>
+                    <div class="section-label">Marketplace de Skills IA</div>
+                    <h2 class="section-title">Baixe conhecimento especializado para sua IA trabalhar de verdade por voce.</h2>
+                    <p class="section-desc">O novo marketplace de Knowledge Skills transforma pacotes de conhecimento em produtos digitais: o comprador escolhe uma habilidade, paga e recebe arquivos prontos para colar ou instalar na IA.</p>
+                    <div class="actions" style="margin-top:24px">
+                        <a href="marketplace.html" class="btn btn-primary">Abrir Marketplace IA</a>
+                        <a href="mailto:contato@wordfinance.org?subject=Quero%20vender%20skills%20IA" class="btn btn-secondary">Quero vender skills</a>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="feature-list">
+                        <div class="feature-item"><span class="check">&check;</span><span>Pacotes de conhecimento organizados por nicho, preco e nivel de aplicacao.</span></div>
+                        <div class="feature-item"><span class="check">&check;</span><span>Compra por Pix, cartao, Bitcoin Lightning ou USDC quando o vendedor aceitar.</span></div>
+                        <div class="feature-item"><span class="check">&check;</span><span>Area de membros estilo Hotmart para criadores venderem suas proprias skills.</span></div>
+                        <div class="feature-item"><span class="check">&check;</span><span>Links de afiliado para parceiros divulgarem e receberem comissao.</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comerciantes">
+            <div class="wrap">
+                <div class="section-head">
+                    <div class="section-label">Para vendedores</div>
+                    <h2 class="section-title">Seu negocio tambem pode aparecer aqui.</h2>
+                    <p class="section-desc">Se voce aceita WordFinance Pay, Bitcoin Lightning ou USDC com a nossa integracao, sua loja pode entrar na vitrine de parceiros apos revisao.</p>
+                </div>
+                <div class="merchant-grid">
+                    <div class="merchant-card">
+                        <h3>1. Integre o gateway</h3>
+                        <p>Use a API, botao de pagamento ou checkout cripto para receber BTC Lightning e USDC em produtos digitais, jogos ou e-commerce.</p>
+                    </div>
+                    <div class="merchant-card">
+                        <h3>2. Envie seus dados</h3>
+                        <p>Compartilhe nome, URL, categoria, descricao, logo e meios aceitos para avaliarmos a publicacao na vitrine.</p>
+                    </div>
+                    <div class="merchant-card">
+                        <h3>3. Ganhe visibilidade</h3>
+                        <p>A pagina foi pensada para SEO, com conteudo claro para o Google entender o ecossistema de pagamentos WordFinance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="wrap">
+                <div class="section-label">Aceite dinheiro global</div>
+                <h2 class="section-title">Coloque WordFinance no seu checkout.</h2>
+                <p class="section-desc" style="margin:0 auto 26px">Se o seu produto vende para pessoas cripto, a friccao precisa ser minima: clique, QR code, pagamento confirmado e entrega liberada.</p>
+                <div class="actions" style="justify-content:center">
+                    <a href="docs.html" class="btn btn-primary">Ver documentacao</a>
+                    <a href="mailto:contato@wordfinance.org?subject=Quero%20ser%20parceiro%20WordFinance" class="btn btn-secondary">Cadastrar parceiro</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div><strong>Word Finance</strong> - Parceiros, pagamentos cripto e economia digital.</div>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="docs.html">Docs</a>
+            <a href="mailto:contato@wordfinance.org">Contato</a>
+        </div>
+    </footer>
+</body>
+</html>
