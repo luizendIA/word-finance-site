@@ -4,7 +4,8 @@
     elite: { label: "Inflator Elite", health: 110, speed: 2.55, damage: 12, cred: [14, 30], color: 0xff9f1c, scale: 1.14 },
     heavy: { label: "Guarda da Impressora", health: 190, speed: 1.55, damage: 18, cred: [24, 46], color: 0x7b8cff, scale: 1.28 },
     boss: { label: "Tesoureiro Inflador", health: 700, speed: 1.55, damage: 28, cred: [120, 220], color: 0xff4d6d, scale: 1.72 },
-    finalBoss: { label: "Senador da Impressora Infinita", health: 1300, speed: 1.7, damage: 34, cred: [1000, 1000], color: 0xffd166, scale: 2.05 }
+    finalBoss: { label: "Senador da Impressora Infinita", health: 1300, speed: 1.7, damage: 34, cred: [1000, 1000], color: 0xffd166, scale: 2.05 },
+    megaBoss: { label: "Banqueiro Central das Sombras", health: 2400, speed: 1.85, damage: 42, cred: [2000, 2000], color: 0x8c54ff, scale: 2.35 }
   };
 
   function makeEnemyModel(def) {

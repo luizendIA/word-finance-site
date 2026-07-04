@@ -4,8 +4,8 @@
       color,
       emissive: emissive || 0x000000,
       emissiveIntensity: intensity || 0,
-      metalness: 0.18,
-      roughness: 0.48
+      metalness: 0.24,
+      roughness: 0.4
     });
   }
 
@@ -60,10 +60,10 @@
     const group = new THREE.Group();
     group.userData.animatedLimbs = [];
     const black = mat(0x111820);
-    const cloth = mat(0x18252d, 0x070b0e, 0.06);
-    const skin = mat(0xd3a27d);
-    const leather = mat(0x0b0f13);
-    const metal = mat(0x2a3238);
+    const cloth = new THREE.MeshStandardMaterial({ color: 0x18252d, emissive: 0x070b0e, emissiveIntensity: 0.06, metalness: 0.05, roughness: 0.72 });
+    const skin = new THREE.MeshStandardMaterial({ color: 0xd3a27d, metalness: 0.02, roughness: 0.58 });
+    const leather = new THREE.MeshStandardMaterial({ color: 0x0b0f13, metalness: 0.12, roughness: 0.6 });
+    const metal = new THREE.MeshStandardMaterial({ color: 0x2a3238, metalness: 0.85, roughness: 0.24 });
     const orange = mat(0xf7931a, 0xf7931a, 0.18);
     const eye = mat(0x7df9ff, 0x7df9ff, 1);
 
@@ -176,8 +176,8 @@
   function createAnatoly() {
     const group = new THREE.Group();
     group.userData.animatedLimbs = [];
-    const armor = mat(0x2c254d, 0x23114f, 0.18);
-    const skin = mat(0xc88f7a);
+    const armor = new THREE.MeshStandardMaterial({ color: 0x2c254d, emissive: 0x23114f, emissiveIntensity: 0.18, metalness: 0.7, roughness: 0.3 });
+    const skin = new THREE.MeshStandardMaterial({ color: 0xc88f7a, metalness: 0.02, roughness: 0.58 });
     const black = mat(0x101019);
     const green = mat(0x14f195, 0x14f195, 0.26);
     const violet = mat(0x9945ff, 0x9945ff, 0.22);

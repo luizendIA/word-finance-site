@@ -6,7 +6,7 @@ Jogo TPS educacional em Three.js com assets procedurais, fases de 30 minutos, lo
 
 Abra `index.html` diretamente no navegador.
 
-O jogo usa CDNs para carregar Three.js, fontes e `@solana/web3.js`. Se estiver offline, essas bibliotecas externas não carregam.
+A partir da v4, Three.js e `@solana/web3.js` estão embutidos em `js/vendor/` (com fallback para CDN). O jogo funciona offline, exceto fontes do Google e as funções on-chain.
 
 ## Controles
 
@@ -56,3 +56,16 @@ Como a chave privada da tesouraria não foi fornecida, o jogo não consegue assi
 - `js/nft.js`: Word Finance, Phantom, devnet, memo e collectible SPL.
 - `assets/concept-art/`: artes cinematográficas geradas para Satoshi, Anatoly, Inflatores, Tesoureiro Inflador e Senador da Impressora Infinita.
 - `assets/README.md`: nota de assets; os modelos 3D em gameplay seguem procedurais.
+
+
+## Novidades v4 (julho 2026)
+
+- **Campanha estendida para 8 fases**: novas fases Rodovia Lightning (canais de pagamento), Distrito DeFi (DEX e autocustódia) e Protocolo Halving (boss final: Banqueiro Central das Sombras, 2400 HP).
+- **Tutorial guiado**: treinamento passo a passo (mover, mirar, atirar, recarregar, coletar CRED, loja PIXC, carteira) com detecção automática de progresso, textos separados para desktop e mobile, e bônus de 150 CRED ao completar.
+- **Diálogos cinematográficos**: fila de diálogos com efeito máquina de escrever, retratos fotorrealistas (arte cinematográfica dos personagens) e avanço por toque — otimizado para celular.
+- **Giveaway PIXC**: os 100 primeiros jogadores que completarem o tutorial podem registrar a carteira Solana in-game (botão 🎁 no painel da carteira). O registro envia email para contato@wordfinance.org (e copia os dados para a área de transferência); a tesouraria Word Finance paga manualmente após verificação.
+- **Cenários tematizados**: cada fase agora tem céu, névoa, chão e grid com paleta própria; novas arenas com pilares Lightning, gráfico de candles holográfico no DeFi e cofre do Halving com moeda giratória gigante.
+- **Avatar e iluminação mais realistas**: materiais PBR (pele, metal, couro e tecido com metalness/roughness corretos) e luz hemisférica adicional.
+- **Educação financeira ampliada**: novas lições sobre Lightning Network, autocustódia (not your keys, not your coins) e halving.
+
+Nenhum sistema existente foi removido: loja PIXC mainnet, crafting, marketplace, ranking, NFTs devnet, casas e integração Word Finance/Phantom continuam como antes.

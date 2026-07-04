@@ -2,7 +2,7 @@
   const TREASURY_PUBLIC_KEY = "BMLCCnhkwCAW9e2Y3hot5Ti7QMu5hdFKbTML4iaMcVWB";
   const SOLANA_NETWORK = "devnet";
   const RPC_ENDPOINT = "https://api.devnet.solana.com";
-  const MAINNET_RPC_ENDPOINT = "https://api.mainnet-beta.solana.com";
+  const MAINNET_RPC_ENDPOINT = "https://mainnet.helius-rpc.com/?api-key=05918f7b-c6ec-4ada-bbc1-52349cedb334";
   const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
   const ASSOCIATED_TOKEN_PROGRAM_ID = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL";
   const MEMO_PROGRAM_ID = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr";
@@ -48,14 +48,6 @@
   function getWallet(preferred) {
     if ((!preferred || preferred === "wordfinance") && window.wordfinance) {
       return { type: "wordfinance", wallet: window.wordfinance };
-    }
-    if ((!preferred || preferred === "wordfinance") && window.solana && window.solana.isWordFinance) {
-      return { type: "wf-dapp", wallet: window.solana };
-    }
-    if ((!preferred || preferred === "wordfinance") && window.parent && window.parent !== window) {
-      try {
-        if (window.parent.solana && window.parent.solana.isWordFinance) return { type: "wf-dapp", wallet: window.parent.solana };
-      } catch (_) {}
     }
     if ((!preferred || preferred === "phantom") && window.phantom?.solana) {
       return { type: "phantom", wallet: window.phantom.solana };
@@ -121,7 +113,7 @@
       state.publicKeyString = publicKeyString;
       state.publicKey = hasWeb3() ? new solanaWeb3.PublicKey(publicKeyString) : { toString: () => publicKeyString };
       state.mode = selected.type === "wordfinance" ? "wordfinance-dapp-devnet" : "phantom-devnet";
-      window.CryptoApex.economy.addCred(100, `${(selected.type === "wordfinance" || selected.type === "wf-dapp") ? "Word Finance" : "Phantom"} CRED`);
+      window.CryptoApex.economy.addCred(100, `${selected.type === "wordfinance" ? "Word Finance" : "Phantom"} CRED`);
       await writeRewardMemo("claim-airdrop", {
         amount: 100,
         token: "CRED",
@@ -129,7 +121,7 @@
         pixcDecimals: PIXC_DECIMALS,
         note: "Crédito local. Mint real de CRED com autoridade da tesouraria exige backend ou chave privada da tesouraria."
       }).catch(() => null);
-      window.CryptoApex.ui.toast(`${(selected.type === "wordfinance" || selected.type === "wf-dapp") ? "Word Finance" : "Phantom"} conectada. +100 CRED no jogo.`);
+      window.CryptoApex.ui.toast(`${selected.type === "wordfinance" ? "Word Finance" : "Phantom"} conectada. +100 CRED no jogo.`);
       window.CryptoApex.ui.updateWallet();
       return true;
     } catch (err) {

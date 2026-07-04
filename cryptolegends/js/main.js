@@ -469,6 +469,7 @@
     } else {
       toast("Progresso restaurado.");
     }
+    window.setTimeout(() => CryptoApex.campaign?.startTutorial?.(), 1200);
   }
 
   function restoreCurrentSave(force) {
@@ -491,8 +492,10 @@
   }
 
   function createLighting() {
-    scene.add(new THREE.AmbientLight(0x99c9ff, 0.42));
-    const sun = new THREE.DirectionalLight(0xffffff, 1.16);
+    scene.add(new THREE.AmbientLight(0x99c9ff, 0.34));
+    const hemi = new THREE.HemisphereLight(0xbfe8ff, 0x1a2a1f, 0.5);
+    scene.add(hemi);
+    const sun = new THREE.DirectionalLight(0xfff2dd, 1.22);
     sun.position.set(18, 28, 12);
     sun.castShadow = true;
     sun.shadow.mapSize.width = 2048;
@@ -544,17 +547,34 @@
     world.buildings = [];
   }
 
+  function getArenaThemes() {
+    return {
+    city: { sky: 0x071217, fog: 0x071217, floor: 0x10242a, grid: 0x14f195 },
+    mint: { sky: 0x120d14, fog: 0x150f18, floor: 0x1c1420, grid: 0xff6ac1 },
+    citadel: { sky: 0x061410, fog: 0x08160f, floor: 0x0f231c, grid: 0x14f195 },
+    mine: { sky: 0x100d06, fog: 0x140f07, floor: 0x1d160c, grid: 0xf7931a },
+    congress: { sky: 0x0d0a12, fog: 0x0f0c15, floor: 0x171225, grid: 0xffd166 },
+    lightning: { sky: 0x050c16, fog: 0x060e1a, floor: 0x0b1a2c, grid: 0xffe45e },
+    defi: { sky: 0x081016, fog: 0x0a1218, floor: 0x0f2028, grid: 0x5df2ff },
+    halving: { sky: 0x0c0806, fog: 0x0f0a07, floor: 0x1a120a, grid: 0xf7931a }
+    };
+  }
+
   function createArena(key) {
     clearArena();
+    const themes = getArenaThemes();
+    const theme = themes[key] || themes.city;
+    scene.background = new THREE.Color(theme.sky);
+    scene.fog = new THREE.Fog(theme.fog, 48, 190);
     const arenaSize = 220;
-    const floorMat = new THREE.MeshStandardMaterial({ color: 0x10242a, roughness: 0.68, metalness: 0.08 });
+    const floorMat = new THREE.MeshStandardMaterial({ color: theme.floor, roughness: 0.68, metalness: 0.08 });
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(arenaSize, arenaSize, 28, 28), floorMat);
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
     scene.add(floor);
     world.buildings.push(floor);
 
-    const grid = new THREE.GridHelper(arenaSize, 96, 0x14f195, 0x25444b);
+    const grid = new THREE.GridHelper(arenaSize, 96, theme.grid, 0x25444b);
     grid.position.y = 0.012;
     scene.add(grid);
     world.buildings.push(grid);
@@ -562,6 +582,9 @@
     if (key === "citadel") createCitadel();
     else if (key === "mine") createMine();
     else if (key === "congress") createCongress();
+    else if (key === "lightning") createLightningHighway();
+    else if (key === "defi") createDefiDistrict();
+    else if (key === "halving") createHalvingVault();
     else createCity(key === "mint");
   }
 
@@ -773,6 +796,129 @@
       column.castShadow = true;
       scene.add(column);
       world.buildings.push(column);
+    }
+  }
+
+  function createLightningHighway() {
+    for (let i = 0; i < 26; i += 1) {
+      const pylon = new THREE.Group();
+      const post = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.28, 0.4, 9 + Math.random() * 5, 8),
+        new THREE.MeshStandardMaterial({ color: 0x18242f, metalness: 0.55, roughness: 0.32 })
+      );
+      post.position.y = 5;
+      post.castShadow = true;
+      pylon.add(post);
+      const bolt = createNeonStrip(0.16, 7.5, 0xffe45e);
+      bolt.rotation.z = Math.PI / 2;
+      bolt.rotation.y = Math.PI / 2;
+      bolt.position.y = 7 + Math.random() * 2;
+      pylon.add(bolt);
+      const side = i % 2 === 0 ? -1 : 1;
+      pylon.position.set(side * (10 + Math.random() * 4), 0, -70 + (i >> 1) * 11);
+      scene.add(pylon);
+      world.buildings.push(pylon);
+    }
+    for (let i = 0; i < 9; i += 1) {
+      const arc = new THREE.Mesh(
+        new THREE.TorusGeometry(11, 0.14, 8, 40, Math.PI),
+        new THREE.MeshStandardMaterial({ color: 0x0e1a28, emissive: 0xffe45e, emissiveIntensity: 0.55, metalness: 0.4 })
+      );
+      arc.position.set(0, 0.2, -62 + i * 15);
+      scene.add(arc);
+      world.buildings.push(arc);
+    }
+    for (let i = 0; i < 30; i += 1) {
+      const tower = createFuturisticTower(i + 300, false);
+      const ring = 44 + Math.random() * 62;
+      const ang = Math.random() * Math.PI * 2;
+      tower.position.set(Math.cos(ang) * ring, 0, Math.sin(ang) * ring);
+      scene.add(tower);
+      world.buildings.push(tower);
+    }
+  }
+
+  function createDefiDistrict() {
+    for (let i = 0; i < 34; i += 1) {
+      const tower = createFuturisticTower(i + 500, false);
+      const ring = 36 + Math.random() * 66;
+      const ang = Math.random() * Math.PI * 2;
+      tower.position.set(Math.cos(ang) * ring, 0, Math.sin(ang) * ring);
+      scene.add(tower);
+      world.buildings.push(tower);
+    }
+    for (let i = 0; i < 22; i += 1) {
+      const up = Math.random() > 0.42;
+      const h = 1.5 + Math.random() * 6.5;
+      const candle = new THREE.Mesh(
+        new THREE.BoxGeometry(0.9, h, 0.9),
+        new THREE.MeshStandardMaterial({
+          color: up ? 0x0f2f1f : 0x2f0f16,
+          emissive: up ? 0x14f195 : 0xff4d6d,
+          emissiveIntensity: 0.45,
+          transparent: true,
+          opacity: 0.85
+        })
+      );
+      candle.position.set(-21 + i * 2, h / 2 + 0.05, -26);
+      candle.castShadow = true;
+      scene.add(candle);
+      world.buildings.push(candle);
+    }
+    const dexDome = new THREE.Mesh(
+      new THREE.SphereGeometry(7, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2),
+      new THREE.MeshStandardMaterial({ color: 0x0d2530, emissive: 0x5df2ff, emissiveIntensity: 0.22, metalness: 0.3, roughness: 0.25 })
+    );
+    dexDome.position.set(0, 0.06, 0);
+    dexDome.castShadow = true;
+    scene.add(dexDome);
+    world.buildings.push(dexDome);
+    const dexRing = new THREE.Mesh(
+      new THREE.TorusGeometry(9.5, 0.12, 8, 64),
+      new THREE.MeshBasicMaterial({ color: 0x5df2ff, transparent: true, opacity: 0.6 })
+    );
+    dexRing.rotation.x = Math.PI / 2;
+    dexRing.position.y = 3.4;
+    scene.add(dexRing);
+    world.buildings.push(dexRing);
+  }
+
+  function createHalvingVault() {
+    const coin = new THREE.Mesh(
+      new THREE.CylinderGeometry(6.5, 6.5, 0.9, 48),
+      new THREE.MeshStandardMaterial({ color: 0xf7931a, emissive: 0xf7931a, emissiveIntensity: 0.28, metalness: 0.85, roughness: 0.22 })
+    );
+    coin.rotation.z = Math.PI / 2;
+    coin.position.set(0, 7.5, -30);
+    coin.castShadow = true;
+    scene.add(coin);
+    world.buildings.push(coin);
+
+    for (let ringIdx = 0; ringIdx < 3; ringIdx += 1) {
+      const radius = 20 + ringIdx * 16;
+      const segments = 10 + ringIdx * 4;
+      for (let i = 0; i < segments; i += 1) {
+        const ang = (i / segments) * Math.PI * 2;
+        const wall = new THREE.Mesh(
+          new THREE.BoxGeometry(6, 3 + ringIdx, 1),
+          new THREE.MeshStandardMaterial({ color: 0x241a10, metalness: 0.5, roughness: 0.4, emissive: 0xf7931a, emissiveIntensity: 0.08 })
+        );
+        wall.position.set(Math.cos(ang) * radius, 1.6, Math.sin(ang) * radius);
+        wall.rotation.y = -ang + Math.PI / 2;
+        wall.castShadow = true;
+        scene.add(wall);
+        world.buildings.push(wall);
+      }
+    }
+    for (let i = 0; i < 16; i += 1) {
+      const crystal = new THREE.Mesh(
+        new THREE.ConeGeometry(0.6 + Math.random() * 0.8, 2.5 + Math.random() * 3.5, 6),
+        new THREE.MeshStandardMaterial({ color: 0xf7931a, emissive: 0xffb347, emissiveIntensity: 0.35 })
+      );
+      crystal.position.set((Math.random() - 0.5) * 70, 1.2, (Math.random() - 0.5) * 70);
+      crystal.castShadow = true;
+      scene.add(crystal);
+      world.buildings.push(crystal);
     }
   }
 
@@ -1551,6 +1697,10 @@
   }
 
   function dialogue(speaker, text) {
+    if (CryptoApex.campaign?.dialogue) {
+      CryptoApex.campaign.dialogue(speaker, text);
+      return;
+    }
     const box = document.getElementById("dialogue");
     document.getElementById("dialogue-speaker").textContent = speaker;
     document.getElementById("dialogue-text").textContent = text;

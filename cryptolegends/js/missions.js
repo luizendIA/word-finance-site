@@ -57,6 +57,43 @@
       final: true,
       target: "Derrube o Senador da Impressora Infinita.",
       lesson: "Imprimir trilhões parece solução curta, mas destrói o poder de compra. Redes abertas criam uma saída verificável."
+    },
+    {
+      key: "lightning",
+      name: "Fase 6 - Rodovia Lightning",
+      duration: 6 * 60,
+      bounds: 80,
+      enemyMix: ["grunt", "elite"],
+      spawnEvery: 2.2,
+      maxEnemies: 16,
+      killTarget: 25,
+      target: "Proteja os canais de pagamento: derrote 25 Inflatores antes do tempo acabar.",
+      lesson: "A Lightning Network liquida pagamentos de Bitcoin em segundos, com taxas de centavos. Canais abertos entre pessoas substituem a fila e a taxa do banco."
+    },
+    {
+      key: "defi",
+      name: "Fase 7 - Distrito DeFi",
+      duration: 7 * 60,
+      bounds: 76,
+      enemyMix: ["elite", "heavy"],
+      spawnEvery: 2.4,
+      maxEnemies: 16,
+      bossAt: 0.55,
+      target: "Defenda o DEX dos sabotadores e derrote o Tesoureiro que voltou por vingança.",
+      lesson: "Numa exchange descentralizada você troca ativos direto da sua carteira, sem entregar custódia. Chave privada sua, dinheiro seu: not your keys, not your coins."
+    },
+    {
+      key: "halving",
+      name: "Fase 8 - Protocolo Halving",
+      duration: 8 * 60,
+      bounds: 82,
+      enemyMix: ["grunt", "elite", "heavy"],
+      spawnEvery: 2.0,
+      maxEnemies: 20,
+      bossAt: 0.5,
+      mega: true,
+      target: "Sobreviva às ondas do Halving e derrote o Banqueiro Central das Sombras.",
+      lesson: "A cada 4 anos o halving corta pela metade a emissão de novos bitcoins. Escassez programada e previsível: o oposto exato da impressora infinita."
     }
   ];
 
@@ -84,6 +121,26 @@
     heroBoss: {
       speaker: "Herói",
       text: "Você só destrói o poder de compra do povo. A blockchain é a saída."
+    },
+    lightning: {
+      speaker: "Rede",
+      text: "Estes pilares são canais Lightning: dois participantes travam fundos e trocam milhares de pagamentos fora da fila principal. Rápido, barato e sem pedir licença."
+    },
+    defi: {
+      speaker: "Rede",
+      text: "No Distrito DeFi, os livros de ofertas são contratos públicos. Qualquer um audita, ninguém congela sua conta. Liberdade exige responsabilidade: guarde bem sua seed."
+    },
+    halving: {
+      speaker: "Rede",
+      text: "Alerta de Halving! A emissão caiu pela metade. Quando a oferta nova encolhe e a demanda continua, cada unidade preserva mais valor. Matemática, não promessa."
+    },
+    megaBoss: {
+      speaker: "Banqueiro das Sombras",
+      text: "Eu controlo o preço do dinheiro do mundo inteiro. Acha que um agente com um rifle muda isso?"
+    },
+    heroMegaBoss: {
+      speaker: "Herói",
+      text: "Não sou só eu. Somos milhões de nós validando cada bloco. Seu monopólio acabou."
     }
   };
 
@@ -93,6 +150,8 @@
     totalTime: 0,
     bossSpawned: false,
     finalBossDefeated: false,
+    megaBossDefeated: false,
+    phaseKills: 0,
     lessonSeen: {}
   };
 
@@ -116,7 +175,11 @@
 
     if (phase.bossAt && !state.bossSpawned && progress() >= phase.bossAt) {
       state.bossSpawned = true;
-      if (phase.final) {
+      if (phase.mega) {
+        showLesson("megaBoss");
+        window.setTimeout(() => showLesson("heroMegaBoss"), 3600);
+        world.spawnBoss("megaBoss");
+      } else if (phase.final) {
         showLesson("boss");
         window.setTimeout(() => showLesson("heroBoss"), 3600);
         world.spawnBoss("finalBoss");
@@ -126,7 +189,16 @@
     }
 
     if (phase.key === "mine" && !state.lessonSeen.mine && progress() > 0.1) showLesson("mine");
-    if (state.phaseTime >= phase.duration && (!phase.final || state.finalBossDefeated)) advance(world);
+    if (phase.key === "lightning" && !state.lessonSeen.lightning && progress() > 0.08) showLesson("lightning");
+    if (phase.key === "defi" && !state.lessonSeen.defi && progress() > 0.08) showLesson("defi");
+    if (phase.key === "halving" && !state.lessonSeen.halving && progress() > 0.08) showLesson("halving");
+
+    if (phase.killTarget && state.phaseKills >= phase.killTarget) {
+      advance(world);
+      return;
+    }
+    const bossGate = (phase.final && !state.finalBossDefeated) || (phase.mega && !state.megaBossDefeated);
+    if (state.phaseTime >= phase.duration && !bossGate) advance(world);
   }
 
   function advance(world) {
@@ -134,6 +206,7 @@
     state.phaseIndex = Math.min(state.phaseIndex + 1, phases.length - 1);
     state.phaseTime = 0;
     state.bossSpawned = false;
+    state.phaseKills = 0;
     const phase = currentPhase();
     world.transitionPhase(old, phase);
     showDialogue("Rede", phase.lesson);
@@ -149,6 +222,20 @@
   }
 
   function onEnemyKilled(classKey) {
+    state.phaseKills += 1;
+    if (classKey === "megaBoss") {
+      state.megaBossDefeated = true;
+      window.CryptoApex.economy.addCred(2000, "campanha completa");
+      window.CryptoApex.economy.addBossVoucher("finalBoss");
+      window.CryptoApex.economy.addItem({
+        type: "emblema",
+        name: "Coroa do Protocolo Halving",
+        rarity: "Lendario",
+        nft: true,
+        lesson: "Você completou a campanha: da Cidade Fiat ao Halving. Escassez verificável venceu o monopólio da impressora."
+      });
+      showDialogue("Rede", "CAMPANHA COMPLETA! O Banqueiro das Sombras caiu. +2000 CRED. O endgame continua com ondas infinitas para farmar CRED, fragmentos e NFTs. Registre sua carteira no 🎁 Giveaway se ainda não fez isso!");
+    }
     if (classKey === "finalBoss") {
       state.finalBossDefeated = true;
       window.CryptoApex.economy.addCred(1000, "vitória final");
@@ -160,7 +247,7 @@
         nft: true,
         lesson: "Vitória contra inflação política: regras verificáveis importam."
       });
-      showDialogue("Rede", "Boss final derrotado. O endgame continua com ondas infinitas para farmar CRED, fragmentos e NFTs.");
+      showDialogue("Rede", "Senador derrotado! Mas a luta não acabou: novas fases desbloqueadas — Rodovia Lightning, Distrito DeFi e o Protocolo Halving.");
     }
     if (classKey === "boss") {
       window.CryptoApex.economy.addBossVoucher("boss");
