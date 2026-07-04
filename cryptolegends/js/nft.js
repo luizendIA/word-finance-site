@@ -2,7 +2,7 @@
   const TREASURY_PUBLIC_KEY = "BMLCCnhkwCAW9e2Y3hot5Ti7QMu5hdFKbTML4iaMcVWB";
   const SOLANA_NETWORK = "devnet";
   const RPC_ENDPOINT = "https://api.devnet.solana.com";
-  const MAINNET_RPC_ENDPOINT = "https://mainnet.helius-rpc.com/?api-key=05918f7b-c6ec-4ada-bbc1-52349cedb334";
+  const MAINNET_RPC_ENDPOINT = "https://api.mainnet-beta.solana.com";
   const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
   const ASSOCIATED_TOKEN_PROGRAM_ID = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL";
   const MEMO_PROGRAM_ID = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr";
