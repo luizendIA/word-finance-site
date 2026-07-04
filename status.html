@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status publico | WordFinance</title>
+  <meta name="description" content="Status publico simples dos principais servicos WordFinance: carteira, gateway, marketplace, Reino PIXC e API de pagamentos.">
+  <meta name="keywords" content="status WordFinance, status carteira cripto, status gateway USDC, status marketplace IA, status Reino PIXC">
+  <link rel="canonical" href="https://wordfinance.org/status.html">
+  <meta property="og:title" content="Status publico | WordFinance">
+  <meta property="og:description" content="Acompanhe os sinais de disponibilidade do ecossistema WordFinance.">
+  <meta property="og:url" content="https://wordfinance.org/status.html">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      --bg: #071016;
+      --panel: #0d1a24;
+      --panel-2: #132635;
+      --paper: #f7fbff;
+      --muted: #a8b6c6;
+      --line: rgba(255,255,255,.13);
+      --gold: #f4b84a;
+      --teal: #35d0ba;
+      --green: #4ade80;
+      --blue: #62a8ff;
+      --warn: #fbbf24;
+      --bad: #fb7185;
+      --ink: #071016;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--paper);
+      letter-spacing: 0;
+    }
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(7,16,22,.93);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+    .nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--paper);
+      text-decoration: none;
+      font-weight: 900;
+    }
+    .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+    .brand span { color: var(--gold); }
+    .nav-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .nav-actions a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .nav-actions a:hover { color: var(--gold); }
+    .hero {
+      padding: 74px 0 42px;
+      background:
+        linear-gradient(135deg, rgba(53,208,186,.1), rgba(244,184,74,.08) 48%, rgba(98,168,255,.08)),
+        var(--bg);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 34px;
+      align-items: end;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 13px;
+      border-radius: 999px;
+      color: var(--gold);
+      background: rgba(244,184,74,.08);
+      border: 1px solid rgba(244,184,74,.32);
+      font-size: 12px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      margin: 0;
+      max-width: 860px;
+      font-size: clamp(40px, 6.4vw, 72px);
+      line-height: .98;
+    }
+    .lead {
+      margin: 22px 0 0;
+      max-width: 760px;
+      color: #d7e2ed;
+      font-size: 20px;
+      line-height: 1.6;
+    }
+    .summary-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(13,26,36,.9);
+      padding: 22px;
+      box-shadow: 0 22px 70px rgba(0,0,0,.26);
+    }
+    .summary-card strong {
+      display: block;
+      font-size: 34px;
+      color: var(--green);
+      line-height: 1;
+    }
+    .summary-card span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .status-strip {
+      padding: 22px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: #0b1721;
+    }
+    .strip-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .strip-item {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+    }
+    .strip-item strong { display: block; color: var(--gold); margin-bottom: 5px; }
+    .strip-item span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+    section { padding: 58px 0; }
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      margin: 0;
+      font-size: clamp(28px, 4.4vw, 48px);
+      line-height: 1.04;
+    }
+    .section-lead {
+      margin: 10px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.62;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      color: var(--paper);
+      background: rgba(255,255,255,.06);
+      text-decoration: none;
+      font-weight: 900;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .btn:hover { border-color: rgba(244,184,74,.42); color: var(--gold); }
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .service-card {
+      min-height: 310px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(19,38,53,.96), rgba(13,26,36,.96));
+      padding: 18px;
+    }
+    .service-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      font-weight: 1000;
+      background: linear-gradient(135deg, var(--teal), var(--gold));
+      font-size: 13px;
+    }
+    .state {
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 9px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      display: inline-block;
+    }
+    .state.ok { color: var(--green); border-color: rgba(74,222,128,.24); background: rgba(74,222,128,.08); }
+    .state.ok .dot { background: var(--green); box-shadow: 0 0 0 5px rgba(74,222,128,.1); }
+    .state.warn { color: var(--warn); border-color: rgba(251,191,36,.28); background: rgba(251,191,36,.08); }
+    .state.warn .dot { background: var(--warn); }
+    .state.bad { color: var(--bad); border-color: rgba(251,113,133,.28); background: rgba(251,113,133,.08); }
+    .state.bad .dot { background: var(--bad); }
+    .service-card h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      line-height: 1.15;
+    }
+    .service-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+    .meta {
+      display: grid;
+      gap: 8px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      color: #dce6ef;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .service-actions {
+      display: grid;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 18px;
+    }
+    .service-actions a {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--paper);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 900;
+    }
+    .service-actions a:hover { border-color: rgba(244,184,74,.42); color: var(--gold); }
+    .notice {
+      border-top: 1px solid var(--line);
+      background: #0b1721;
+    }
+    .notice-box {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      background: rgba(255,255,255,.04);
+    }
+    .notice-box h2 { margin: 0 0 10px; }
+    .notice-box p {
+      color: var(--muted);
+      line-height: 1.68;
+      margin: 0;
+    }
+    footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 16px; }
+    .footer-links a { text-decoration: none; color: var(--muted); }
+    .footer-links a:hover { color: var(--gold); }
+    @media (max-width: 1100px) {
+      .status-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 760px) {
+      .nav, .section-head { align-items: flex-start; flex-direction: column; }
+      .hero-grid, .strip-grid, .status-grid { grid-template-columns: 1fr; }
+      .summary-card { max-width: 460px; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="index.html" aria-label="WordFinance home">
+        <img src="icon-512.png" alt="" width="36" height="36">
+        Word<span>Finance</span>
+      </a>
+      <nav class="nav-actions" aria-label="Navegacao principal">
+        <a href="comecar.html">Comece aqui</a>
+        <a href="pay.html">Pay</a>
+        <a href="partners.html">Parceiros</a>
+        <a href="index.html#download">Download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Confiabilidade publica</span>
+          <h1>Status simples para um ecossistema que esta ficando vivo.</h1>
+          <p class="lead">Carteira, pagamentos, marketplace e jogos precisam respirar em publico. Esta pagina mostra os sinais principais e os links de verificacao do ecossistema WordFinance.</p>
+        </div>
+        <aside class="summary-card" aria-live="polite">
+          <strong id="overall-count">--</strong>
+          <span id="overall-label">Verificando servicos publicos...</span>
+        </aside>
+      </div>
+    </section>
+
+    <div class="status-strip">
+      <div class="wrap strip-grid">
+        <div class="strip-item"><strong>Sem custodia de seed</strong><span>A carteira existe para o usuario guardar as proprias chaves.</span></div>
+        <div class="strip-item"><strong>Health checks publicos</strong><span>Servicos com backend exposto mostram sinal de vida verificavel.</span></div>
+        <div class="strip-item"><strong>Transparencia evolutiva</strong><span>Esta pagina e simples hoje e pode virar monitor profissional depois.</span></div>
+      </div>
+    </div>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Servicos principais</h2>
+            <p class="section-lead">A verificacao no navegador pode ser limitada por CORS em alguns backends; por isso cada card tambem tem link direto para o health check ou pagina publica.</p>
+          </div>
+          <button class="btn" type="button" id="refresh-status">Verificar agora</button>
+        </div>
+
+        <div class="status-grid" id="status-grid">
+          <article class="service-card" data-service="wallet">
+            <div class="service-top"><div class="mark">WF</div><span class="state warn"><i class="dot"></i><span>Aguardando</span></span></div>
+            <h2>WordFinance Wallet</h2>
+            <p>Carteira nao custodial para usuarios guardarem as proprias chaves e acessarem Solana, USDC, PIXC e Bitcoin Lightning.</p>
+            <ul class="meta"><li>Tipo: app e site publico</li><li>Verificacao: pagina principal</li></ul>
+            <div class="service-actions"><a href="index.html#download">Abrir download</a><a href="privacy.html">Privacidade</a></div>
+          </article>
+
+          <article class="service-card" data-service="gateway">
+            <div class="service-top"><div class="mark">Pay</div><span class="state warn"><i class="dot"></i><span>Aguardando</span></span></div>
+            <h2>WordFinance Pay Gateway</h2>
+            <p>Gateway nao custodial para lojistas receberem USDC Solana e pagamentos cripto com checkout publico.</p>
+            <ul class="meta"><li>Tipo: Railway backend</li><li>Taxa atual: 1% USDC</li></ul>
+            <div class="service-actions"><a href="https://wordfinance-gateway-production.up.railway.app/api/gateway/health" target="_blank" rel="noopener">Health check</a><a href="pay.html">Integrar Pay</a></div>
+          </article>
+
+          <article class="service-card" data-service="marketplace">
+            <div class="service-top"><div class="mark">IA</div><span class="state warn"><i class="dot"></i><span>Aguardando</span></span></div>
+            <h2>SkillForge IA Marketplace</h2>
+            <p>Marketplace de skills, agentes e conhecimento empacotado para compradores, criadores e afiliados.</p>
+            <ul class="meta"><li>Tipo: Railway backend</li><li>Pagamentos: Pix, cartao e cripto</li></ul>
+            <div class="service-actions"><a href="https://skill-marketplace-ia-production.up.railway.app/api/health" target="_blank" rel="noopener">Health check</a><a href="https://skill-marketplace-ia-production.up.railway.app/" target="_blank" rel="noopener">Abrir marketplace</a></div>
+          </article>
+
+          <article class="service-card" data-service="reino">
+            <div class="service-top"><div class="mark">MMO</div><span class="state warn"><i class="dot"></i><span>Aguardando</span></span></div>
+            <h2>Reino PIXC</h2>
+            <p>Jogo educativo estilo MMO para aprender economia, usar PIXC e conectar entretenimento com carteira cripto.</p>
+            <ul class="meta"><li>Tipo: Railway game server</li><li>Produto: jogo educativo</li></ul>
+            <div class="service-actions"><a href="https://reino-pixc-production.up.railway.app/api/health" target="_blank" rel="noopener">Health check</a><a href="https://reino-pixc-production.up.railway.app" target="_blank" rel="noopener">Jogar</a></div>
+          </article>
+
+          <article class="service-card" data-service="payments">
+            <div class="service-top"><div class="mark">API</div><span class="state warn"><i class="dot"></i><span>Aguardando</span></span></div>
+            <h2>API de pagamentos</h2>
+            <p>Camada de integracao para checkout, documentacao, parceiros e produtos digitais do ecossistema WordFinance.</p>
+            <ul class="meta"><li>Tipo: docs + gateway</li><li>Foco: lojistas e devs</li></ul>
+            <div class="service-actions"><a href="pay-docs.html">Documentacao</a><a href="pay.html">Pagina Pay</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="notice">
+      <div class="wrap">
+        <div class="notice-box">
+          <h2>Nota honesta</h2>
+          <p>Esta e uma pagina publica de confiabilidade em fase inicial, nao um SLA juridico. A WordFinance esta construindo em publico: quando um servico tem health check, ele aparece aqui; quando a verificacao depende do navegador ou de CORS, o card mostra o melhor sinal possivel e oferece o link direto para conferencia.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div><strong>WordFinance</strong> - status publico, simples e verificavel.</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="comecar.html">Comece aqui</a>
+        <a href="partners.html">Parceiros</a>
+        <a href="docs.html">Docs</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const services = [
+      { id: "wallet", url: "index.html", mode: "same-origin" },
+      { id: "gateway", url: "https://wordfinance-gateway-production.up.railway.app/api/gateway/health", mode: "cors" },
+      { id: "marketplace", url: "https://skill-marketplace-ia-production.up.railway.app/api/health", mode: "cors-fallback" },
+      { id: "reino", url: "https://reino-pixc-production.up.railway.app/api/health", mode: "cors-fallback" },
+      { id: "payments", url: "pay-docs.html", mode: "same-origin" }
+    ];
+
+    function setState(id, state, label) {
+      const card = document.querySelector(`[data-service="${id}"]`);
+      if (!card) return;
+      const badge = card.querySelector(".state");
+      badge.classList.remove("ok", "warn", "bad");
+      badge.classList.add(state);
+      badge.querySelector("span").textContent = label;
+    }
+
+    async function probe(service) {
+      setState(service.id, "warn", "Verificando");
+      try {
+        const response = await fetch(service.url, { cache: "no-store" });
+        if (response.ok) return setState(service.id, "ok", "Online");
+        return setState(service.id, "bad", "Atencao");
+      } catch (error) {
+        if (service.mode === "cors-fallback") {
+          try {
+            await fetch(service.url, { mode: "no-cors", cache: "no-store" });
+            return setState(service.id, "ok", "Alcancavel");
+          } catch (_) {
+            return setState(service.id, "bad", "Indisponivel");
+          }
+        }
+        setState(service.id, "bad", "Indisponivel");
+      }
+    }
+
+    async function refreshStatus() {
+      await Promise.all(services.map(probe));
+      const ok = document.querySelectorAll(".state.ok").length;
+      const total = services.length;
+      document.getElementById("overall-count").textContent = `${ok}/${total}`;
+      document.getElementById("overall-label").textContent = ok === total
+        ? "Todos os sinais publicos responderam nesta verificacao."
+        : "Alguns sinais precisam de atencao ou podem estar bloqueados por CORS.";
+    }
+
+    document.getElementById("refresh-status").addEventListener("click", refreshStatus);
+    refreshStatus();
+  </script>
+</body>
+</html>

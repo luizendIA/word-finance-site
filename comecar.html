@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comece aqui | WordFinance Wallet, Pay e SkillForge IA</title>
+  <meta name="description" content="Escolha como entrar no ecossistema WordFinance: usar uma carteira nao custodial, aceitar pagamentos cripto ou comprar e vender skills de IA.">
+  <meta name="keywords" content="WordFinance, carteira cripto, aceitar USDC, aceitar Bitcoin Lightning, marketplace skills IA, SkillForge IA">
+  <link rel="canonical" href="https://wordfinance.org/comecar.html">
+  <meta property="og:title" content="Comece aqui | WordFinance">
+  <meta property="og:description" content="Tres caminhos simples para usar a WordFinance: carteira, pagamentos cripto e marketplace de skills de IA.">
+  <meta property="og:url" content="https://wordfinance.org/comecar.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    :root {
+      --bg: #071016;
+      --panel: #0d1a24;
+      --panel-2: #132635;
+      --paper: #f7fbff;
+      --muted: #a8b6c6;
+      --line: rgba(255,255,255,.13);
+      --gold: #f4b84a;
+      --teal: #35d0ba;
+      --blue: #62a8ff;
+      --green: #4ade80;
+      --ink: #071016;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--paper);
+      letter-spacing: 0;
+    }
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(7,16,22,.92);
+      backdrop-filter: blur(16px);
+    }
+    .nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      color: var(--paper);
+      text-decoration: none;
+    }
+    .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+    .brand span { color: var(--gold); }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .nav-actions a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .nav-actions a:hover { color: var(--gold); }
+    .hero {
+      min-height: calc(100vh - 68px);
+      display: grid;
+      align-items: center;
+      padding: 64px 0 48px;
+      background:
+        linear-gradient(135deg, rgba(53,208,186,.12), rgba(244,184,74,.08) 42%, rgba(98,168,255,.08)),
+        var(--bg);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(320px, .98fr);
+      gap: 48px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      min-height: 34px;
+      align-items: center;
+      padding: 0 13px;
+      border: 1px solid rgba(244,184,74,.32);
+      border-radius: 999px;
+      color: var(--gold);
+      background: rgba(244,184,74,.08);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: .96;
+      max-width: 860px;
+    }
+    .gold { color: var(--gold); }
+    .lead {
+      max-width: 760px;
+      margin: 24px 0 0;
+      color: #d7e2ed;
+      font-size: clamp(18px, 2.4vw, 22px);
+      line-height: 1.58;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 22px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--ink);
+      box-shadow: 0 16px 40px rgba(244,184,74,.2);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,.06);
+      color: var(--paper);
+      border-color: var(--line);
+    }
+    .signal-board {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(13,26,36,.86);
+      box-shadow: 0 24px 80px rgba(0,0,0,.28);
+      padding: 22px;
+    }
+    .signal-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .signal-title { display: grid; gap: 4px; }
+    .signal-title strong { font-size: 16px; }
+    .signal-title span { color: var(--muted); font-size: 13px; }
+    .pulse {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--green);
+      font-weight: 900;
+      font-size: 13px;
+    }
+    .pulse i {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 6px rgba(74,222,128,.1);
+      display: inline-block;
+    }
+    .signal-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .signal-item {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+    }
+    .mark {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      font-weight: 1000;
+      background: linear-gradient(135deg, var(--teal), var(--gold));
+    }
+    .signal-item h2 {
+      margin: 0 0 5px;
+      font-size: 17px;
+    }
+    .signal-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .chip {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 0 10px;
+      color: var(--teal);
+      background: rgba(53,208,186,.1);
+      border: 1px solid rgba(53,208,186,.18);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    section { padding: 74px 0; }
+    .section-head {
+      max-width: 820px;
+      margin-bottom: 34px;
+    }
+    .section-kicker {
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0 0 12px;
+    }
+    .section-title {
+      margin: 0;
+      font-size: clamp(30px, 4.6vw, 52px);
+      line-height: 1.02;
+    }
+    .section-lead {
+      margin: 16px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 18px;
+    }
+    .paths {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .path-card {
+      min-height: 430px;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(19,38,53,.96), rgba(13,26,36,.96));
+    }
+    .path-card:nth-child(2) { background: linear-gradient(180deg, rgba(40,35,25,.94), rgba(13,26,36,.96)); }
+    .path-card:nth-child(3) { background: linear-gradient(180deg, rgba(21,35,54,.94), rgba(13,26,36,.96)); }
+    .path-number {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: var(--ink);
+      background: var(--gold);
+      font-weight: 1000;
+      margin-bottom: 20px;
+    }
+    .path-card h2 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.06;
+    }
+    .path-card p {
+      color: var(--muted);
+      line-height: 1.62;
+      margin: 16px 0 20px;
+    }
+    .mini-list {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 22px;
+      padding: 0;
+      list-style: none;
+    }
+    .mini-list li {
+      color: #dce6ef;
+      line-height: 1.42;
+      padding-left: 18px;
+      position: relative;
+      font-size: 15px;
+    }
+    .mini-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .55em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+    .path-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: auto;
+    }
+    .trust-band {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: #0b1721;
+    }
+    .trust-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: center;
+    }
+    .trust-panel {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+      padding: 24px;
+    }
+    .trust-panel h2 { margin: 0 0 12px; font-size: 28px; }
+    .trust-panel p { margin: 0; color: var(--muted); line-height: 1.65; }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .metric {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,.05);
+    }
+    .metric strong { display: block; font-size: 24px; margin-bottom: 5px; color: var(--gold); }
+    .metric span { color: var(--muted); font-size: 14px; line-height: 1.4; }
+    .final-cta {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(244,184,74,.1), rgba(53,208,186,.08), rgba(98,168,255,.1));
+    }
+    .final-cta .wrap { max-width: 780px; }
+    .final-cta p {
+      color: #d7e2ed;
+      line-height: 1.7;
+      font-size: 18px;
+      margin: 18px auto 28px;
+    }
+    footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 16px; }
+    .footer-links a { text-decoration: none; color: var(--muted); }
+    .footer-links a:hover { color: var(--gold); }
+    @media (max-width: 940px) {
+      .hero { min-height: auto; }
+      .hero-grid, .paths, .trust-grid { grid-template-columns: 1fr; }
+      .signal-board { max-width: 680px; }
+    }
+    @media (max-width: 620px) {
+      .nav { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+      .nav-actions { width: 100%; }
+      .nav-actions a { min-height: 34px; }
+      .signal-item { grid-template-columns: 44px minmax(0, 1fr); }
+      .signal-item .chip { grid-column: 1 / -1; justify-self: start; }
+      .mark { width: 44px; height: 44px; }
+      .hero-actions .btn, .path-actions .btn { width: 100%; }
+      .metrics { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="index.html" aria-label="WordFinance home">
+        <img src="icon-512.png" alt="" width="36" height="36">
+        Word<span>Finance</span>
+      </a>
+      <nav class="nav-actions" aria-label="Navegacao principal">
+        <a href="status.html">Status</a>
+        <a href="partners.html">Parceiros</a>
+        <a href="pay.html">Pay</a>
+        <a href="index.html#download">Download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Comece aqui</span>
+          <h1>Uma entrada simples para uma economia mais <span class="gold">livre</span>.</h1>
+          <p class="lead">Escolha seu caminho: guardar suas chaves, receber pagamentos globais ou baixar conhecimento especializado para sua IA trabalhar de verdade por voce.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#caminhos">Escolher meu caminho</a>
+            <a class="btn btn-secondary" href="status.html">Ver status publico</a>
+          </div>
+        </div>
+
+        <aside class="signal-board" aria-label="Mapa do ecossistema WordFinance">
+          <div class="signal-top">
+            <div class="signal-title">
+              <strong>Ecossistema WordFinance</strong>
+              <span>Carteira, pagamentos, jogos e IA em um unico mapa.</span>
+            </div>
+            <span class="pulse"><i></i> Publico</span>
+          </div>
+          <div class="signal-list">
+            <div class="signal-item">
+              <div class="mark">WF</div>
+              <div><h2>Wallet</h2><p>Carteira nao custodial para Solana, USDC, PIXC e Bitcoin Lightning.</p></div>
+              <span class="chip">Usuario</span>
+            </div>
+            <div class="signal-item">
+              <div class="mark">Pay</div>
+              <div><h2>Gateway</h2><p>Checkout para lojistas receberem USDC e BTC Lightning com menos friccao.</p></div>
+              <span class="chip">Lojista</span>
+            </div>
+            <div class="signal-item">
+              <div class="mark">IA</div>
+              <div><h2>SkillForge</h2><p>Marketplace de skills e agentes para transformar IA em ferramenta de trabalho.</p></div>
+              <span class="chip">Criador</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="caminhos">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-kicker">Tres caminhos</p>
+          <h2 class="section-title">O usuario entende em 30 segundos. Depois ele escolhe.</h2>
+          <p class="section-lead">A WordFinance fica mais forte quando cada pessoa encontra uma porta clara: usar, vender ou aprender.</p>
+        </div>
+
+        <div class="paths">
+          <article class="path-card">
+            <div class="path-number">1</div>
+            <h2>Quero usar a carteira.</h2>
+            <p>Para quem quer guardar as proprias chaves e experimentar uma carteira cripto brasileira, simples e nao custodial.</p>
+            <ul class="mini-list">
+              <li>Solana, USDC, PIXC e Bitcoin Lightning.</li>
+              <li>Seed fica com o usuario, nao com a WordFinance.</li>
+              <li>Windows, Linux, Android e extensao Chrome.</li>
+            </ul>
+            <div class="path-actions">
+              <a class="btn btn-primary" href="index.html#download">Baixar carteira</a>
+              <a class="btn btn-secondary" href="privacy.html">Privacidade</a>
+            </div>
+          </article>
+
+          <article class="path-card">
+            <div class="path-number">2</div>
+            <h2>Quero aceitar pagamento crypto.</h2>
+            <p>Para lojistas, criadores e plataformas que querem receber pagamentos digitais sem custodiar fundos de clientes.</p>
+            <ul class="mini-list">
+              <li>Gateway USDC Solana e BTC Lightning.</li>
+              <li>Pagina de checkout e API para integracao.</li>
+              <li>Modelo nao custodial: o lojista recebe na propria carteira.</li>
+            </ul>
+            <div class="path-actions">
+              <a class="btn btn-primary" href="pay.html">Integrar WordFinance Pay</a>
+              <a class="btn btn-secondary" href="pay-docs.html">Ler documentacao</a>
+            </div>
+          </article>
+
+          <article class="path-card">
+            <div class="path-number">3</div>
+            <h2>Quero comprar ou vender skills de IA.</h2>
+            <p>Para quem quer transformar conhecimento em pacote vendavel, ou dar novas capacidades para uma IA trabalhar melhor.</p>
+            <ul class="mini-list">
+              <li>Knowledge Skills para agentes e prompts profissionais.</li>
+              <li>Area de criadores, afiliados e produtos digitais.</li>
+              <li>Pagamentos por Pix, cartao e cripto conforme configuracao.</li>
+            </ul>
+            <div class="path-actions">
+              <a class="btn btn-primary" href="https://skill-marketplace-ia-production.up.railway.app/" target="_blank" rel="noopener">Abrir SkillForge IA</a>
+              <a class="btn btn-secondary" href="marketplace.html">Ver vitrine</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-band">
+      <div class="wrap trust-grid">
+        <div class="trust-panel">
+          <h2>Confianca vem antes de expansao.</h2>
+          <p>O ecossistema cresce com uma regra simples: servicos publicos precisam ser claros, verificaveis e explicados em linguagem humana. A pagina de status mostra o que esta vivo, o que esta em observacao e para onde cada pessoa deve ir.</p>
+        </div>
+        <div class="metrics" aria-label="Principios WordFinance">
+          <div class="metric"><strong>3</strong><span>Produtos centrais: Wallet, Pay e SkillForge IA.</span></div>
+          <div class="metric"><strong>24/7</strong><span>Status publico e links de verificacao.</span></div>
+          <div class="metric"><strong>0</strong><span>Custodia de seed da carteira pelo site.</span></div>
+          <div class="metric"><strong>1</strong><span>Ecossistema com jogos, pagamentos e IA.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="wrap">
+        <p class="section-kicker">Primeiro passo</p>
+        <h2 class="section-title">Entre pela porta certa. O resto do mapa aparece naturalmente.</h2>
+        <p>Use a carteira se voce quer soberania. Use o Pay se voce quer vender. Use o SkillForge se voce quer transformar conhecimento em produto.</p>
+        <div class="hero-actions" style="justify-content:center">
+          <a class="btn btn-primary" href="#caminhos">Escolher agora</a>
+          <a class="btn btn-secondary" href="status.html">Ver confiabilidade</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div><strong>WordFinance</strong> - carteira, pagamentos e IA para uma economia mais livre.</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="status.html">Status</a>
+        <a href="partners.html">Parceiros</a>
+        <a href="docs.html">Docs</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

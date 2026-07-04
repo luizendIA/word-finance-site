@@ -68,14 +68,16 @@
         footer { padding:42px 6%; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:22px; flex-wrap:wrap; color:var(--text-dim); font-size:0.88rem; }
         footer a { color:var(--text-dim); text-decoration:none; margin-left:16px; }
         footer a:hover { color:var(--btc); }
-        @media(max-width:900px){ .hero-grid,.split,.grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}.nav-links{gap:12px;flex-wrap:wrap;justify-content:flex-end}nav{align-items:flex-start}.hero{min-height:auto} }
-        @media(max-width:620px){ nav{position:static;flex-direction:column}.nav-links{justify-content:flex-start}.hero{padding-top:54px}.actions{flex-direction:column}.btn{width:100%} }
+        @media(max-width:900px){ .hero-grid,.split,.grid{grid-template-columns:1fr}.hero-grid>*,.split>*,.grid>*{min-width:0}.metrics{grid-template-columns:1fr}.nav-links{gap:12px;flex-wrap:wrap;justify-content:flex-end}nav{align-items:flex-start}.hero{min-height:auto} }
+        @media(max-width:620px){ nav{position:static;flex-direction:column}.nav-links{justify-content:flex-start}.hero{padding-top:54px}h1,.lead,.btn{max-width:100%;overflow-wrap:anywhere}.actions{flex-direction:column;max-width:100%}.btn{width:100%;white-space:normal;text-align:center} }
     </style>
 </head>
 <body>
     <nav>
-        <a class="logo" href="/">Word<span>Finance</span></a>
+        <a class="logo" href="/comecar.html">Word<span>Finance</span></a>
         <div class="nav-links">
+            <a href="/comecar.html">Comece aqui</a>
+            <a href="/status.html">Status</a>
             <a href="/">Carteira</a>
             <a href="/pay.html">Pay</a>
             <a href="/partners.html">Parceiros</a>
@@ -94,6 +96,7 @@
                     <div class="actions">
                         <a class="btn btn-primary" href="/downloads/wordfinance-pay.zip">Baixar plugin WooCommerce</a>
                         <a class="btn btn-secondary" href="#teste">Criar cobranca de teste</a>
+                        <a class="btn btn-secondary" href="/status.html">Ver status publico</a>
                         <a class="btn btn-secondary" href="/pay-docs.html">Ver documentacao</a>
                     </div>
                     <div class="metrics">
@@ -183,6 +186,7 @@ POST /api/gateway/charge
                 <p class="section-desc">Para lojas WooCommerce, o caminho mais rapido e baixar o plugin. Para SaaS, marketplace ou checkout proprio, use a API.</p>
                 <div class="actions" style="justify-content:center;margin-top:26px">
                     <a class="btn btn-primary" href="/downloads/wordfinance-pay.zip">Baixar WordFinance Pay</a>
+                    <a class="btn btn-secondary" href="/comecar.html">Entender o ecossistema</a>
                     <a class="btn btn-secondary" href="/pay-docs.html">Documentacao tecnica</a>
                 </div>
             </div>
@@ -192,6 +196,8 @@ POST /api/gateway/charge
     <footer>
         <span>WordFinance Pay - USDC Solana nao-custodial.</span>
         <span>
+            <a href="/comecar.html">Comece aqui</a>
+            <a href="/status.html">Status</a>
             <a href="/privacy.html">Privacidade</a>
             <a href="/docs.html">API</a>
             <a href="/partners.html">Parceiros</a>

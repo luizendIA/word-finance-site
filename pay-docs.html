@@ -37,13 +37,21 @@
         th { color:var(--text); background:var(--surface-2); }
         .notice { border:1px solid rgba(16,185,129,0.25); background:rgba(16,185,129,0.08); border-radius:12px; padding:18px; color:var(--text); }
         footer { padding:34px 20px; border-top:1px solid var(--border); color:var(--text-dim); text-align:center; }
-        @media(max-width:760px){ .grid{grid-template-columns:1fr} nav{align-items:flex-start;flex-direction:column} }
+        @media(max-width:760px){
+            .grid{grid-template-columns:1fr}
+            nav{align-items:flex-start;flex-direction:column}
+            table{display:block;max-width:100%;overflow-x:auto;white-space:nowrap}
+            th,td{white-space:nowrap}
+            pre{white-space:pre-wrap;overflow-wrap:anywhere}
+        }
     </style>
 </head>
 <body>
     <nav>
-        <a class="logo" href="/">Word<span>Finance</span></a>
+        <a class="logo" href="/comecar.html">Word<span>Finance</span></a>
         <div class="nav-links">
+            <a href="/comecar.html">Comece aqui</a>
+            <a href="/status.html">Status</a>
             <a href="/pay.html">WordFinance Pay</a>
             <a href="/downloads/wordfinance-pay.zip">Baixar plugin</a>
             <a href="/partners.html">Parceiros</a>
@@ -55,7 +63,8 @@
         <p>WordFinance Pay e um gateway nao-custodial. Ele cria cobrancas, exibe QR/deep link e notifica sua loja quando o pagamento e confirmado. O dinheiro vai direto para a carteira Solana do lojista.</p>
         <div class="hero-actions">
             <a class="btn btn-primary" href="/downloads/wordfinance-pay.zip">Baixar plugin WooCommerce</a>
-            <a class="btn btn-secondary" href="https://wordfinance-gateway-production.up.railway.app/api/gateway/health">Ver health do gateway</a>
+            <a class="btn btn-secondary" href="/status.html">Ver status publico</a>
+            <a class="btn btn-secondary" href="https://wordfinance-gateway-production.up.railway.app/api/gateway/health">Health direto do gateway</a>
         </div>
 
         <section>
@@ -146,6 +155,6 @@ Content-Type: application/json
             </table>
         </section>
     </main>
-    <footer>WordFinance Pay - aceite USDC Solana sem custodiar fundos.</footer>
+    <footer>WordFinance Pay - aceite USDC Solana sem custodiar fundos. <a href="/comecar.html">Comece aqui</a> · <a href="/status.html">Status</a></footer>
 </body>
 </html>
