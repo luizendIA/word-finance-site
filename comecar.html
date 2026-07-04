@@ -11,7 +11,9 @@
   <meta property="og:description" content="Tres caminhos simples para usar a WordFinance: carteira, pagamentos cripto e marketplace de skills de IA.">
   <meta property="og:url" content="https://wordfinance.org/comecar.html">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://wordfinance.org/icon-512.png">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://wordfinance.org/icon-512.png">
   <style>
     :root {
       --bg: #071016;
@@ -328,6 +330,36 @@
       border-bottom: 1px solid var(--line);
       background: #0b1721;
     }
+    .focus-strip {
+      padding: 24px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.025);
+    }
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .focus-card {
+      min-height: 132px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(13,26,36,.78);
+    }
+    .focus-card strong {
+      display: block;
+      color: var(--paper);
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .focus-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
     .trust-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -383,7 +415,7 @@
     .footer-links a:hover { color: var(--gold); }
     @media (max-width: 940px) {
       .hero { min-height: auto; }
-      .hero-grid, .paths, .trust-grid { grid-template-columns: 1fr; }
+      .hero-grid, .paths, .trust-grid, .focus-grid { grid-template-columns: 1fr; }
       .signal-board { max-width: 680px; }
     }
     @media (max-width: 620px) {
@@ -453,6 +485,14 @@
             </div>
           </div>
         </aside>
+      </div>
+    </section>
+
+    <section class="focus-strip" aria-label="Produtos principais WordFinance">
+      <div class="wrap focus-grid">
+        <div class="focus-card"><strong>WordFinance Wallet</strong><span>Carteira nao custodial para guardar chaves, receber cripto e usar PIXC com liberdade.</span></div>
+        <div class="focus-card"><strong>WordFinance Pay</strong><span>Gateway USDC e Bitcoin Lightning para lojistas receberem em carteira propria.</span></div>
+        <div class="focus-card"><strong>SkillForge IA</strong><span>Marketplace para comprar, vender e empacotar conhecimento especializado para agentes de IA.</span></div>
       </div>
     </section>
 
@@ -547,10 +587,31 @@
       <div class="footer-links">
         <a href="index.html">Home</a>
         <a href="status.html">Status</a>
+        <a href="pay.html">Pay</a>
+        <a href="marketplace.html">SkillForge</a>
         <a href="partners.html">Parceiros</a>
         <a href="docs.html">Docs</a>
       </div>
     </div>
   </footer>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Comece aqui | WordFinance",
+      "url": "https://wordfinance.org/comecar.html",
+      "description": "Tres caminhos para entrar no ecossistema WordFinance: carteira, pagamentos cripto e marketplace de skills de IA.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "WordFinance",
+        "url": "https://wordfinance.org/"
+      },
+      "about": [
+        { "@type": "SoftwareApplication", "name": "WordFinance Wallet", "applicationCategory": "FinanceApplication" },
+        { "@type": "Service", "name": "WordFinance Pay" },
+        { "@type": "Service", "name": "SkillForge IA" }
+      ]
+    }
+  </script>
 </body>
 </html>

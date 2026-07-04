@@ -11,6 +11,9 @@
   <meta property="og:description" content="Acompanhe os sinais de disponibilidade do ecossistema WordFinance.">
   <meta property="og:url" content="https://wordfinance.org/status.html">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://wordfinance.org/icon-512.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://wordfinance.org/icon-512.png">
   <style>
     :root {
       --bg: #071016;
@@ -132,6 +135,13 @@
       margin-top: 8px;
       color: var(--muted);
       line-height: 1.45;
+    }
+    .summary-card small {
+      display: block;
+      margin-top: 14px;
+      color: rgba(168,182,198,.78);
+      font-size: 12px;
+      line-height: 1.4;
     }
     .status-strip {
       padding: 22px 0;
@@ -355,6 +365,7 @@
         <aside class="summary-card" aria-live="polite">
           <strong id="overall-count">--</strong>
           <span id="overall-label">Verificando servicos publicos...</span>
+          <small id="last-checked">Ultima verificacao: iniciando agora.</small>
         </aside>
       </div>
     </section>
@@ -437,6 +448,8 @@
       <div class="footer-links">
         <a href="index.html">Home</a>
         <a href="comecar.html">Comece aqui</a>
+        <a href="pay.html">Pay</a>
+        <a href="marketplace.html">SkillForge</a>
         <a href="partners.html">Parceiros</a>
         <a href="docs.html">Docs</a>
       </div>
@@ -444,6 +457,7 @@
   </footer>
 
   <script>
+    const CHECK_TIMEOUT_MS = 8000;
     const services = [
       { id: "wallet", url: "index.html", mode: "same-origin" },
       { id: "gateway", url: "https://wordfinance-gateway-production.up.railway.app/api/gateway/health", mode: "cors" },
@@ -461,16 +475,26 @@
       badge.querySelector("span").textContent = label;
     }
 
+    async function fetchWithTimeout(url, options = {}) {
+      const controller = new AbortController();
+      const timer = window.setTimeout(() => controller.abort(), CHECK_TIMEOUT_MS);
+      try {
+        return await fetch(url, { ...options, signal: controller.signal, cache: "no-store" });
+      } finally {
+        window.clearTimeout(timer);
+      }
+    }
+
     async function probe(service) {
       setState(service.id, "warn", "Verificando");
       try {
-        const response = await fetch(service.url, { cache: "no-store" });
+        const response = await fetchWithTimeout(service.url);
         if (response.ok) return setState(service.id, "ok", "Online");
         return setState(service.id, "bad", "Atencao");
       } catch (error) {
         if (service.mode === "cors-fallback") {
           try {
-            await fetch(service.url, { mode: "no-cors", cache: "no-store" });
+            await fetchWithTimeout(service.url, { mode: "no-cors" });
             return setState(service.id, "ok", "Alcancavel");
           } catch (_) {
             return setState(service.id, "bad", "Indisponivel");
@@ -488,10 +512,29 @@
       document.getElementById("overall-label").textContent = ok === total
         ? "Todos os sinais publicos responderam nesta verificacao."
         : "Alguns sinais precisam de atencao ou podem estar bloqueados por CORS.";
+      document.getElementById("last-checked").textContent =
+        "Ultima verificacao: " + new Date().toLocaleString("pt-BR", {
+          dateStyle: "short",
+          timeStyle: "medium"
+        }) + ".";
     }
 
     document.getElementById("refresh-status").addEventListener("click", refreshStatus);
     refreshStatus();
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Status publico | WordFinance",
+      "url": "https://wordfinance.org/status.html",
+      "description": "Status publico simples dos principais servicos WordFinance: carteira, gateway, marketplace, Reino PIXC e API de pagamentos.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "WordFinance",
+        "url": "https://wordfinance.org/"
+      }
+    }
   </script>
 </body>
 </html>
