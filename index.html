@@ -78,6 +78,15 @@
         .partners-mini-card { background:rgba(15,21,32,0.86); border:1px solid rgba(247,147,26,0.18); border-radius:12px; padding:18px; }
         .partners-mini-card strong { display:block; margin-bottom:6px; }
         .partners-mini-card span { color:var(--text-dim); font-size:0.84rem; line-height:1.4; }
+        .skillforge-spotlight { padding:64px 6%; background:linear-gradient(135deg, rgba(153,69,255,0.14), rgba(247,147,26,0.1)); border-top:1px solid rgba(153,69,255,0.22); border-bottom:1px solid rgba(247,147,26,0.16); }
+        .skillforge-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 0.8fr; gap:30px; align-items:center; }
+        .skillforge-spotlight h2 { font-size:clamp(1.9rem,4vw,3rem); line-height:1.08; margin-bottom:14px; letter-spacing:-0.8px; }
+        .skillforge-spotlight p { color:var(--text-dim); line-height:1.7; max-width:650px; }
+        .skillforge-actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:24px; }
+        .skillforge-panel { background:rgba(15,21,32,0.9); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:24px; }
+        .skillforge-panel strong { display:block; margin-bottom:10px; font-size:1.05rem; }
+        .skillforge-panel ul { list-style:none; display:grid; gap:10px; color:var(--text-dim); line-height:1.5; }
+        .skillforge-panel li::before { content:'>'; color:var(--btc); margin-right:8px; font-family:'JetBrains Mono',monospace; }
 
         .stats { display:flex; justify-content:center; gap:60px; padding:0 6% 80px; flex-wrap:wrap; }
         .stat { text-align:center; }
@@ -174,6 +183,7 @@
             .api-grid, .ai-grid { grid-template-columns:1fr; }
             .partners-strip-inner { grid-template-columns:1fr; }
             .partners-mini-grid { grid-template-columns:1fr; }
+            .skillforge-inner { grid-template-columns:1fr; }
             .api-code { max-width:100%; white-space:pre-wrap; overflow-wrap:anywhere; }
             .endpoint { display:grid; grid-template-columns:50px minmax(0,1fr); align-items:start; }
             .endpoint-path, .endpoint-desc { min-width:0; overflow-wrap:anywhere; }
@@ -202,6 +212,7 @@
         <a href="#api">API</a>
         <a href="#ai-agents">Agentes IA</a>
         <a href="#pqc">Pos-Quantica</a>
+        <a href="https://skill-marketplace-ia-production.up.railway.app/" target="_blank" rel="noopener">SkillForge</a>
         <a href="pay.html">Pay</a>
         <a href="partners.html">Parceiros</a>
         <a href="#download">Download</a>
@@ -226,8 +237,31 @@
         <a href="comecar.html" class="btn-primary">Comece aqui</a>
         <a href="#download" class="btn-secondary">Baixar Word Finance</a>
         <a href="pay.html" class="btn-secondary">Aceitar USDC na loja</a>
+        <a href="https://skill-marketplace-ia-production.up.railway.app/" class="btn-secondary" target="_blank" rel="noopener">Comprar skills IA</a>
         <a href="partners.html" class="btn-secondary">Parceiros que aceitam</a>
         <a href="#api" class="btn-secondary">Documentacao API</a>
+    </div>
+</section>
+
+<section class="skillforge-spotlight" id="skillforge">
+    <div class="skillforge-inner">
+        <div>
+            <div class="section-label">SkillForge IA</div>
+            <h2>O marketplace onde conhecimento vira produto para agentes de IA.</h2>
+            <p>Compre Knowledge Skills prontas para turbinar sua IA, ou venda seu proprio metodo com checkout, afiliados e recebimento em Pix, cartao, USDC ou BTC Lightning quando configurado.</p>
+            <div class="skillforge-actions">
+                <a href="https://skill-marketplace-ia-production.up.railway.app/" class="btn-primary" target="_blank" rel="noopener">Abrir SkillForge</a>
+                <a href="https://skill-marketplace-ia-production.up.railway.app/venda-seu-conhecimento" class="btn-secondary" target="_blank" rel="noopener">Vender conhecimento</a>
+            </div>
+        </div>
+        <div class="skillforge-panel">
+            <strong>Por que isso importa para a WordFinance</strong>
+            <ul>
+                <li>Produto digital com entrega automatica e margem alta.</li>
+                <li>Uso real para WordFinance Pay em USDC e BTC Lightning.</li>
+                <li>Canal para criadores, afiliados e agentes de IA comprarem conhecimento.</li>
+            </ul>
+        </div>
     </div>
 </section>
 

@@ -76,6 +76,10 @@
         .marketplace { background:linear-gradient(135deg,rgba(153,69,255,0.13),rgba(247,147,26,0.1)); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
         .split { display:grid; grid-template-columns:0.95fr 1.05fr; gap:36px; align-items:center; }
         .panel { background:rgba(15,21,32,0.9); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:26px; }
+        .marketplace-metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:22px 0 2px; }
+        .marketplace-metric { background:rgba(8,12,20,0.5); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:14px; }
+        .marketplace-metric strong { display:block; color:var(--btc); font-size:1.25rem; margin-bottom:4px; }
+        .marketplace-metric span { color:var(--text-dim); font-size:0.78rem; line-height:1.35; }
         .feature-list { display:grid; gap:12px; }
         .feature-item { display:flex; gap:12px; align-items:flex-start; color:var(--text-dim); line-height:1.55; }
         .check { min-width:24px; height:24px; border-radius:50%; background:rgba(16,185,129,0.14); color:var(--green); display:flex; align-items:center; justify-content:center; font-weight:900; }
@@ -90,7 +94,7 @@
         footer a:hover { color:var(--btc); }
         @media(max-width:900px) {
             .nav-links { display:none; }
-            .grid, .split, .merchant-grid, .trust-row { grid-template-columns:1fr; }
+            .grid, .split, .merchant-grid, .trust-row, .marketplace-metrics { grid-template-columns:1fr; }
             .hero { padding-top:124px; }
         }
     </style>
@@ -190,20 +194,27 @@
         <section class="marketplace" id="marketplace-ia">
             <div class="wrap split">
                 <div>
-                    <div class="section-label">Marketplace de Skills IA</div>
-                    <h2 class="section-title">Baixe conhecimento especializado para sua IA trabalhar de verdade por voce.</h2>
-                    <p class="section-desc">O novo marketplace de Knowledge Skills transforma pacotes de conhecimento em produtos digitais: o comprador escolhe uma habilidade, paga e recebe arquivos prontos para colar ou instalar na IA.</p>
+                    <div class="section-label">Produto em destaque</div>
+                    <h2 class="section-title">SkillForge IA e o canal mais direto para vender conhecimento no ecossistema.</h2>
+                    <p class="section-desc">Knowledge Skills transformam metodo, experiencia e prompts em produtos digitais. O comprador paga, recebe o pacote e instala na IA; o criador pode vender com afiliados e receber tambem via WordFinance Pay.</p>
                     <div class="actions" style="margin-top:24px">
                         <a href="https://skill-marketplace-ia-production.up.railway.app/" class="btn btn-primary" target="_blank" rel="noopener">Abrir Marketplace IA</a>
-                        <a href="mailto:contato@wordfinance.org?subject=Quero%20vender%20skills%20IA" class="btn btn-secondary">Quero vender skills</a>
+                        <a href="https://skill-marketplace-ia-production.up.railway.app/venda-seu-conhecimento" class="btn btn-secondary" target="_blank" rel="noopener">Tutorial do vendedor</a>
+                        <a href="https://skill-marketplace-ia-production.up.railway.app/o-que-e-knowledge-skill" class="btn btn-secondary" target="_blank" rel="noopener">O que e uma skill?</a>
                     </div>
                 </div>
                 <div class="panel">
+                    <div class="marketplace-metrics" aria-label="Indicadores SkillForge">
+                        <div class="marketplace-metric"><strong>R$20-80</strong><span>Faixa natural para skills de criadores.</span></div>
+                        <div class="marketplace-metric"><strong>Pix + cripto</strong><span>Checkout com AbacatePay e WordFinance Pay.</span></div>
+                        <div class="marketplace-metric"><strong>Afiliados</strong><span>Links rastreaveis para parceiros venderem junto.</span></div>
+                    </div>
                     <div class="feature-list">
                         <div class="feature-item"><span class="check">&check;</span><span>Pacotes de conhecimento organizados por nicho, preco e nivel de aplicacao.</span></div>
                         <div class="feature-item"><span class="check">&check;</span><span>Compra por Pix, cartao, Bitcoin Lightning ou USDC quando o vendedor aceitar.</span></div>
                         <div class="feature-item"><span class="check">&check;</span><span>Area de membros estilo Hotmart para criadores venderem suas proprias skills.</span></div>
                         <div class="feature-item"><span class="check">&check;</span><span>Links de afiliado para parceiros divulgarem e receberem comissao.</span></div>
+                        <div class="feature-item"><span class="check">&check;</span><span>Paginas SEO para atrair compradores pesquisando Knowledge Skills e agentes de IA.</span></div>
                     </div>
                 </div>
             </div>
