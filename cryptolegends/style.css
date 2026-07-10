@@ -1046,7 +1046,7 @@ h1 {
   }
 }
 
-/* ===== Campanha v4: diálogo cinematográfico, tutorial e giveaway ===== */
+/* ===== Campanha v4: dialogo cinematografico, tutorial e giveaway ===== */
 #dialogue {
   display: flex;
   gap: 14px;
@@ -1206,4 +1206,252 @@ h1 {
   #dialogue { bottom: 168px; }
   #dialogue-portrait { width: 58px; height: 58px; flex-basis: 58px; }
   #tutorial-banner span { font-size: 13px; }
+}
+
+/* ===== Crypto Legends v5: mobile viewport, HUD toggle, quality ===== */
+#hud-toggle {
+  display: none;
+  position: fixed;
+  top: calc(10px + env(safe-area-inset-top));
+  right: 10px;
+  z-index: 42;
+  min-width: 52px;
+  min-height: 42px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  border: 1px solid rgba(93, 242, 255, 0.42);
+  color: #061116;
+  background: linear-gradient(135deg, #5df2ff, #14f195);
+  font-family: Orbitron, Inter, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 900;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+#quality-toggle,
+#sound-toggle {
+  min-height: 36px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(93, 242, 255, 0.26);
+  color: #eefcff;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 800;
+}
+
+body[data-quality="low"] #game-canvas { image-rendering: auto; }
+
+@media (max-width: 860px) {
+  #hud-toggle { display: block; }
+
+  body.mobile-hud #hud {
+    top: calc(8px + env(safe-area-inset-top));
+    left: 8px;
+    right: 70px;
+    width: auto;
+    max-height: none;
+    overflow: visible;
+    gap: 6px;
+    z-index: 28;
+  }
+
+  body.mobile-hud .hud-row {
+    gap: 6px;
+    padding: 7px;
+    background: rgba(5, 13, 20, 0.66);
+    backdrop-filter: blur(6px);
+  }
+
+  body.mobile-hud .vitals {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  body.mobile-hud .combat {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  body.mobile-hud .hud-row span { font-size: 0.56rem; }
+  body.mobile-hud .hud-row b { font-size: 0.68rem; }
+  body.mobile-hud .bar { height: 5px; margin: 4px 0 2px; }
+
+  body.mobile-hud #wallet-panel {
+    top: calc(58px + env(safe-area-inset-top));
+    right: 8px;
+    width: min(220px, calc(100vw - 16px));
+    max-height: min(46vh, 330px);
+    overflow: auto;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  body.mobile-hud.hud-collapsed #wallet-panel {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+  }
+
+  body.mobile-hud #radar-panel {
+    top: calc(86px + env(safe-area-inset-top));
+    left: 8px;
+    width: 108px;
+  }
+
+  body.mobile-hud #mission-panel {
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    width: min(430px, calc(100vw - 330px));
+    min-width: 210px;
+    padding: 10px 12px;
+  }
+
+  body.mobile-hud #phase-name { font-size: 0.78rem; }
+  body.mobile-hud #mission-text { font-size: 0.74rem; line-height: 1.28; }
+  body.mobile-hud .mission-progress { margin-top: 7px; }
+
+  body.mobile-hud #dialogue {
+    bottom: calc(126px + env(safe-area-inset-bottom));
+    max-height: 30vh;
+    overflow: auto;
+    padding: 10px;
+  }
+
+  body.mobile-hud #tutorial-banner {
+    top: auto;
+    bottom: calc(128px + env(safe-area-inset-bottom));
+    width: min(560px, calc(100vw - 16px));
+    padding: 9px 10px;
+  }
+
+  body.mobile-hud #mobile-controls {
+    padding: 10px 12px calc(12px + env(safe-area-inset-bottom));
+  }
+
+  body.mobile-hud .touch-stick {
+    left: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom));
+    width: 112px;
+    height: 112px;
+    background: rgba(5, 13, 20, 0.36);
+  }
+
+  body.mobile-hud .touch-stick i {
+    width: 48px;
+    height: 48px;
+  }
+
+  body.mobile-hud .touch-actions {
+    right: 12px;
+    bottom: calc(14px + env(safe-area-inset-bottom));
+    grid-template-columns: 48px 48px 48px;
+    grid-template-rows: 48px 48px;
+    gap: 8px;
+  }
+
+  body.mobile-hud #touch-fire {
+    width: 104px;
+    height: 104px;
+  }
+
+  body.mobile-hud #toast-stack {
+    top: calc(92px + env(safe-area-inset-top));
+    right: 8px;
+    width: min(280px, calc(100vw - 132px));
+  }
+}
+
+@media (max-width: 560px) {
+  body.mobile-hud #hud {
+    right: 68px;
+    max-width: none;
+  }
+
+  body.mobile-hud .combat { display: none; }
+  body.mobile-hud.hud-expanded .combat {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.mobile-hud #wallet-panel {
+    top: calc(70px + env(safe-area-inset-top));
+    right: 8px;
+    width: min(230px, calc(100vw - 16px));
+    max-height: 40vh;
+  }
+
+  body.mobile-hud #mission-panel {
+    left: 106px;
+    right: 106px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    width: auto;
+    min-width: 0;
+    transform: none;
+    padding: 7px 8px;
+    background: rgba(6, 17, 22, 0.68);
+  }
+
+  body.mobile-hud #phase-name {
+    font-size: 0.62rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  body.mobile-hud #mission-text {
+    max-height: 2.45em;
+    overflow: hidden;
+    font-size: 0.58rem;
+  }
+
+  body.mobile-hud .mission-progress { height: 4px; margin-top: 5px; }
+
+  body.mobile-hud #dialogue {
+    left: 8px;
+    right: 8px;
+    bottom: calc(112px + env(safe-area-inset-bottom));
+    width: auto;
+    transform: none;
+    max-height: 28vh;
+  }
+
+  body.mobile-hud #dialogue-portrait {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  body.mobile-hud #tutorial-banner {
+    bottom: calc(112px + env(safe-area-inset-bottom));
+  }
+
+  body.mobile-hud #tutorial-banner span {
+    font-size: 0.72rem;
+    max-height: 2.8em;
+    overflow: hidden;
+  }
+
+  body.mobile-hud .tutorial-actions button {
+    min-height: 34px;
+    padding: 6px 12px;
+  }
+
+  body.mobile-hud #store-panel,
+  body.mobile-hud .economy-panel {
+    top: calc(64px + env(safe-area-inset-top));
+    left: 8px;
+    right: 8px;
+    bottom: calc(112px + env(safe-area-inset-bottom));
+    width: auto;
+    max-height: none;
+  }
+
+  body.mobile-hud #toast-stack {
+    top: calc(72px + env(safe-area-inset-top));
+    left: 8px;
+    right: auto;
+    bottom: auto;
+    width: min(250px, calc(100vw - 124px));
+  }
+
+  body.mobile-hud #touch-q,
+  body.mobile-hud #touch-e,
+  body.mobile-hud #touch-reload,
+  body.mobile-hud #touch-jump { font-size: 0.76rem; }
 }

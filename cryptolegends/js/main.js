@@ -6,10 +6,30 @@
 
   const CryptoApex = window.CryptoApex;
   const canvas = document.getElementById("game-canvas");
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.shadowMap.enabled = true;
+  const QUALITY_KEY = "cryptoLegends.quality.v1";
+  const isTouchDevice = /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent) || (navigator.maxTouchPoints || 0) > 1;
+  let qualityMode = localStorage.getItem(QUALITY_KEY) || (isTouchDevice ? "medium" : "high");
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: qualityMode !== "low", powerPreference: "high-performance" });
+
+  function qualityConfig() {
+    const dpr = window.devicePixelRatio || 1;
+    if (qualityMode === "low") return { label: "Baixa", ratio: Math.min(dpr, 0.9), shadows: false };
+    if (qualityMode === "medium") return { label: "Media", ratio: Math.min(dpr, 1.15), shadows: true };
+    return { label: "Alta", ratio: Math.min(dpr, 1.75), shadows: true };
+  }
+
+  function applyRenderQuality() {
+    const cfg = qualityConfig();
+    renderer.setPixelRatio(cfg.ratio);
+    renderer.setSize(window.innerWidth, window.innerHeight, false);
+    renderer.shadowMap.enabled = cfg.shadows;
+    renderer.shadowMap.autoUpdate = cfg.shadows;
+    document.body.dataset.quality = qualityMode;
+    const btn = document.getElementById("quality-toggle");
+    if (btn) btn.textContent = `Qualidade: ${cfg.label}`;
+  }
+
+  applyRenderQuality();
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.18;
@@ -110,6 +130,9 @@
     createPhaseCompleteUI();
     setupPixcBalanceTimer();
     setupMobileControls();
+    setupMobileHudControls();
+    setupQualityControls();
+    setupSoundControls();
     renderInventory();
     renderChainItems();
     renderStore();
@@ -394,6 +417,71 @@
     }, 10000);
   }
 
+
+  function setupMobileHudControls() {
+    const toggle = document.getElementById("hud-toggle");
+    const mq = window.matchMedia("(max-width: 860px)");
+    if (!toggle) return;
+    function sync(force) {
+      const mobile = mq.matches;
+      document.body.classList.toggle("mobile-hud", mobile);
+      if (!mobile) {
+        document.body.classList.remove("hud-collapsed", "hud-expanded");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.textContent = "HUD";
+        return;
+      }
+      if (force || !document.body.dataset.hudTouched) {
+        document.body.classList.add("hud-collapsed");
+        document.body.classList.remove("hud-expanded");
+      }
+      const expanded = !document.body.classList.contains("hud-collapsed");
+      toggle.setAttribute("aria-expanded", String(expanded));
+      toggle.textContent = expanded ? "Fechar" : "HUD";
+    }
+    toggle.addEventListener("click", () => {
+      document.body.dataset.hudTouched = "1";
+      const collapse = !document.body.classList.contains("hud-collapsed");
+      document.body.classList.toggle("hud-collapsed", collapse);
+      document.body.classList.toggle("hud-expanded", !collapse);
+      sync(false);
+    });
+    if (mq.addEventListener) mq.addEventListener("change", () => sync(true));
+    else mq.addListener?.(() => sync(true));
+    sync(true);
+  }
+
+  function setupQualityControls() {
+    const walletPanel = document.getElementById("wallet-panel");
+    if (!walletPanel || document.getElementById("quality-toggle")) return;
+    const btn = document.createElement("button");
+    btn.id = "quality-toggle";
+    btn.type = "button";
+    btn.addEventListener("click", () => {
+      qualityMode = qualityMode === "high" ? "medium" : qualityMode === "medium" ? "low" : "high";
+      localStorage.setItem(QUALITY_KEY, qualityMode);
+      applyRenderQuality();
+      toast(`Qualidade grafica: ${qualityConfig().label}`);
+    });
+    walletPanel.appendChild(btn);
+    applyRenderQuality();
+  }
+
+  function setupSoundControls() {
+    const walletPanel = document.getElementById("wallet-panel");
+    if (!walletPanel || document.getElementById("sound-toggle")) return;
+    const btn = document.createElement("button");
+    btn.id = "sound-toggle";
+    btn.type = "button";
+    const sync = () => { btn.textContent = audio.isMuted?.() ? "Som: off" : "Som: on"; };
+    btn.addEventListener("click", () => {
+      const muted = audio.toggleMute?.();
+      sync();
+      if (!muted) audio.play("pickup");
+    });
+    walletPanel.appendChild(btn);
+    sync();
+  }
   function createRadarUI() {
     if (document.getElementById("radar-panel")) return;
     const radar = document.createElement("section");
@@ -556,7 +644,11 @@
     congress: { sky: 0x0d0a12, fog: 0x0f0c15, floor: 0x171225, grid: 0xffd166 },
     lightning: { sky: 0x050c16, fog: 0x060e1a, floor: 0x0b1a2c, grid: 0xffe45e },
     defi: { sky: 0x081016, fog: 0x0a1218, floor: 0x0f2028, grid: 0x5df2ff },
-    halving: { sky: 0x0c0806, fog: 0x0f0a07, floor: 0x1a120a, grid: 0xf7931a }
+    halving: { sky: 0x0c0806, fog: 0x0f0a07, floor: 0x1a120a, grid: 0xf7931a },
+    solana: { sky: 0x050d18, fog: 0x071324, floor: 0x0b1f2f, grid: 0x14f195 },
+    custody: { sky: 0x090916, fog: 0x0d0d1d, floor: 0x121327, grid: 0x9945ff },
+    merchant: { sky: 0x071311, fog: 0x0a1714, floor: 0x10221f, grid: 0xffd166 },
+    ark: { sky: 0x080b13, fog: 0x0a0f18, floor: 0x101724, grid: 0x5df2ff }
     };
   }
 
@@ -585,6 +677,10 @@
     else if (key === "lightning") createLightningHighway();
     else if (key === "defi") createDefiDistrict();
     else if (key === "halving") createHalvingVault();
+    else if (key === "solana") createSolanaBridge();
+    else if (key === "custody") createCustodyFortress();
+    else if (key === "merchant") createMerchantBazaar();
+    else if (key === "ark") createSovereigntyArk();
     else createCity(key === "mint");
   }
 
@@ -922,6 +1018,144 @@
     }
   }
 
+
+  function addArenaMesh(mesh) {
+    scene.add(mesh);
+    world.buildings.push(mesh);
+    return mesh;
+  }
+
+  function createSolanaBridge() {
+    const bridgeMat = new THREE.MeshStandardMaterial({ color: 0x102c3a, metalness: 0.42, roughness: 0.3, emissive: 0x123844, emissiveIntensity: 0.12 });
+    const railMat = new THREE.MeshBasicMaterial({ color: 0x14f195, transparent: true, opacity: 0.8 });
+    const deck = new THREE.Mesh(new THREE.BoxGeometry(16, 0.35, 118), bridgeMat);
+    deck.position.set(0, 0.18, 0);
+    deck.receiveShadow = true;
+    addArenaMesh(deck);
+    [-7.5, 7.5].forEach((x) => {
+      const rail = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.22, 118), railMat);
+      rail.position.set(x, 0.7, 0);
+      addArenaMesh(rail);
+    });
+    for (let i = 0; i < 18; i += 1) {
+      const z = -54 + i * 6.4;
+      const node = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.46, 4.5, 12), new THREE.MeshStandardMaterial({ color: 0x14243a, emissive: i % 2 ? 0x14f195 : 0x5df2ff, emissiveIntensity: 0.28 }));
+      node.position.set(i % 2 ? -10 : 10, 2.25, z);
+      node.castShadow = true;
+      addArenaMesh(node);
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(1.1, 0.035, 8, 32), new THREE.MeshBasicMaterial({ color: i % 2 ? 0x14f195 : 0x5df2ff, transparent: true, opacity: 0.55 }));
+      ring.rotation.x = Math.PI / 2;
+      ring.position.set(node.position.x, 4.9, z);
+      addArenaMesh(ring);
+    }
+    for (let i = 0; i < 24; i += 1) {
+      const tower = createFuturisticTower(i + 800, false);
+      const side = i % 2 ? -1 : 1;
+      tower.position.set(side * (24 + Math.random() * 46), 0, -65 + Math.random() * 130);
+      tower.scale.setScalar(0.72);
+      addArenaMesh(tower);
+    }
+  }
+
+  function createCustodyFortress() {
+    const wallMat = new THREE.MeshStandardMaterial({ color: 0x1f1b35, metalness: 0.36, roughness: 0.34, emissive: 0x271255, emissiveIntensity: 0.12 });
+    const glowMat = new THREE.MeshBasicMaterial({ color: 0x9945ff, transparent: true, opacity: 0.72 });
+    for (let side = 0; side < 4; side += 1) {
+      const wall = new THREE.Mesh(new THREE.BoxGeometry(62, 4.2, 1.2), wallMat);
+      wall.position.set(0, 2.1, side < 2 ? (side === 0 ? -34 : 34) : 0);
+      if (side >= 2) {
+        wall.rotation.y = Math.PI / 2;
+        wall.position.x = side === 2 ? -34 : 34;
+      }
+      wall.castShadow = true;
+      addArenaMesh(wall);
+    }
+    const vault = new THREE.Mesh(new THREE.BoxGeometry(13, 8, 10), new THREE.MeshStandardMaterial({ color: 0x15172a, metalness: 0.68, roughness: 0.24, emissive: 0x5df2ff, emissiveIntensity: 0.08 }));
+    vault.position.set(0, 4, -8);
+    vault.castShadow = true;
+    addArenaMesh(vault);
+    const door = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.2, 0.55, 40), new THREE.MeshStandardMaterial({ color: 0xffd166, metalness: 0.82, roughness: 0.18 }));
+    door.rotation.x = Math.PI / 2;
+    door.position.set(0, 3.9, -13.25);
+    addArenaMesh(door);
+    for (let i = 0; i < 10; i += 1) {
+      const obelisk = new THREE.Mesh(new THREE.ConeGeometry(0.7, 4.2, 4), new THREE.MeshStandardMaterial({ color: 0x2d2350, emissive: 0x9945ff, emissiveIntensity: 0.32 }));
+      const ang = (i / 10) * Math.PI * 2;
+      obelisk.position.set(Math.cos(ang) * 24, 2.1, Math.sin(ang) * 24);
+      obelisk.rotation.y = Math.PI / 4;
+      addArenaMesh(obelisk);
+      const beam = createNeonStrip(2.4, 0.08, 0x9945ff);
+      beam.position.set(obelisk.position.x, 4.45, obelisk.position.z);
+      beam.rotation.y = -ang;
+      addArenaMesh(beam);
+    }
+    const seedRing = new THREE.Mesh(new THREE.TorusGeometry(18, 0.06, 8, 80), glowMat);
+    seedRing.rotation.x = Math.PI / 2;
+    seedRing.position.y = 0.08;
+    addArenaMesh(seedRing);
+  }
+
+  function createMerchantBazaar() {
+    const stallMat = new THREE.MeshStandardMaterial({ color: 0x254238, roughness: 0.42, metalness: 0.2 });
+    const roofColors = [0xffd166, 0x14f195, 0x5df2ff, 0xff6ac1];
+    for (let i = 0; i < 22; i += 1) {
+      const stall = new THREE.Group();
+      const base = new THREE.Mesh(new THREE.BoxGeometry(4.2, 1.4, 3), stallMat);
+      base.position.y = 0.7;
+      base.castShadow = true;
+      stall.add(base);
+      const roof = new THREE.Mesh(new THREE.ConeGeometry(3.1, 1.3, 4), new THREE.MeshStandardMaterial({ color: roofColors[i % roofColors.length], emissive: roofColors[i % roofColors.length], emissiveIntensity: 0.16 }));
+      roof.position.y = 2.25;
+      roof.rotation.y = Math.PI / 4;
+      stall.add(roof);
+      const sign = createNeonStrip(2.2, 0.26, i % 2 ? 0xffd166 : 0x14f195);
+      sign.position.set(0, 1.58, -1.54);
+      stall.add(sign);
+      const row = Math.floor(i / 2);
+      const side = i % 2 ? -1 : 1;
+      stall.position.set(side * (12 + (row % 3) * 5), 0, -48 + row * 9);
+      stall.rotation.y = side * 0.18;
+      addArenaMesh(stall);
+    }
+    const payTower = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 4.1, 14, 24), new THREE.MeshStandardMaterial({ color: 0x0e2b25, emissive: 0x14f195, emissiveIntensity: 0.2, metalness: 0.38 }));
+    payTower.position.set(0, 7, -4);
+    payTower.castShadow = true;
+    addArenaMesh(payTower);
+    const orbit = new THREE.Mesh(new THREE.TorusGeometry(8, 0.08, 8, 72), new THREE.MeshBasicMaterial({ color: 0xffd166, transparent: true, opacity: 0.72 }));
+    orbit.rotation.x = Math.PI / 2;
+    orbit.position.set(0, 9, -4);
+    addArenaMesh(orbit);
+  }
+
+  function createSovereigntyArk() {
+    const arkMat = new THREE.MeshStandardMaterial({ color: 0x132033, metalness: 0.52, roughness: 0.28, emissive: 0x0b5d69, emissiveIntensity: 0.16 });
+    const core = new THREE.Mesh(new THREE.IcosahedronGeometry(6.6, 1), arkMat);
+    core.position.set(0, 7.8, -18);
+    core.castShadow = true;
+    addArenaMesh(core);
+    for (let i = 0; i < 4; i += 1) {
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(10 + i * 3.4, 0.075, 8, 96), new THREE.MeshBasicMaterial({ color: i % 2 ? 0x14f195 : 0x5df2ff, transparent: true, opacity: 0.42 }));
+      ring.rotation.x = Math.PI / 2 + i * 0.28;
+      ring.rotation.z = i * 0.45;
+      ring.position.copy(core.position);
+      addArenaMesh(ring);
+    }
+    for (let i = 0; i < 18; i += 1) {
+      const ang = (i / 18) * Math.PI * 2;
+      const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.8, 7 + (i % 3), 12), new THREE.MeshStandardMaterial({ color: 0x1b2d45, emissive: i % 2 ? 0x5df2ff : 0x14f195, emissiveIntensity: 0.18 }));
+      pillar.position.set(Math.cos(ang) * 38, 3.5, Math.sin(ang) * 38);
+      pillar.castShadow = true;
+      addArenaMesh(pillar);
+    }
+    for (let i = 0; i < 28; i += 1) {
+      const crystal = new THREE.Mesh(new THREE.OctahedronGeometry(0.75 + Math.random() * 0.8, 0), new THREE.MeshStandardMaterial({ color: 0x5df2ff, emissive: 0x5df2ff, emissiveIntensity: 0.34, metalness: 0.22 }));
+      const ring = 18 + Math.random() * 56;
+      const ang = Math.random() * Math.PI * 2;
+      crystal.position.set(Math.cos(ang) * ring, 1.2 + Math.random() * 3, Math.sin(ang) * ring);
+      crystal.rotation.set(Math.random(), Math.random(), Math.random());
+      addArenaMesh(crystal);
+    }
+  }
   function createInput() {
     const data = {
       keys: {},
@@ -1057,7 +1291,7 @@
     bindHold("touch-jump", () => { input.pressed[" "] = true; });
     bindHold("touch-reload", () => { input.pressed.r = true; });
     bindHold("touch-q", () => { input.pressed.q = true; });
-    bindHold("touch-e", () => { input.pressed.e = true; });
+    bindHold("touch-e", () => { input.pressed.f = true; });
   }
 
   function createAudio() {
@@ -1114,13 +1348,20 @@
       map[name]?.();
     }
     function step(dt, sprint) {
+      if (muted) return;
       stepAccum += dt;
       if (stepAccum > (sprint ? 0.23 : 0.34)) {
         stepAccum = 0;
         tone(sprint ? 150 : 120, 0.035, "triangle", 0.012, 80);
       }
     }
-    return { unlock, play, step };
+    function toggleMute() {
+      muted = !muted;
+      localStorage.setItem("cryptoLegends.audioMuted.v1", muted ? "1" : "0");
+      return muted;
+    }
+    function isMuted() { return muted; }
+    return { unlock, play, step, toggleMute, isMuted };
   }
 
   function updateCamera(dt) {
@@ -1372,7 +1613,7 @@
       loot.position.y = loot.userData.baseY + Math.sin(world.elapsed * 3 + loot.position.x) * 0.16;
       const dist = loot.position.distanceTo(world.player.group.position);
       loot.scale.setScalar(dist < 1.9 ? 1.1 + Math.sin(world.elapsed * 8) * 0.06 : 1);
-      if (dist < 1.45 && loot.userData.loot?.type === "cred") collectLoot(loot);
+      if (dist < 1.65 || (dist < 2.2 && loot.userData.loot?.type === "cred")) collectLoot(loot);
     });
   }
 
@@ -1729,6 +1970,6 @@
   window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    applyRenderQuality();
   });
 })();

@@ -70,6 +70,34 @@
       pricePixc: 50,
       rarity: "Lendario",
       effect: "Desbloqueia arma especial permanente."
+    },
+    {
+      key: "validator-drone",
+      name: "Drone Validador Solana",
+      pricePixc: 6.5,
+      rarity: "Raro",
+      effect: "+2 minutos de velocidade e item NFT de rota Solana."
+    },
+    {
+      key: "seed-vault-pass",
+      name: "Passe Cofre de Seed",
+      pricePixc: 9,
+      rarity: "Epico",
+      effect: "+70 escudo permanente e item NFT de autocustódia."
+    },
+    {
+      key: "merchant-kit",
+      name: "Kit Lojista WordFinance Pay",
+      pricePixc: 12,
+      rarity: "Epico",
+      effect: "+500 CRED, 1 reviver e licença NFT de lojista."
+    },
+    {
+      key: "season-pass-ark",
+      name: "Passe Arca da Soberania",
+      pricePixc: 25,
+      rarity: "Lendario",
+      effect: "Bônus de temporada: regen, munição infinita e item raro NFT."
     }
   ];
 
@@ -365,6 +393,51 @@
     } else if (item.key === "legendary-weapon") {
       state.legendaryWeapon = true;
       player.unlockWeapon?.("defi");
+    } else if (item.key === "validator-drone") {
+      setBoost("speed", 120);
+      addItem({
+        type: "drone",
+        name: item.name,
+        rarity: item.rarity,
+        nft: true,
+        pixcSignature: receipt?.signature || null,
+        lesson: "Validadores independentes mantêm a rede sincronizada. Velocidade só vale quando a regra é verificável."
+      });
+    } else if (item.key === "seed-vault-pass") {
+      state.permanentShieldBonus = Math.max(state.permanentShieldBonus, 70);
+      player.baseMaxShield = Math.max(player.baseMaxShield, 90 + state.permanentShieldBonus);
+      player.maxShield = Math.max(player.maxShield, player.baseMaxShield);
+      player.shield = player.maxShield;
+      addItem({
+        type: "cofre",
+        name: item.name,
+        rarity: item.rarity,
+        nft: true,
+        pixcSignature: receipt?.signature || null,
+        lesson: "Autocustódia começa na seed. Quem protege a chave protege a própria liberdade financeira."
+      });
+    } else if (item.key === "merchant-kit") {
+      state.reviveCharges += 1;
+      addCred(500, "kit lojista WordFinance Pay");
+      addItem({
+        type: "licenca",
+        name: item.name,
+        rarity: item.rarity,
+        nft: true,
+        pixcSignature: receipt?.signature || null,
+        lesson: "WordFinance Pay permite ao lojista receber cripto direto na carteira, com menos intermediários e mais controle."
+      });
+    } else if (item.key === "season-pass-ark") {
+      setBoost("regen", 420);
+      setBoost("infiniteAmmo", 180);
+      addItem({
+        type: "passe",
+        name: item.name,
+        rarity: item.rarity,
+        nft: true,
+        pixcSignature: receipt?.signature || null,
+        lesson: "Passe de temporada cria progressão recorrente: missões, coleções e recompensas cosméticas sem prometer rendimento."
+      });
     }
 
     addPurchasedInventory(item, receipt);
@@ -556,7 +629,7 @@
       nft: true,
       amountPixc: 0.5,
       redeemStatus: "backend-pendente",
-      lesson: "O escrow não assina no navegador. Este vale registra a recompensa para resgate futuro via backend."
+      lesson: "O escrow não assina no navegador. Este vale registra a recompensa para validação futura via backend."
     });
     state.bossVouchers.unshift(voucher);
     window.CryptoApex?.ui?.toast?.("Voucher PIXC pendente: 0.50 PIXC");
@@ -603,7 +676,13 @@
         phaseIndex: window.CryptoApex?.missions?.state?.phaseIndex || 0,
         phaseTime: window.CryptoApex?.missions?.state?.phaseTime || 0,
         totalTime: window.CryptoApex?.missions?.state?.totalTime || 0,
-        finalBossDefeated: Boolean(window.CryptoApex?.missions?.state?.finalBossDefeated)
+        bossSpawned: Boolean(window.CryptoApex?.missions?.state?.bossSpawned),
+        phaseBossDefeated: Boolean(window.CryptoApex?.missions?.state?.phaseBossDefeated),
+        finalBossDefeated: Boolean(window.CryptoApex?.missions?.state?.finalBossDefeated),
+        megaBossDefeated: Boolean(window.CryptoApex?.missions?.state?.megaBossDefeated),
+        phaseKills: window.CryptoApex?.missions?.state?.phaseKills || 0,
+        seasonCompletions: window.CryptoApex?.missions?.state?.seasonCompletions || 0,
+        lessonSeen: window.CryptoApex?.missions?.state?.lessonSeen || {}
       },
       economy: {
         cred: state.cred,

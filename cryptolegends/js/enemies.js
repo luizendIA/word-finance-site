@@ -3,6 +3,9 @@
     grunt: { label: "Inflator Raso", health: 42, speed: 2.2, damage: 6, cred: [6, 14], color: 0xb94b4b, scale: 1 },
     elite: { label: "Inflator Elite", health: 110, speed: 2.55, damage: 12, cred: [14, 30], color: 0xff9f1c, scale: 1.14 },
     heavy: { label: "Guarda da Impressora", health: 190, speed: 1.55, damage: 18, cred: [24, 46], color: 0x7b8cff, scale: 1.28 },
+    bridge: { label: "Phisher de Ponte", health: 135, speed: 2.85, damage: 14, cred: [26, 52], color: 0x5df2ff, scale: 1.12 },
+    custody: { label: "Ladrao de Seed", health: 165, speed: 2.35, damage: 20, cred: [32, 62], color: 0x9945ff, scale: 1.18 },
+    merchant: { label: "Sabotador de Checkout", health: 150, speed: 2.65, damage: 16, cred: [30, 58], color: 0x14f195, scale: 1.1 },
     boss: { label: "Tesoureiro Inflador", health: 700, speed: 1.55, damage: 28, cred: [120, 220], color: 0xff4d6d, scale: 1.72 },
     finalBoss: { label: "Senador da Impressora Infinita", health: 1300, speed: 1.7, damage: 34, cred: [1000, 1000], color: 0xffd166, scale: 2.05 },
     megaBoss: { label: "Banqueiro Central das Sombras", health: 2400, speed: 1.85, damage: 42, cred: [2000, 2000], color: 0x8c54ff, scale: 2.35 }
@@ -87,7 +90,7 @@
     constructor(scene, classKey, position) {
       this.scene = scene;
       this.classKey = classKey;
-      this.def = classes[classKey];
+      this.def = classes[classKey] || classes.grunt;
       this.group = makeEnemyModel(this.def);
       this.group.position.copy(position);
       this.health = this.def.health;
@@ -114,7 +117,7 @@
       } else {
         this.animate(dt, false, world);
       }
-      if (this.classKey === "boss" || this.classKey === "finalBoss") this.group.rotation.y += Math.sin(world.elapsed * 2) * dt * 0.18;
+      if (this.classKey === "boss" || this.classKey === "finalBoss" || this.classKey === "megaBoss") this.group.rotation.y += Math.sin(world.elapsed * 2) * dt * 0.18;
     }
 
     animate(dt, moving, world) {
@@ -182,15 +185,19 @@
   function rollLoot(classKey, phaseKey) {
     const boss = classKey === "boss" || classKey === "finalBoss";
     const table = [
-      { type: "cred", name: "Cápsula CRED", rarity: "Comum", amount: 18 + Math.floor(Math.random() * 24), nft: false },
+      { type: "cred", name: "Capsula CRED", rarity: "Comum", amount: 18 + Math.floor(Math.random() * 24), nft: false },
       { type: "fragment", name: "Fragmento de Rifle", rarity: "Comum", fragmentKey: "rifle", amount: 1, nft: false },
-      { type: "knowledge", name: "Cápsula de Conhecimento", rarity: "Incomum", nft: true, lesson: "A inflação dilui seu poder de compra quando a oferta de dinheiro cresce sem lastro." }
+      { type: "knowledge", name: "Capsula de Conhecimento", rarity: "Incomum", nft: true, lesson: "A inflacao dilui seu poder de compra quando a oferta de dinheiro cresce sem lastro." }
     ];
     if (phaseKey === "mint" || classKey === "elite") table.push({ type: "fragment", name: "Fragmento SMG Lightning", rarity: "Raro", fragmentKey: "smg", amount: 1, nft: false });
-    if (phaseKey === "mine") table.push({ type: "fragment", name: "Peça Escopeta Proof-of-Work", rarity: "Incomum", fragmentKey: "shotgun", amount: 1, nft: false });
-    if (phaseKey === "congress") table.push({ type: "fragment", name: "Núcleo DeFi", rarity: "Lendario", fragmentKey: "defi", amount: 1, nft: false });
-    if (boss && classKey === "boss") return { type: "weapon", weaponKey: "revolver", name: "Revólver Cold Wallet", rarity: "Raro", nft: true, lesson: "Autocustódia significa controlar suas próprias chaves." };
-    if (boss && classKey === "finalBoss") return { type: "emblema", name: "Mestre da Inflação", rarity: "Lendario", nft: true, amount: 1000, lesson: "Dinheiro resistente à censura reduz o poder de quem imprime para se perpetuar." };
+    if (phaseKey === "mine") table.push({ type: "fragment", name: "Peca Escopeta Proof-of-Work", rarity: "Incomum", fragmentKey: "shotgun", amount: 1, nft: false });
+    if (phaseKey === "congress") table.push({ type: "fragment", name: "Nucleo DeFi", rarity: "Lendario", fragmentKey: "defi", amount: 1, nft: false });
+    if (phaseKey === "solana" || classKey === "bridge") table.push({ type: "fragment", name: "Fragmento Ponte Solana", rarity: "Raro", fragmentKey: "smg", amount: 1, nft: false });
+    if (phaseKey === "custody" || classKey === "custody") table.push({ type: "knowledge", name: "Pergaminho da Seed", rarity: "Epico", nft: true, lesson: "Seed e chave privada nunca devem ser enviadas, fotografadas ou coladas em sites desconhecidos." });
+    if (phaseKey === "merchant" || classKey === "merchant") table.push({ type: "fragment", name: "Voucher WordFinance Pay", rarity: "Epico", fragmentKey: "defi", amount: 1, nft: false });
+    if (phaseKey === "ark") table.push({ type: "knowledge", name: "Cristal de Soberania", rarity: "Lendario", nft: true, lesson: "Soberania financeira combina conhecimento, carteira propria e responsabilidade no uso de pagamentos livres." });
+    if (boss && classKey === "boss") return { type: "weapon", weaponKey: "revolver", name: "Revolver Cold Wallet", rarity: "Raro", nft: true, lesson: "Autocustodia significa controlar suas proprias chaves." };
+    if (boss && classKey === "finalBoss") return { type: "emblema", name: "Mestre da Inflacao", rarity: "Lendario", nft: true, amount: 1000, lesson: "Dinheiro resistente a censura reduz o poder de quem imprime para se perpetuar." };
     return table[Math.floor(Math.random() * table.length)];
   }
 

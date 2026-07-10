@@ -186,7 +186,7 @@
       title: "Loja PIXC",
       goal: "Conheça a LOJA (botão no painel à direita): itens comprados com PIXC dão vantagens reais — vida, escudo, turret e a Arma Lendária.",
       manual: true,
-      say: ["Instrutor", "Com a carteira Word Finance ou Phantom conectada, você compra vantagens com PIXC, a stablecoin do Real. Itens viram patrimônio digital seu."]
+      say: ["Instrutor", "Com a carteira Word Finance ou Phantom conectada, você compra vantagens com PIXC, o token utilitário do ecossistema. Itens viram patrimônio digital seu."]
     },
     {
       title: "Carteira + Giveaway",

@@ -15,7 +15,7 @@
     <div class="boot-panel">
       <div class="brand">Crypto Legends</div>
       <h1>A Era da Liberdade</h1>
-      <p>Campanha educativa de 8 fases: da Cidade Fiat ao Protocolo Halving. Tutorial guiado, loot, CRED, loja PIXC, NFTs e recompensas com a Word Finance no dApp browser ou Phantom no desktop. 🎁 Os 100 primeiros agentes que completarem o treinamento ganham PIXC!</p>
+      <p>Campanha educativa de 12 fases: da Cidade Fiat à Arca da Soberania. Tutorial guiado, loot, CRED, loja PIXC, NFTs e recompensas com a Word Finance no dApp browser ou Phantom no desktop. 🎁 Os 100 primeiros agentes que completarem o treinamento ganham PIXC!</p>
       <div class="hero-select">
         <button class="hero-card selected" data-hero="satoshi">
           <img src="assets/concept-art/satoshi-cinematic.png" alt="">
@@ -43,12 +43,13 @@
         </figure>
       </div>
       <button id="start-game">Iniciar Operação</button>
-      <div class="boot-note">Abra <b>index.html</b> diretamente. No Android, a Word Finance é detectada automaticamente dentro do dApp browser; no desktop, use Phantom.</div>
+      <div class="boot-note">Abra <b>index.html</b> diretamente. No Android, a Word Finance é detectada automaticamente dentro do dApp browser; no desktop, use Phantom. A loja usa PIXC real somente depois da confirmação da carteira.</div>
     </div>
   </div>
 
   <main id="game-shell">
     <canvas id="game-canvas"></canvas>
+    <button id="hud-toggle" type="button" aria-expanded="false">HUD</button>
 
     <section id="hud">
       <div class="hud-row vitals">
@@ -164,7 +165,7 @@
       <div class="touch-actions">
         <button id="touch-q">Q</button>
         <button id="touch-jump">⤴</button>
-        <button id="touch-e">E</button>
+        <button id="touch-e">F</button>
         <button id="touch-reload">R</button>
         <button id="touch-fire">●</button>
       </div>
