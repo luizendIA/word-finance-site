@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PIXC Play | Laboratorio de Probabilidade</title>
+<meta name="description" content="PIXC Play e um laboratorio educativo de probabilidade com fichas gratuitas. Nao usa PIXC real, deposito, saque ou aposta com dinheiro.">
+<link rel="canonical" href="https://wordfinance.org/pixc-casino/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0500'/%3E%3Ccircle cx='32' cy='32' r='21' fill='%23ffd700'/%3E%3Cpath d='M20 32h24M32 20v24' stroke='%230a0500' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --gold: #FFD700;
+  --gold2: #FFA500;
+  --gold3: #B8860B;
+  --red: #CC2200;
+  --red2: #FF3300;
+  --dark: #0A0500;
+  --dark2: #120A00;
+  --dark3: #1A1000;
+  --dark4: #221500;
+  --card: #1C1000;
+  --card2: #251800;
+  --text: #FFE082;
+  --text2: #FFB300;
+  --text3: #FF8F00;
+  --green: #00C853;
+  --green2: #69F0AE;
+  --white: #FFF8E1;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  background: var(--dark);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Fundo animado com partículas douradas */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(255,165,0,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(204,34,0,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(255,215,0,0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container { position:relative; z-index:1; max-width:480px; margin:0 auto; padding:0 0 80px; }
+
+/* ============ HEADER ============ */
+.header {
+  background: linear-gradient(180deg, #1A0800 0%, #0A0400 100%);
+  border-bottom: 2px solid var(--gold3);
+  padding: 16px 20px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 24px rgba(255,165,0,0.15);
+}
+
+.header-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+
+.logo {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #FFD700, #FFA500, #FF6B00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
+  text-shadow: none;
+}
+
+.logo span { font-size:14px; display:block; letter-spacing:4px; opacity:0.8; }
+
+.balance-chip {
+  background: linear-gradient(135deg, #1C0E00, #2A1600);
+  border: 1.5px solid var(--gold3);
+  border-radius: 20px;
+  padding: 6px 14px;
+  text-align: right;
+}
+
+.balance-chip .label { font-size:10px; color: var(--gold3); text-transform:uppercase; letter-spacing:1px; }
+.balance-chip .amount { font-size:18px; font-weight:700; color: var(--gold); line-height:1.2; }
+
+/* Barra de carteira */
+.wallet-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,165,0,0.06);
+  border: 1px solid rgba(255,165,0,0.2);
+  border-radius: 10px;
+  padding: 6px 10px;
+}
+
+.wallet-bar input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 11px;
+  font-family: monospace;
+  outline: none;
+}
+
+.wallet-bar input::placeholder { color: rgba(255,200,0,0.3); }
+
+.btn-connect {
+  background: linear-gradient(135deg, var(--gold3), var(--gold2));
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ============ STATUS ============ */
+.status-bar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.status-bar::-webkit-scrollbar { display:none; }
+
+.stat-chip {
+  background: var(--card);
+  border: 1px solid rgba(255,165,0,0.2);
+  border-radius: 12px;
+  padding: 8px 14px;
+  text-align: center;
+  flex-shrink: 0;
+  min-width: 80px;
+}
+.stat-chip .s-label { font-size:9px; color:var(--gold3); text-transform:uppercase; letter-spacing:1px; }
+.stat-chip .s-val { font-size:14px; font-weight:700; color:var(--gold); }
+.stat-chip.green .s-val { color:var(--green2); }
+.stat-chip.red .s-val { color:#FF5252; }
+
+/* ============ TABS ============ */
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display:none; }
+
+.tab {
+  flex-shrink: 0;
+  background: var(--card);
+  border: 1.5px solid rgba(255,165,0,0.15);
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,200,0,0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tab.active {
+  background: linear-gradient(135deg, #2A1600, #1C0E00);
+  border-color: var(--gold2);
+  color: var(--gold);
+  box-shadow: 0 2px 12px rgba(255,165,0,0.2);
+}
+
+.tab-icon { font-size: 16px; }
+
+/* ============ GAME PANELS ============ */
+.game-panel { display:none; padding: 14px 16px; }
+.game-panel.active { display:block; }
+
+/* ============ CARD BASE ============ */
+.card {
+  background: var(--card);
+  border: 1px solid rgba(255,165,0,0.15);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);
+}
+
+.card-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold3);
+  margin-bottom: 14px;
+}
+
+/* ============ INPUTS ============ */
+.input-group { margin-bottom: 12px; }
+.input-label { font-size: 11px; color: var(--gold3); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; display:block; }
+
+input[type="number"], select {
+  width: 100%;
+  background: rgba(255,165,0,0.05);
+  border: 1.5px solid rgba(255,165,0,0.2);
+  border-radius: 10px;
+  color: var(--gold);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 11px 14px;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  -webkit-appearance: none;
+}
+
+input[type="number"]:focus, select:focus {
+  border-color: var(--gold2);
+  background: rgba(255,165,0,0.08);
+}
+
+select option { background: #1A0800; color: var(--gold); }
+
+/* Apostas rápidas */
+.quick-bets {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.qb {
+  background: rgba(255,165,0,0.08);
+  border: 1px solid rgba(255,165,0,0.2);
+  border-radius: 8px;
+  color: var(--text2);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.qb:active { transform:scale(0.95); background: rgba(255,165,0,0.2); }
+
+/* ============ BOTÕES ============ */
+.btn-apostar {
+  width: 100%;
+  background: linear-gradient(135deg, #CC6600, #FF8800, #FFB300);
+  border: none;
+  border-radius: 12px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 14px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-apostar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.4s;
+}
+
+.btn-apostar:not(:disabled):active { transform: scale(0.98); }
+.btn-apostar:not(:disabled):hover::after { left: 140%; }
+.btn-apostar:disabled { opacity:0.4; cursor:not-allowed; }
+
+/* ============ RESULTADO ============ */
+.resultado {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 12px;
+  margin-top: 10px;
+  padding: 12px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.resultado.ganhou {
+  background: rgba(0,200,83,0.12);
+  border: 1px solid rgba(0,200,83,0.3);
+  color: var(--green2);
+}
+
+.resultado.perdeu {
+  background: rgba(255,50,50,0.1);
+  border: 1px solid rgba(255,50,50,0.2);
+  color: #FF5252;
+}
+
+.resultado.neutro {
+  background: rgba(255,165,0,0.05);
+  border: 1px solid rgba(255,165,0,0.1);
+  color: var(--gold3);
+}
+
+/* ============ ROLETA ============ */
+.roleta-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 16px;
+  position: relative;
+}
+
+#roletaCanvas {
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgba(255,165,0,0.3), 0 0 60px rgba(255,100,0,0.1);
+}
+
+.roleta-ponteiro {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 24px solid var(--gold);
+  filter: drop-shadow(0 2px 4px rgba(255,165,0,0.5));
+  z-index: 10;
+}
+
+.roleta-opcoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.roleta-btn {
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.roleta-btn.vermelho { background:rgba(204,34,0,0.15); border-color:rgba(204,34,0,0.4); color:#FF5252; }
+.roleta-btn.preto { background:rgba(50,50,50,0.4); border-color:rgba(150,150,150,0.3); color:#CCC; }
+.roleta-btn.verde { background:rgba(0,200,83,0.1); border-color:rgba(0,200,83,0.3); color:var(--green2); grid-column:span 2; }
+.roleta-btn.selected { border-color: var(--gold) !important; box-shadow: 0 0 12px rgba(255,165,0,0.3); }
+
+/* ============ CRASH ============ */
+.crash-display {
+  background: linear-gradient(135deg, #0A0500, #140800);
+  border: 1.5px solid rgba(255,165,0,0.2);
+  border-radius: 16px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.crash-canvas { position:absolute; inset:0; }
+
+.crash-mult {
+  font-family: 'Cinzel', serif;
+  font-size: 52px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 2;
+  line-height: 1;
+  transition: color 0.1s;
+}
+
+.crash-mult.crashed {
+  background: linear-gradient(135deg, #FF3300, #CC0000);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.crash-status {
+  font-size: 12px;
+  color: var(--gold3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+  margin-top: 4px;
+}
+
+.btn-cashout {
+  width: 100%;
+  background: linear-gradient(135deg, #006600, #00AA00, #00DD00);
+  border: none;
+  border-radius: 12px;
+  color: #000;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 13px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  transition: all 0.2s;
+}
+.btn-cashout:disabled { opacity:0.3; cursor:not-allowed; }
+
+/* ============ MINES ============ */
+.mines-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin: 10px 0 14px;
+}
+
+.mine-cell {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1C1000, #2A1800);
+  border: 1.5px solid rgba(255,165,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.mine-cell:not(.revealed):not(.disabled):active { transform:scale(0.92); }
+
+.mine-cell.safe {
+  background: linear-gradient(135deg, #002200, #004400);
+  border-color: var(--green);
+  animation: popIn 0.2s ease;
+}
+
+.mine-cell.bomb {
+  background: linear-gradient(135deg, #220000, #440000);
+  border-color: #FF3300;
+  animation: shake 0.3s ease;
+}
+
+.mine-cell.disabled { cursor:default; opacity:0.7; }
+
+.mines-mult {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.mines-mult span { font-size:13px; color:var(--gold3); display:block; }
+
+/* ============ DICE ============ */
+.dice-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 10px 0 16px;
+}
+
+.dado {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #2A1800, #1C1000);
+  border: 2px solid rgba(255,165,0,0.3);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  transition: all 0.3s;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.dado.rolling { animation: rollDice 0.6s ease; }
+
+.dice-sum {
+  text-align: center;
+  font-size: 13px;
+  color: var(--gold3);
+  margin-bottom: 12px;
+}
+
+.dice-sum b { font-size: 24px; color: var(--gold); }
+
+.dice-opcoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.dice-opt {
+  background: rgba(255,165,0,0.06);
+  border: 1.5px solid rgba(255,165,0,0.15);
+  border-radius: 10px;
+  padding: 9px 6px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  transition: all 0.15s;
+}
+
+.dice-opt.selected { border-color: var(--gold); background:rgba(255,165,0,0.15); color:var(--gold); }
+
+/* ============ HISTORICO ============ */
+.hist-lista { max-height: 200px; overflow-y: auto; }
+.hist-lista::-webkit-scrollbar { width:3px; }
+.hist-lista::-webkit-scrollbar-thumb { background:var(--gold3); border-radius:2px; }
+
+.hist-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,165,0,0.07);
+  font-size: 12px;
+}
+
+.hist-item:last-child { border-bottom: none; }
+.hist-jogo { color: var(--gold3); }
+.hist-val { font-weight: 700; }
+.hist-val.pos { color: var(--green2); }
+.hist-val.neg { color: #FF5252; }
+
+/* ============ ANIMAÇÕES ============ */
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity:0; }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity:1; }
+}
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+@keyframes rollDice {
+  0% { transform: rotateY(0); }
+  100% { transform: rotateY(720deg); }
+}
+
+@keyframes pulse {
+  0%,100% { opacity:1; }
+  50% { opacity:0.6; }
+}
+
+.pulsing { animation: pulse 1s infinite; }
+
+/* ============ TOAST ============ */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: linear-gradient(135deg, #2A1600, #1C0E00);
+  border: 1px solid var(--gold3);
+  border-radius: 12px;
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 20px;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 9999;
+  max-width: 300px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============ NAV BOTTOM ============ */
+.nav-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: linear-gradient(180deg, #0A0500 0%, #060300 100%);
+  border-top: 1.5px solid var(--gold3);
+  display: flex;
+  padding: 8px 0 12px;
+  z-index: 100;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: all 0.2s;
+}
+
+.nav-item .nav-icon { font-size: 22px; }
+.nav-item .nav-label { font-size: 9px; color: rgba(255,165,0,0.4); text-transform:uppercase; letter-spacing:1px; }
+.nav-item.active .nav-label { color: var(--gold); }
+.nav-item.active .nav-icon { filter: drop-shadow(0 0 6px rgba(255,165,0,0.6)); }
+
+/* Linha de luz na parte de baixo */
+.glow-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold2), transparent);
+  margin-bottom: 6px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.nav-item.active .glow-line { opacity: 1; }
+.edu-banner{margin-top:10px;background:rgba(20,241,149,.08);border:1px solid rgba(20,241,149,.3);border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;color:#cfe8dc}
+.btn-fichas-free{width:100%;margin-top:8px;padding:12px;border:1px solid rgba(255,209,102,.6);border-radius:10px;background:rgba(255,209,102,.14);color:#ffd166;font-weight:700;cursor:pointer;font-size:14px}
+.house-edge{font-size:11px;color:#9fb4c4;margin-top:6px;text-align:center}
+.loja-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.loja-item{background:#131a26;border:1px solid rgba(93,242,255,.2);border-radius:12px;padding:12px;text-align:center}
+.loja-item .emoji{font-size:34px}
+.loja-item .nome{font-weight:700;margin:6px 0 2px;font-size:14px}
+.loja-item .desc{font-size:11px;color:#9fb4c4;min-height:28px}
+.loja-item .preco{color:#14f195;font-weight:800;margin:6px 0}
+.loja-item button{width:100%;padding:9px;border:0;border-radius:8px;background:linear-gradient(135deg,#14f195,#0bb3ff);color:#04121a;font-weight:800;cursor:pointer}
+.loja-item .prev{background:transparent;border:1px solid rgba(255,255,255,.2);color:#9fb4c4;margin-top:6px;font-weight:600}
+.loja-modal{position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;background:rgba(3,7,12,.7);padding:16px}
+.loja-modal-card{width:min(420px,100%);background:#0d1620;border:1px solid rgba(93,242,255,.3);border-radius:14px;padding:18px}
+.collection-progress{margin:8px 0;color:#9fb4c4;font-size:11px;line-height:1.45}
+.loja-item.locked{opacity:.7;filter:saturate(.72)}
+.loja-item .collection-action{margin-top:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,209,102,.28);color:#ffd166}
+.collection-badge{display:none;margin:8px auto 0;padding:5px 10px;width:max-content;max-width:100%;border:1px solid rgba(255,209,102,.45);border-radius:999px;color:#ffe7a1;font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase}
+body.has-founder-frame .header{box-shadow:0 0 0 2px rgba(255,209,102,.55),0 4px 24px rgba(255,165,0,.22)}
+body[data-tema="neon"]{--gold:#e879ff;--gold2:#8b5cf6;--gold3:#6d28d9;--dark:#090415;--dark2:#11071f;--card:#1a0d2e}
+body[data-tema="ouro"]{--gold:#fff0a3;--gold2:#f6b93b;--gold3:#a6650b;--dark:#160d00;--dark2:#241500;--card:#2b1a00}
+body[data-tema="cyber"]{--gold:#73f5ff;--gold2:#00b8ff;--gold3:#006fb8;--dark:#02131d;--dark2:#042333;--card:#062b3a}
+.lab-confetti{position:fixed;z-index:150;pointer-events:none;width:8px;height:12px;border-radius:2px;animation:labConfetti .8s ease-out forwards}
+@keyframes labConfetti{from{transform:translateY(-16px) rotate(0);opacity:1}to{transform:translateY(160px) rotate(480deg);opacity:0}}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo">
+      PIXC<span>CASINO</span>
+    </div>
+    <div class="balance-chip">
+      <div class="label">Fichas (diversão)</div>
+      <div class="amount" id="saldoDisplay">0.00 <small style="font-size:11px">fichas</small></div>
+    </div>
+  </div>
+  <div class="wallet-bar">
+    <input type="text" id="walletInput" placeholder="(Opcional) cole seu endereço para ver seu PIXC real" autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="btn-connect" onclick="conectarCarteira()">Ver PIXC</button>
+  </div>
+  <div id="pixcRealChip" style="display:none;margin-top:8px;font-size:12px;color:#9fb4c4;text-align:center">
+    Seu PIXC real: <b id="pixcRealVal" style="color:#14f195">--</b> <span style="opacity:.7">(só leitura — nunca é apostado)</span>
+  </div>
+  <div class="edu-banner">
+    🎓 <b>Jogo educativo de fichas.</b> As fichas são de <b>diversão</b> e <b>não valem dinheiro</b>. Aqui você vê na prática por que <b>a casa sempre ganha no longo prazo</b>: cada jogo tem uma "vantagem da casa" embutida — quanto mais você joga, mais suas fichas tendem a zero. Aposta de verdade não é investimento; é entretenimento de curto prazo (e caro).
+  </div>
+</div>
+
+<!-- STATUS -->
+<div class="status-bar">
+  <div class="stat-chip">
+    <div class="s-label">Apostas</div>
+    <div class="s-val" id="statApostas">0</div>
+  </div>
+  <div class="stat-chip green">
+    <div class="s-label">Ganhos</div>
+    <div class="s-val" id="statGanhos">0.00</div>
+  </div>
+  <div class="stat-chip red">
+    <div class="s-label">Perdas</div>
+    <div class="s-val" id="statPerdas">0.00</div>
+  </div>
+  <div class="stat-chip">
+    <div class="s-label">Lucro</div>
+    <div class="s-val" id="statLucro">0.00</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="mudarJogo('roleta', this)">
+    <span class="tab-icon">🎡</span> Roleta
+  </div>
+  <div class="tab" onclick="mudarJogo('crash', this)">
+    <span class="tab-icon">🚀</span> Crash
+  </div>
+  <div class="tab" onclick="mudarJogo('mines', this)">
+    <span class="tab-icon">💣</span> Mines
+  </div>
+  <div class="tab" onclick="mudarJogo('dice', this)">
+    <span class="tab-icon">🎲</span> Dice
+  </div>
+  <div class="tab" onclick="mudarJogo('loja', this)">
+    <span class="tab-icon">🛍️</span> Colecao
+  </div>
+</div>
+
+<!-- ===== ROLETA ===== -->
+<div id="panel-roleta" class="game-panel active">
+
+  <div class="card">
+    <div class="roleta-wrap">
+      <div class="roleta-ponteiro"></div>
+      <canvas id="roletaCanvas" width="260" height="260"></canvas>
+    </div>
+    <div id="roletaResultado" class="resultado neutro">Escolha sua aposta e gire!</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Apostar em</div>
+    <div class="roleta-opcoes">
+      <div class="roleta-btn vermelho" onclick="selecionarRoleta('vermelho', this)">🔴 Vermelho <br><small>2x</small></div>
+      <div class="roleta-btn preto" onclick="selecionarRoleta('preto', this)">⚫ Preto <br><small>2x</small></div>
+      <div class="roleta-btn verde" onclick="selecionarRoleta('verde', this)">🟢 Zero (0) — 14x</div>
+    </div>
+
+    <div class="card-title">Valor da aposta</div>
+    <div class="quick-bets">
+      <div class="qb" onclick="setAposta(10)">10</div>
+      <div class="qb" onclick="setAposta(50)">50</div>
+      <div class="qb" onclick="setAposta(100)">100</div>
+      <div class="qb" onclick="setAposta(500)">500</div>
+    </div>
+    <div class="input-group">
+      <input type="number" id="roletaAposta" placeholder="0.00" min="1" step="1">
+    </div>
+    <button class="btn-apostar" id="btnRoleta" onclick="girarRoleta()">🎡 GIRAR</button>
+  </div>
+
+</div>
+
+<!-- ===== CRASH ===== -->
+<div id="panel-crash" class="game-panel">
+
+  <div class="card">
+    <div class="crash-display">
+      <canvas class="crash-canvas" id="crashCanvas"></canvas>
+      <div class="crash-mult" id="crashMult">1.00x</div>
+      <div class="crash-status" id="crashStatus">Aguardando...</div>
+    </div>
+
+    <button class="btn-cashout" id="btnCashout" onclick="cashout()" disabled>
+      💰 SACAR AGORA
+    </button>
+
+    <div class="card-title">Valor da aposta</div>
+    <div class="quick-bets">
+      <div class="qb" onclick="setApostaCrash(10)">10</div>
+      <div class="qb" onclick="setApostaCrash(50)">50</div>
+      <div class="qb" onclick="setApostaCrash(100)">100</div>
+      <div class="qb" onclick="setApostaCrash(500)">500</div>
+    </div>
+    <div class="input-group">
+      <input type="number" id="crashAposta" placeholder="0.00" min="1" step="1">
+    </div>
+    <button class="btn-apostar" id="btnCrash" onclick="iniciarCrash()">🚀 APOSTAR</button>
+    <div id="crashResultado" class="resultado neutro">Aposte e veja o foguete subir!</div>
+  </div>
+
+</div>
+
+<!-- ===== MINES ===== -->
+<div id="panel-mines" class="game-panel">
+
+  <div class="card">
+    <div class="mines-mult" id="minesMult">
+      1.00x
+      <span id="minesStatus">Escolha quantas bombas e aposte</span>
+    </div>
+
+    <div class="mines-grid" id="minesGrid"></div>
+    <div id="minesResultado" class="resultado neutro"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Bombas no campo</div>
+    <select id="minesBombas" onchange="recalcMines()">
+      <option value="3">3 bombas — até 8x</option>
+      <option value="5" selected>5 bombas — até 15x</option>
+      <option value="10">10 bombas — até 40x</option>
+      <option value="15">15 bombas — até 120x</option>
+    </select>
+
+    <div class="card-title" style="margin-top:12px">Valor da aposta</div>
+    <div class="quick-bets">
+      <div class="qb" onclick="setApostaMines(10)">10</div>
+      <div class="qb" onclick="setApostaMines(50)">50</div>
+      <div class="qb" onclick="setApostaMines(100)">100</div>
+      <div class="qb" onclick="setApostaMines(500)">500</div>
+    </div>
+    <div class="input-group">
+      <input type="number" id="minesAposta" placeholder="0.00" min="1" step="1">
+    </div>
+    <button class="btn-apostar" id="btnMines" onclick="iniciarMines()">💣 COMEÇAR</button>
+    <button class="btn-cashout" id="btnMinesSacar" onclick="sacarMines()" disabled style="margin-top:8px">
+      💰 PARAR e guardar (0.00 fichas)
+    </button>
+  </div>
+
+</div>
+
+<!-- ===== DICE ===== -->
+<div id="panel-dice" class="game-panel">
+
+  <div class="card">
+    <div class="dice-display">
+      <div class="dado" id="dado1">⚀</div>
+      <div style="font-size:24px;color:var(--gold3)">+</div>
+      <div class="dado" id="dado2">⚀</div>
+    </div>
+    <div class="dice-sum">Soma: <b id="diceSum">-</b></div>
+    <div id="diceResultado" class="resultado neutro">Escolha sua aposta!</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Apostar que a soma será</div>
+    <div class="dice-opcoes">
+      <div class="dice-opt" onclick="selecionarDice('baixo', this)">
+        📉 Baixo<br><small>2-6 · 2x</small>
+      </div>
+      <div class="dice-opt" onclick="selecionarDice('meio', this)">
+        ➡️ Médio<br><small>7 · 5x</small>
+      </div>
+      <div class="dice-opt" onclick="selecionarDice('alto', this)">
+        📈 Alto<br><small>8-12 · 2x</small>
+      </div>
+      <div class="dice-opt" onclick="selecionarDice('par', this)">
+        🔢 Par<br><small>qualquer · 2x</small>
+      </div>
+      <div class="dice-opt" onclick="selecionarDice('impar', this)">
+        🔣 Ímpar<br><small>qualquer · 2x</small>
+      </div>
+      <div class="dice-opt" onclick="selecionarDice('duplo', this)">
+        🎯 Duplo<br><small>iguais · 6x</small>
+      </div>
+    </div>
+
+    <div class="card-title">Valor da aposta</div>
+    <div class="quick-bets">
+      <div class="qb" onclick="setApostaDice(10)">10</div>
+      <div class="qb" onclick="setApostaDice(50)">50</div>
+      <div class="qb" onclick="setApostaDice(100)">100</div>
+      <div class="qb" onclick="setApostaDice(500)">500</div>
+    </div>
+    <div class="input-group">
+      <input type="number" id="diceAposta" placeholder="0.00" min="1" step="1">
+    </div>
+    <button class="btn-apostar" id="btnDice" onclick="rolarDice()">🎲 ROLAR</button>
+  </div>
+
+</div>
+
+
+<!-- ===== LOJA (compra de itens com PIXC real — NAO e aposta) ===== -->
+<div id="panel-loja" class="game-panel">
+  <div class="card">
+    <div class="card-title">🛍️ Colecao Educativa</div>
+    <p style="font-size:12px;color:#9fb4c4;line-height:1.5">
+      Esta colecao e desbloqueada por progresso dentro do laboratorio. Nenhum PIXC real e usado aqui.
+      Cada item tem uma meta clara: sem pagamento, sem saque e sem aposta com dinheiro.
+    </p>
+  </div>
+  <div id="lojaGrid" class="loja-grid"></div>
+  <div id="lojaModal" class="loja-modal" style="display:none">
+    <div class="loja-modal-card">
+      <div class="card-title" id="lojaModalTitle">Comprar item</div>
+      <p style="font-size:13px;color:#cfe8dc" id="lojaModalDesc"></p>
+      <div style="font-size:13px;margin:10px 0">Colecao educativa: desbloqueie a meta indicada para receber este visual.</div>
+      <div class="address-box" id="lojaModalAddr">SEM PAGAMENTO REAL</div>
+      <div style="font-size:12px;color:#9fb4c4;margin:8px 0">Fichas sao locais, gratuitas e nao possuem valor monetario.</div>
+      <button class="btn-apostar" onclick="confirmarCompra()">Entendi</button>
+      <button class="btn-fichas-free" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);color:#9fb4c4" onclick="fecharLoja()">Cancelar</button>
+      <p style="font-size:11px;color:#8fa6b6;margin-top:8px">Itens da colecao sao liberados somente pelo seu progresso neste navegador.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- fim container -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- NAV BOTTOM -->
+<div class="nav-bottom">
+  <div class="nav-item active" id="nav-roleta" onclick="mudarJogoNav('roleta')">
+    <div class="glow-line"></div>
+    <span class="nav-icon">🎡</span>
+    <span class="nav-label">Roleta</span>
+  </div>
+  <div class="nav-item" id="nav-crash" onclick="mudarJogoNav('crash')">
+    <div class="glow-line"></div>
+    <span class="nav-icon">🚀</span>
+    <span class="nav-label">Crash</span>
+  </div>
+  <div class="nav-item" id="nav-mines" onclick="mudarJogoNav('mines')">
+    <div class="glow-line"></div>
+    <span class="nav-icon">💣</span>
+    <span class="nav-label">Mines</span>
+  </div>
+  <div class="nav-item" id="nav-dice" onclick="mudarJogoNav('dice')">
+    <div class="glow-line"></div>
+    <span class="nav-icon">🎲</span>
+    <span class="nav-label">Dice</span>
+  </div>
+  <div class="nav-item" id="nav-loja" onclick="mudarJogoNav('loja')">
+    <div class="glow-line"></div>
+    <span class="nav-icon">🛍️</span>
+    <span class="nav-label">Colecao</span>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// ESTADO GLOBAL
+// ============================================================
+var estado = {
+  carteira: '',
+  saldo: 0,          // FICHAS de diversao (nao e PIXC real)
+  pixcReal: 0,       // saldo PIXC real (apenas leitura, nunca apostado)
+  apostas: 0,
+  ganhos: 0,
+  perdas: 0,
+  historico: []
+};
+function salvarFichas(){ try{ localStorage.setItem('pixc_casino_fichas', String(estado.saldo)); }catch(e){} }
+function carregarFichas(){ var v=parseFloat(localStorage.getItem('pixc_casino_fichas')); estado.saldo = (isNaN(v)? FICHAS_INICIAIS : v); }
+function ganharFichasGratis(){ estado.saldo += 500; salvarFichas(); atualizarUI(); toast('+500 fichas gratis! (fichas de diversao, nao valem dinheiro)'); }
+
+// Leitura de saldo PIXC via proxy do servidor (SEM chave no cliente)
+var RPC_PROXY = 'https://webhook.wordfinance.org/api/solana/rpc';
+var PIXC_MINT = 'AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq';
+var FICHAS_INICIAIS = 1000;
+
+// ============================================================
+// CARTEIRA
+// ============================================================
+function conectarCarteira() {
+  var addr = document.getElementById('walletInput').value.trim();
+  if (!addr || addr.length < 32) { toast('Cole um endereço Solana válido'); return; }
+  estado.carteira = addr;
+  try { localStorage.setItem('pixc_casino_addr', addr); } catch(e){}
+  toast('Lendo seu PIXC real (apenas leitura)...');
+  buscarSaldoPIXC(addr);
+}
+
+// Le o PIXC REAL so para EXIBIR (nunca e apostado). Vai pelo proxy do servidor.
+function buscarSaldoPIXC(addr) {
+  fetch(RPC_PROXY, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      jsonrpc: '2.0', id: 1,
+      method: 'getTokenAccountsByOwner',
+      params: [addr, { mint: PIXC_MINT }, { encoding: 'jsonParsed' }]
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    var val = 0;
+    if (d.result && d.result.value && d.result.value.length > 0) {
+      val = parseFloat(d.result.value[0].account.data.parsed.info.tokenAmount.uiAmount || 0);
+    }
+    estado.pixcReal = val;
+    atualizarUI();
+    toast('PIXC real: ' + val.toFixed(2) + ' (usado so na loja, nunca nas apostas)');
+  })
+  .catch(function() { toast('Nao consegui ler o PIXC agora (segue jogando com fichas).'); });
+}
+
+function atualizarUI() {
+  document.getElementById('saldoDisplay').innerHTML = estado.saldo.toFixed(2) + ' <small style="font-size:11px">fichas</small>';
+  if (estado.pixcReal > 0) {
+    var chip=document.getElementById('pixcRealChip'); if(chip){ chip.style.display='block'; document.getElementById('pixcRealVal').textContent = estado.pixcReal.toFixed(2) + ' PIXC'; }
+  }
+  document.getElementById('statApostas').textContent = estado.apostas;
+  document.getElementById('statGanhos').textContent = estado.ganhos.toFixed(2);
+  document.getElementById('statPerdas').textContent = estado.perdas.toFixed(2);
+  var lucro = estado.ganhos - estado.perdas;
+  var el = document.getElementById('statLucro');
+  el.textContent = (lucro >= 0 ? '+' : '') + lucro.toFixed(2);
+  el.style.color = lucro >= 0 ? 'var(--green2)' : '#FF5252';
+}
+
+function registrarAposta(jogo, aposta, ganho, descricao) {
+  estado.apostas++;
+  if (ganho > 0) { estado.ganhos += ganho; }
+  else { estado.perdas += aposta; }
+  estado.historico.unshift({ jogo: jogo, aposta: aposta, ganho: ganho, desc: descricao, ts: new Date() });
+  if (estado.historico.length > 50) estado.historico.pop();
+  atualizarUI();
+}
+
+function verificarAposta(valor) {
+  if (!valor || valor <= 0) { toast('Digite um valor em fichas'); return false; }
+  if (valor > estado.saldo) { toast('Fichas insuficientes! Voce tem ' + estado.saldo.toFixed(2) + ' fichas. Clique em \u201cGanhar fichas gratis\u201d.'); return false; }
+  return true;
+}
+
+function descontarSaldo(valor) { estado.saldo = Math.max(0, estado.saldo - valor); salvarFichas(); }
+function creditarSaldo(valor) { estado.saldo += valor; salvarFichas(); }
+
+// ============================================================
+// NAVEGAÇÃO
+// ============================================================
+function mudarJogo(jogo, tabEl) {
+  document.querySelectorAll('.game-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.getElementById('panel-' + jogo).classList.add('active');
+  tabEl.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+  var nav = document.getElementById('nav-' + jogo);
+  if (nav) nav.classList.add('active');
+  if (jogo === 'roleta') desenharRoleta();
+}
+
+function mudarJogoNav(jogo) {
+  document.querySelectorAll('.game-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+  document.getElementById('panel-' + jogo).classList.add('active');
+  document.getElementById('nav-' + jogo).classList.add('active');
+  var tabs = document.querySelectorAll('.tab');
+  var jogos = ['roleta','crash','mines','dice','loja'];
+  var idx = jogos.indexOf(jogo);
+  if (tabs[idx]) tabs[idx].classList.add('active');
+  if (jogo === 'roleta') desenharRoleta();
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+var _toastTimer = null;
+function toast(msg) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(function() { el.classList.remove('show'); }, 2500);
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function setAposta(v) { document.getElementById('roletaAposta').value = v; }
+function setApostaCrash(v) { document.getElementById('crashAposta').value = v; }
+function setApostaMines(v) { document.getElementById('minesAposta').value = v; }
+function setApostaDice(v) { document.getElementById('diceAposta').value = v; }
+
+// ============================================================
+// ROLETA
+// ============================================================
+var roletaOpcao = null;
+var roletaGirando = false;
+var roletaAngulo = 0;
+
+var NUMEROS_ROLETA = [
+  0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,
+  24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26
+];
+
+var VERMELHOS = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+
+function getCor(num) {
+  if (num === 0) return '#006600';
+  return VERMELHOS.indexOf(num) >= 0 ? '#CC2200' : '#222';
+}
+
+function desenharRoleta(anguloAtual) {
+  var canvas = document.getElementById('roletaCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var cx = 130, cy = 130, r = 125, ri = 45;
+  var n = NUMEROS_ROLETA.length;
+  var slice = (2 * Math.PI) / n;
+  var ang = anguloAtual || 0;
+
+  ctx.clearRect(0, 0, 260, 260);
+
+  // Sombra externa
+  ctx.save();
+  ctx.shadowColor = 'rgba(255,165,0,0.4)';
+  ctx.shadowBlur = 20;
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fillStyle='#111'; ctx.fill();
+  ctx.restore();
+
+  // Fatias
+  for (var i = 0; i < n; i++) {
+    var start = ang + i * slice - Math.PI/2;
+    var end = start + slice;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r - 2, start, end);
+    ctx.closePath();
+    ctx.fillStyle = getCor(NUMEROS_ROLETA[i]);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,215,0,0.3)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+
+    // Número
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(start + slice/2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#FFF';
+    ctx.font = 'bold 9px Inter';
+    ctx.fillText(NUMEROS_ROLETA[i], r - 8, 3);
+    ctx.restore();
+  }
+
+  // Anel dourado externo
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI*2);
+  ctx.strokeStyle = 'rgba(255,215,0,0.6)';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // Centro
+  ctx.beginPath();
+  ctx.arc(cx, cy, ri, 0, Math.PI*2);
+  ctx.fillStyle = '#0A0500';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,215,0,0.5)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Logo centro
+  ctx.fillStyle = 'rgba(255,165,0,0.6)';
+  ctx.font = 'bold 11px Cinzel, serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('PIXC', cx, cy);
+}
+
+function selecionarRoleta(opcao, el) {
+  roletaOpcao = opcao;
+  document.querySelectorAll('.roleta-btn').forEach(function(b) { b.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+function girarRoleta() {
+  if (roletaGirando) return;
+  var aposta = parseFloat(document.getElementById('roletaAposta').value);
+  if (!verificarAposta(aposta)) return;
+  if (!roletaOpcao) { toast('Escolha vermelho, preto ou zero!'); return; }
+
+  roletaGirando = true;
+  descontarSaldo(aposta);
+  atualizarUI();
+  document.getElementById('btnRoleta').disabled = true;
+  document.getElementById('roletaResultado').className = 'resultado neutro pulsing';
+  document.getElementById('roletaResultado').textContent = 'Girando...';
+
+  // Número sorteado
+  var idx = Math.floor(Math.random() * NUMEROS_ROLETA.length);
+  var numSorteado = NUMEROS_ROLETA[idx];
+  var corSorteada = numSorteado === 0 ? 'verde' : (VERMELHOS.indexOf(numSorteado) >= 0 ? 'vermelho' : 'preto');
+
+  // Ângulo alvo — garante que o ponteiro aponta pro número sorteado
+  var slice = (2 * Math.PI) / NUMEROS_ROLETA.length;
+  var anguloAlvo = -(idx * slice) + Math.PI/2;
+  var voltas = 5 + Math.random() * 3;
+  var anguloFinal = roletaAngulo + (voltas * 2 * Math.PI) + anguloAlvo - (roletaAngulo % (2*Math.PI));
+
+  var inicio = performance.now();
+  var duracao = 4000 + Math.random() * 1000;
+  var anguloInicio = roletaAngulo;
+
+  function animar(agora) {
+    var t = Math.min((agora - inicio) / duracao, 1);
+    // Ease out cubic
+    var ease = 1 - Math.pow(1 - t, 4);
+    var ang = anguloInicio + (anguloFinal - anguloInicio) * ease;
+    roletaAngulo = ang;
+    desenharRoleta(ang);
+
+    if (t < 1) {
+      requestAnimationFrame(animar);
+    } else {
+      roletaGirando = false;
+      document.getElementById('btnRoleta').disabled = false;
+      document.getElementById('roletaResultado').classList.remove('pulsing');
+
+      var ganhou = roletaOpcao === corSorteada;
+      var mult = roletaOpcao === 'verde' ? 14 : 2;
+      var premio = ganhou ? aposta * mult : 0;
+
+      if (ganhou) {
+        creditarSaldo(premio);
+        document.getElementById('roletaResultado').className = 'resultado ganhou';
+        document.getElementById('roletaResultado').textContent =
+          '🏆 ' + numSorteado + ' (' + corSorteada.toUpperCase() + ')  — Ganhou ' + premio.toFixed(2) + ' fichas!';
+        registrarAposta('Roleta', aposta, premio, numSorteado + ' ' + corSorteada);
+      } else {
+        document.getElementById('roletaResultado').className = 'resultado perdeu';
+        document.getElementById('roletaResultado').textContent =
+          '💔 ' + numSorteado + ' (' + corSorteada.toUpperCase() + ') — Perdeu ' + aposta.toFixed(2) + ' fichas';
+        registrarAposta('Roleta', aposta, 0, numSorteado + ' ' + corSorteada);
+      }
+      atualizarUI();
+    }
+  }
+  requestAnimationFrame(animar);
+}
+
+// ============================================================
+// CRASH
+// ============================================================
+var crashState = {
+  rodando: false,
+  mult: 1.0,
+  apostou: false,
+  valorAposta: 0,
+  sacou: false,
+  timer: null,
+  crashPonto: 1.0,
+  pontos: []
+};
+
+function gerarCrashPonto() {
+  // Distribuição: 50% crash antes de 2x, raramente passa de 10x
+  var r = Math.random();
+  if (r < 0.40) return 1.0 + Math.random() * 0.8;
+  if (r < 0.70) return 1.8 + Math.random() * 1.5;
+  if (r < 0.88) return 3.0 + Math.random() * 4;
+  if (r < 0.96) return 7.0 + Math.random() * 8;
+  return 15 + Math.random() * 35;
+}
+
+function desenharCrashCanvas() {
+  var canvas = document.getElementById('crashCanvas');
+  if (!canvas) return;
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+  var ctx = canvas.getContext('2d');
+  var w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  if (crashState.pontos.length < 2) return;
+
+  var maxMult = Math.max(crashState.mult * 1.2, 2);
+  var pts = crashState.pontos;
+  var n = pts.length;
+
+  ctx.beginPath();
+  for (var i = 0; i < n; i++) {
+    var x = (i / (n - 1)) * w;
+    var y = h - ((pts[i] - 1) / (maxMult - 1)) * h * 0.85 - h * 0.05;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.strokeStyle = crashState.sacou ? '#00C853' : (crashState.rodando ? '#FFD700' : '#FF3300');
+  ctx.lineWidth = 2.5;
+  ctx.shadowColor = crashState.rodando ? 'rgba(255,215,0,0.5)' : 'rgba(255,50,0,0.5)';
+  ctx.shadowBlur = 8;
+  ctx.stroke();
+
+  // Área sob a curva
+  ctx.lineTo(w * ((n-1)/(n-1)), h);
+  ctx.lineTo(0, h);
+  ctx.closePath();
+  var grad = ctx.createLinearGradient(0, 0, 0, h);
+  grad.addColorStop(0, crashState.rodando ? 'rgba(255,215,0,0.15)' : 'rgba(255,50,0,0.1)');
+  grad.addColorStop(1, 'transparent');
+  ctx.fillStyle = grad;
+  ctx.fill();
+}
+
+function iniciarCrash() {
+  if (crashState.rodando) return;
+  var aposta = parseFloat(document.getElementById('crashAposta').value);
+  if (!verificarAposta(aposta)) return;
+
+  descontarSaldo(aposta);
+  atualizarUI();
+
+  crashState.apostou = true;
+  crashState.valorAposta = aposta;
+  crashState.sacou = false;
+  crashState.mult = 1.0;
+  crashState.pontos = [1.0];
+  crashState.crashPonto = gerarCrashPonto();
+  crashState.rodando = true;
+
+  document.getElementById('btnCrash').disabled = true;
+  document.getElementById('btnCashout').disabled = false;
+  document.getElementById('crashStatus').textContent = 'VOANDO...';
+  document.getElementById('crashStatus').classList.add('pulsing');
+  document.getElementById('crashResultado').className = 'resultado neutro';
+  document.getElementById('crashResultado').textContent = '';
+
+  var velocidade = 50;
+  crashState.timer = setInterval(function() {
+    crashState.mult += 0.04 + crashState.mult * 0.008;
+    crashState.pontos.push(crashState.mult);
+
+    document.getElementById('crashMult').textContent = crashState.mult.toFixed(2) + 'x';
+    document.getElementById('crashMult').className = 'crash-mult';
+    desenharCrashCanvas();
+
+    if (crashState.mult >= crashState.crashPonto) {
+      clearInterval(crashState.timer);
+      crashState.rodando = false;
+      document.getElementById('btnCashout').disabled = true;
+      document.getElementById('btnCrash').disabled = false;
+      document.getElementById('crashStatus').classList.remove('pulsing');
+      document.getElementById('crashMult').className = 'crash-mult crashed';
+      document.getElementById('crashMult').textContent = crashState.crashPonto.toFixed(2) + 'x 💥';
+      document.getElementById('crashStatus').textContent = 'CRASHED!';
+
+      if (!crashState.sacou) {
+        document.getElementById('crashResultado').className = 'resultado perdeu';
+        document.getElementById('crashResultado').textContent =
+          '💥 Crash em ' + crashState.crashPonto.toFixed(2) + 'x — Perdeu ' + aposta.toFixed(2) + ' fichas';
+        registrarAposta('Crash', aposta, 0, 'crash ' + crashState.crashPonto.toFixed(2) + 'x');
+        atualizarUI();
+      }
+    }
+  }, velocidade);
+}
+
+function cashout() {
+  if (!crashState.rodando || crashState.sacou) return;
+  crashState.sacou = true;
+  var premio = crashState.valorAposta * crashState.mult;
+  creditarSaldo(premio);
+  document.getElementById('btnCashout').disabled = true;
+  document.getElementById('crashResultado').className = 'resultado ganhou';
+  document.getElementById('crashResultado').textContent =
+    '💰 Sacou em ' + crashState.mult.toFixed(2) + 'x — Ganhou ' + premio.toFixed(2) + ' fichas!';
+  registrarAposta('Crash', crashState.valorAposta, premio, 'saque ' + crashState.mult.toFixed(2) + 'x');
+  atualizarUI();
+}
+
+// ============================================================
+// MINES
+// ============================================================
+var minesState = {
+  ativo: false,
+  bombas: [],
+  revelados: 0,
+  aposta: 0,
+  multAtual: 1.0,
+  totalCelulas: 25,
+  bombCount: 5
+};
+
+function calcMult(revelados, bombas) {
+  var seguros = 25 - bombas;
+  var mult = 1.0;
+  for (var i = 0; i < revelados; i++) {
+    mult *= (25 - bombas - i) / (25 - i);
+  }
+  return Math.max(1, 0.97 / mult);
+}
+
+function recalcMines() {
+  minesState.bombCount = parseInt(document.getElementById('minesBombas').value);
+}
+
+function iniciarMines() {
+  if (minesState.ativo) return;
+  var aposta = parseFloat(document.getElementById('minesAposta').value);
+  if (!verificarAposta(aposta)) return;
+
+  descontarSaldo(aposta);
+  minesState.aposta = aposta;
+  minesState.bombCount = parseInt(document.getElementById('minesBombas').value);
+  minesState.ativo = true;
+  minesState.revelados = 0;
+  minesState.multAtual = 1.0;
+  minesState.bombas = [];
+
+  // Sortear posições das bombas
+  var posicoes = Array.from({length:25}, function(_,i){return i;});
+  for (var i = posicoes.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = posicoes[i]; posicoes[i] = posicoes[j]; posicoes[j] = tmp;
+  }
+  minesState.bombas = posicoes.slice(0, minesState.bombCount);
+
+  renderizarMines();
+  document.getElementById('btnMines').disabled = true;
+  document.getElementById('btnMinesSacar').disabled = false;
+  document.getElementById('minesBombas').disabled = true;
+  document.getElementById('minesResultado').className = 'resultado neutro';
+  document.getElementById('minesResultado').textContent = '';
+  document.getElementById('minesMult').innerHTML = '1.00x<span>Clique nas células para revelar</span>';
+  atualizarUI();
+}
+
+function renderizarMines() {
+  var grid = document.getElementById('minesGrid');
+  grid.innerHTML = '';
+  for (var i = 0; i < 25; i++) {
+    var cell = document.createElement('div');
+    cell.className = 'mine-cell';
+    cell.dataset.idx = i;
+    cell.textContent = '💎';
+    if (minesState.ativo) {
+      cell.onclick = (function(idx) { return function() { clicarMines(idx); }; })(i);
+    }
+    grid.appendChild(cell);
+  }
+}
+
+function clicarMines(idx) {
+  if (!minesState.ativo) return;
+  var cells = document.querySelectorAll('.mine-cell');
+  var cell = cells[idx];
+  if (cell.classList.contains('revealed') || cell.classList.contains('bomb')) return;
+
+  var ehBomba = minesState.bombas.indexOf(idx) >= 0;
+
+  if (ehBomba) {
+    // Revelou bomba — perdeu
+    cell.classList.add('bomb', 'revealed');
+    cell.textContent = '💣';
+    minesState.ativo = false;
+
+    // Revelar todas as bombas
+    setTimeout(function() {
+      minesState.bombas.forEach(function(b) {
+        var bc = cells[b];
+        bc.classList.add('bomb', 'revealed', 'disabled');
+        bc.textContent = '💣';
+      });
+    }, 300);
+
+    document.getElementById('btnMines').disabled = false;
+    document.getElementById('btnMinesSacar').disabled = true;
+    document.getElementById('minesBombas').disabled = false;
+    document.getElementById('minesResultado').className = 'resultado perdeu';
+    document.getElementById('minesResultado').textContent =
+      '💥 BOMBA! Perdeu ' + minesState.aposta.toFixed(2) + ' fichas';
+    document.getElementById('minesMult').innerHTML = minesState.multAtual.toFixed(2) + 'x<span>Mais sorte na próxima!</span>';
+    registrarAposta('Mines', minesState.aposta, 0, 'bomba em ' + minesState.revelados + ' acertos');
+    atualizarUI();
+  } else {
+    // Célula segura
+    minesState.revelados++;
+    cell.classList.add('safe', 'revealed', 'disabled');
+    cell.textContent = '💎';
+    minesState.multAtual = calcMult(minesState.revelados, minesState.bombCount);
+    var ganhouParcial = minesState.aposta * minesState.multAtual;
+    document.getElementById('minesMult').innerHTML =
+      minesState.multAtual.toFixed(2) + 'x<span>' + minesState.revelados + ' acertos — pode sacar ' + ganhouParcial.toFixed(2) + ' fichas</span>';
+    document.getElementById('btnMinesSacar').textContent =
+      '💰 SACAR (' + ganhouParcial.toFixed(2) + ' fichas)';
+
+    // Se revelou todas as células seguras
+    if (minesState.revelados >= (25 - minesState.bombCount)) {
+      sacarMines();
+    }
+  }
+}
+
+function sacarMines() {
+  if (!minesState.ativo) return;
+  minesState.ativo = false;
+  var premio = minesState.aposta * minesState.multAtual;
+  creditarSaldo(premio);
+
+  document.getElementById('btnMines').disabled = false;
+  document.getElementById('btnMinesSacar').disabled = true;
+  document.getElementById('minesBombas').disabled = false;
+  document.getElementById('minesResultado').className = 'resultado ganhou';
+  document.getElementById('minesResultado').textContent =
+    '🏆 Sacou ' + minesState.multAtual.toFixed(2) + 'x — Ganhou ' + premio.toFixed(2) + ' fichas!';
+  registrarAposta('Mines', minesState.aposta, premio, minesState.revelados + ' acertos ' + minesState.multAtual.toFixed(2) + 'x');
+  atualizarUI();
+}
+
+// ============================================================
+// DICE
+// ============================================================
+var diceOpcao = null;
+var DADOS_EMOJI = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+
+function selecionarDice(opcao, el) {
+  diceOpcao = opcao;
+  document.querySelectorAll('.dice-opt').forEach(function(d) { d.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+function rolarDice() {
+  var aposta = parseFloat(document.getElementById('diceAposta').value);
+  if (!verificarAposta(aposta)) return;
+  if (!diceOpcao) { toast('Escolha sua aposta primeiro!'); return; }
+
+  descontarSaldo(aposta);
+  atualizarUI();
+
+  document.getElementById('btnDice').disabled = true;
+  var d1el = document.getElementById('dado1');
+  var d2el = document.getElementById('dado2');
+  d1el.classList.add('rolling');
+  d2el.classList.add('rolling');
+
+  setTimeout(function() {
+    var d1 = Math.floor(Math.random() * 6) + 1;
+    var d2 = Math.floor(Math.random() * 6) + 1;
+    var soma = d1 + d2;
+    d1el.textContent = DADOS_EMOJI[d1-1];
+    d2el.textContent = DADOS_EMOJI[d2-1];
+    d1el.classList.remove('rolling');
+    d2el.classList.remove('rolling');
+    document.getElementById('diceSum').textContent = soma;
+    document.getElementById('btnDice').disabled = false;
+
+    var ganhou = false;
+    var mult = 0;
+
+    if (diceOpcao === 'baixo' && soma >= 2 && soma <= 6) { ganhou=true; mult=2; }
+    else if (diceOpcao === 'alto' && soma >= 8 && soma <= 12) { ganhou=true; mult=2; }
+    else if (diceOpcao === 'meio' && soma === 7) { ganhou=true; mult=5; }
+    else if (diceOpcao === 'par' && soma % 2 === 0) { ganhou=true; mult=2; }
+    else if (diceOpcao === 'impar' && soma % 2 !== 0) { ganhou=true; mult=2; }
+    else if (diceOpcao === 'duplo' && d1 === d2) { ganhou=true; mult=6; }
+
+    if (ganhou) {
+      var premio = aposta * mult;
+      creditarSaldo(premio);
+      document.getElementById('diceResultado').className = 'resultado ganhou';
+      document.getElementById('diceResultado').textContent =
+        '🏆 Soma ' + soma + ' — Ganhou ' + premio.toFixed(2) + ' fichas (' + mult + 'x)!';
+      registrarAposta('Dice', aposta, premio, 'soma ' + soma);
+    } else {
+      document.getElementById('diceResultado').className = 'resultado perdeu';
+      document.getElementById('diceResultado').textContent =
+        '💔 Soma ' + soma + ' — Perdeu ' + aposta.toFixed(2) + ' fichas';
+      registrarAposta('Dice', aposta, 0, 'soma ' + soma);
+    }
+    atualizarUI();
+  }, 700);
+}
+
+
+// ============================================================
+// LOJA — compra de itens com PIXC real (NAO e aposta)
+// ============================================================
+var LEGACY_UNUSED_LOJA_ITENS = [
+  { id:'tema-neon',    emoji:'🟣', nome:'Tema Neon Roxo',      desc:'Visual roxo neon pra mesa.',            preco:50,  tipo:'tema', tema:'neon' },
+  { id:'tema-ouro',    emoji:'🟡', nome:'Tema Ouro Real',       desc:'Mesa dourada de luxo.',                 preco:50,  tipo:'tema', tema:'ouro' },
+  { id:'tema-cyber',   emoji:'🟦', nome:'Tema Cyberpunk',       desc:'Azul cyber com brilho.',                preco:80,  tipo:'tema', tema:'cyber' },
+  { id:'moldura-fund', emoji:'🏅', nome:'Moldura Fundador',     desc:'Moldura exclusiva de apoiador.',        preco:100, tipo:'cosmetico' },
+  { id:'efeito-confete',emoji:'🎉',nome:'Efeito Confete',       desc:'Chuva de confete nas vitorias.',        preco:40,  tipo:'cosmetico' },
+  { id:'badge-apoiador',emoji:'💚',nome:'Badge Apoiador PIXC',  desc:'Selo de apoiador do ecossistema.',      preco:30,  tipo:'cosmetico' }
+];
+function itensCompradosLegacy(){ try{ return JSON.parse(localStorage.getItem('pixc_casino_itens')||'[]'); }catch(e){ return []; } }
+function possuiLegacy(id){ return itensCompradosLegacy().indexOf(id) >= 0; }
+function renderLojaLegacy(){
+  var g=document.getElementById('lojaGrid'); if(!g) return; g.innerHTML='';
+  LOJA_ITENS.forEach(function(it){
+    var tem=possuiLegacy(it.id);
+    var d=document.createElement('div'); d.className='loja-item';
+    var botao = '';
+    var prev = it.tipo==='tema' ? '<button class="prev" onclick="preverTema(\''+it.tema+'\')">Pré-visualizar</button>' : '';
+    d.innerHTML='<div class="emoji">'+it.emoji+'</div><div class="nome">'+it.nome+'</div><div class="desc">'+it.desc+'</div><div class="preco">'+it.preco+' PIXC</div>'+botao+prev;
+    g.appendChild(d);
+  });
+}
+var _compraAtual=null;
+function abrirCompraLegacy(id){
+  var it=LOJA_ITENS.filter(function(x){return x.id===id;})[0]; if(!it) return;
+  _compraAtual=it;
+  document.getElementById('lojaModalTitle').textContent='Comprar: '+it.nome;
+  document.getElementById('lojaModalDesc').textContent=it.desc;
+  document.getElementById('lojaModalPreco').textContent=it.preco+' PIXC';
+  document.getElementById('lojaModalMemo').textContent='ITEM-'+it.id.toUpperCase();
+  document.getElementById('lojaModal').style.display='flex';
+}
+function fecharLojaLegacy(){ document.getElementById('lojaModal').style.display='none'; _compraAtual=null; }
+function confirmarCompraLegacy(){
+  toast('A colecao deste laboratorio e liberada apenas por metas locais e nao recebe pagamentos.');
+  fecharLojaLegacy();
+}
+function preverTemaLegacy(tema){
+  document.body.setAttribute('data-tema', tema);
+  toast('Pré-visualização do tema aplicada (compre para deixar permanente).');
+}
+
+// ============================================================
+// COLECAO EDUCATIVA - sem pagamento, sem saque e sem aposta real
+// ============================================================
+var LAB_PROGRESS_KEY = 'pixc_casino_lab_progress';
+var LAB_COLLECTION_KEY = 'pixc_casino_collection';
+
+LOJA_ITENS = [
+  { id:'tema-neon', glyph:'N', nome:'Tema Neon', desc:'Mesa violeta para o laboratorio.', tipo:'tema', tema:'neon', meta:{tipo:'partidas', valor:8, texto:'partidas'} },
+  { id:'tema-ouro', glyph:'O', nome:'Tema Ouro', desc:'Visual dourado para partidas de treino.', tipo:'tema', tema:'ouro', meta:{tipo:'vitorias', valor:10, texto:'vitorias'} },
+  { id:'tema-cyber', glyph:'C', nome:'Tema Cyber', desc:'Mesa azul de leitura rapida.', tipo:'tema', tema:'cyber', meta:{tipo:'jogos', valor:4, texto:'modos explorados'} },
+  { id:'moldura-fund', glyph:'F', nome:'Moldura Fundador', desc:'Moldura dourada para quem pratica.', tipo:'cosmetico', meta:{tipo:'partidas', valor:40, texto:'partidas'} },
+  { id:'efeito-confete', glyph:'+', nome:'Efeito Confete', desc:'Celebre vitorias com particulas.', tipo:'cosmetico', meta:{tipo:'vitorias', valor:16, texto:'vitorias'} },
+  { id:'badge-apoiador', glyph:'L', nome:'Badge do Laboratorio', desc:'Selo de quem concluiu os quatro modos.', tipo:'cosmetico', meta:{tipo:'jogos', valor:4, texto:'modos explorados'} }
+];
+
+function lerLaboratorio(){
+  try {
+    var raw = JSON.parse(localStorage.getItem(LAB_PROGRESS_KEY) || '{}');
+    return { partidas:Number(raw.partidas || 0), vitorias:Number(raw.vitorias || 0), jogos:raw.jogos || {} };
+  } catch(e) { return { partidas:0, vitorias:0, jogos:{} }; }
+}
+function salvarLaboratorio(data){ try { localStorage.setItem(LAB_PROGRESS_KEY, JSON.stringify(data)); } catch(e){} }
+function registrarProgresso(jogo, ganhou){
+  var data = lerLaboratorio();
+  data.partidas += 1;
+  if (ganhou) data.vitorias += 1;
+  data.jogos[jogo] = (data.jogos[jogo] || 0) + 1;
+  salvarLaboratorio(data);
+  renderLoja();
+}
+function itensDaColecao(){ try { return JSON.parse(localStorage.getItem(LAB_COLLECTION_KEY) || '[]'); } catch(e) { return []; } }
+function temItemColecao(id){ return itensDaColecao().indexOf(id) >= 0; }
+function salvarColecao(itens){ try { localStorage.setItem(LAB_COLLECTION_KEY, JSON.stringify(itens)); } catch(e){} }
+function metaDaColecao(item){
+  var data = lerLaboratorio();
+  var atual = item.meta.tipo === 'jogos' ? Object.keys(data.jogos).length : data[item.meta.tipo];
+  return { atual:Math.min(atual, item.meta.valor), total:item.meta.valor, pronta:atual >= item.meta.valor };
+}
+function aplicarColecao(){
+  var itens = itensDaColecao();
+  var tema = localStorage.getItem('pixc_casino_tema') || '';
+  document.body.setAttribute('data-tema', tema);
+  document.body.classList.toggle('has-founder-frame', itens.indexOf('moldura-fund') >= 0);
+  var badge = document.getElementById('collection-badge');
+  if (badge) badge.style.display = itens.indexOf('badge-apoiador') >= 0 ? 'block' : 'none';
+}
+function soltarConfete(){
+  if (!temItemColecao('efeito-confete')) return;
+  for (var i=0;i<18;i+=1) {
+    var bit=document.createElement('i'); bit.className='lab-confetti';
+    bit.style.left=(8 + Math.random()*84)+'vw'; bit.style.top=(8 + Math.random()*20)+'vh';
+    bit.style.background=['#ffd166','#14f195','#5df2ff','#ff6ac1'][i%4];
+    document.body.appendChild(bit);
+    setTimeout((function(el){ return function(){ el.remove(); }; })(bit), 900);
+  }
+}
+function resgatarItem(id){
+  var item = LOJA_ITENS.filter(function(entry){ return entry.id === id; })[0];
+  if (!item || temItemColecao(id)) return;
+  var meta = metaDaColecao(item);
+  if (!meta.pronta) { toast('Falta progresso: '+meta.atual+'/'+meta.total+' '+item.meta.texto+'.'); return; }
+  var itens = itensDaColecao(); itens.push(id); salvarColecao(itens);
+  if (item.tipo === 'tema') localStorage.setItem('pixc_casino_tema', item.tema);
+  aplicarColecao(); renderLoja();
+  toast(item.nome+' desbloqueado no laboratorio!');
+}
+function usarTema(tema){ document.body.setAttribute('data-tema', tema); toast('Visual aplicado neste navegador.'); }
+renderLoja = function(){
+  var g = document.getElementById('lojaGrid'); if (!g) return;
+  g.innerHTML = '';
+  LOJA_ITENS.forEach(function(item){
+    var meta = metaDaColecao(item);
+    var tem = temItemColecao(item.id);
+    var card = document.createElement('div');
+    card.className = 'loja-item' + (meta.pronta || tem ? '' : ' locked');
+    var button = tem ? '<button disabled style="opacity:.7">Desbloqueado</button>' : meta.pronta ? '<button onclick="resgatarItem(\''+item.id+'\')">Resgatar</button>' : '<button disabled>Meta pendente</button>';
+    var preview = item.tipo === 'tema' && tem ? '<button class="collection-action" onclick="usarTema(\''+item.tema+'\')">Usar visual</button>' : '';
+    card.innerHTML = '<div class="emoji">'+item.glyph+'</div><div class="nome">'+item.nome+'</div><div class="desc">'+item.desc+'</div><div class="collection-progress">Progresso: '+meta.atual+'/'+meta.total+' '+item.meta.texto+'</div>'+button+preview;
+    g.appendChild(card);
+  });
+};
+registrarAposta = function(jogo, aposta, ganho, descricao) {
+  estado.apostas++;
+  if (ganho > 0) estado.ganhos += ganho;
+  else estado.perdas += aposta;
+  estado.historico.unshift({ jogo:jogo, aposta:aposta, ganho:ganho, desc:descricao, ts:new Date() });
+  if (estado.historico.length > 50) estado.historico.pop();
+  registrarProgresso(jogo, ganho > 0);
+  if (ganho > 0) soltarConfete();
+  atualizarUI();
+};
+abrirCompra = function(){ toast('A colecao e liberada por metas de jogo. Nenhum PIXC real e enviado.'); };
+confirmarCompra = function(){ fecharLoja(); toast('Sem pagamento real neste laboratorio educativo.'); };
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('load', function() {
+  carregarFichas();
+  aplicarColecao();
+  var lojaModal = document.getElementById('lojaModal'); if (lojaModal) lojaModal.remove();
+  var collectionBadge = document.createElement('div');
+  collectionBadge.id = 'collection-badge';
+  collectionBadge.className = 'collection-badge';
+  collectionBadge.textContent = 'Laboratorio concluido';
+  var header = document.querySelector('.header'); if (header) header.appendChild(collectionBadge);
+  aplicarColecao();
+  renderLoja();
+  desenharRoleta();
+  renderizarMines();
+  atualizarUI();
+
+  // Botao "ganhar fichas gratis" injetado no topo de cada painel de aposta
+  var b=document.createElement('button'); b.className='btn-fichas-free'; b.textContent='🎁 Ganhar +500 fichas grátis';
+  b.onclick=ganharFichasGratis;
+  var status=document.querySelector('.status-bar'); if(status && status.parentNode){ status.parentNode.insertBefore(b, status.nextSibling); }
+
+  // Se ja tem endereco salvo, mostra o PIXC real (so leitura)
+  var savedAddr = localStorage.getItem('pixc_casino_addr');
+  if (savedAddr) { document.getElementById('walletInput').value = savedAddr; estado.carteira = savedAddr; buscarSaldoPIXC(savedAddr); }
+});
+function copiarTexto(t){ try{ navigator.clipboard.writeText(t); toast('Copiado!'); }catch(e){} }
+</script>
+</body>
+</html>

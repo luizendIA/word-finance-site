@@ -1465,7 +1465,7 @@
       floatingText(hitPos, dead ? `+${best.def.cred[0]} CRED` : `-${Math.round(def.damage)}`, dead ? "#ffd166" : "#ffffff");
       document.getElementById("crosshair").classList.add("hit");
       window.setTimeout(() => document.getElementById("crosshair").classList.remove("hit"), 95);
-      if (!dead) CryptoApex.economy.addCred(best.classKey.includes("boss") ? 2 : 1, "acerto", true);
+      if (!dead) CryptoApex.economy.addCred(best.isBoss?.() ? 2 : 1, "acerto", true);
     }
   }
 
@@ -1613,6 +1613,12 @@
     world.loots.slice().forEach((loot) => {
       loot.rotation.y += dt * 1.6;
       loot.position.y = loot.userData.baseY + Math.sin(world.elapsed * 3 + loot.position.x) * 0.16;
+      (loot.userData.energyParts || []).forEach((part, index) => {
+        part.rotation.y += dt * (0.35 + index * 0.04);
+        if (part.material && "emissiveIntensity" in part.material) {
+          part.material.emissiveIntensity = 0.28 + Math.sin(world.elapsed * 5 + index) * 0.16;
+        }
+      });
       const dist = loot.position.distanceTo(world.player.group.position);
       loot.scale.setScalar(dist < 1.9 ? 1.1 + Math.sin(world.elapsed * 8) * 0.06 : 1);
       if (dist < 1.65 || (dist < 2.2 && loot.userData.loot?.type === "cred")) collectLoot(loot);

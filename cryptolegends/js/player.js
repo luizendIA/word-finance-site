@@ -447,7 +447,10 @@
       if (input.mouseDown) this.fire(world);
       if (input.consume("q")) this.useQ(world);
       if (input.consume("e")) this.useE(world);
-      if (this.weaponModel) this.weaponModel.position.z = THREE.MathUtils.lerp(this.weaponModel.position.z, 0, 0.18);
+      if (this.weaponModel) {
+        this.weaponModel.position.z = THREE.MathUtils.lerp(this.weaponModel.position.z, 0, 0.18);
+        window.CryptoApex.weapons.updateWeaponModel?.(this.weaponModel, world.elapsed, dt);
+      }
     }
 
     animate(dt, moving, sprinting) {
