@@ -1296,6 +1296,7 @@
 
   function createAudio() {
     let ctx = null;
+    let muted = localStorage.getItem("cryptoLegends.audioMuted.v1") === "1";
     let stepAccum = 0;
     function unlock() {
       if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1315,6 +1316,7 @@
       osc.stop(ctx.currentTime + dur);
     }
     function play(name) {
+      if (muted) return;
       unlock();
       const map = {
         shot: () => tone(220, 0.08, "sawtooth", 0.035, 90),
