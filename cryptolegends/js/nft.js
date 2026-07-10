@@ -51,7 +51,7 @@
 
   function getWallet(preferred) {
     if (!preferred || preferred === "wordfinance") {
-      const wordWallet = window.wordfinance || (isWordFinanceProvider(window.solana) ? window.solana : null);
+      const wordWallet = window.wordFinance || window.wordfinance || (isWordFinanceProvider(window.solana) ? window.solana : null);
       if (wordWallet) return { type: "wordfinance", wallet: wordWallet };
     }
     if ((!preferred || preferred === "phantom") && window.phantom?.solana) {
