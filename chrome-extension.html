@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Finance Wallet para Chrome</title>
+    <meta name="description" content="Instale a extensao Word Finance Wallet para Chrome e conecte em dApps e jogos Web3 do ecossistema WordFinance.">
+    <style>
+        :root { --bg:#070b12; --surface:#0f1520; --border:rgba(255,255,255,.12); --text:#f6f8fb; --dim:#a8b3c7; --btc:#f7931a; }
+        * { box-sizing:border-box; margin:0; padding:0; }
+        body { font-family:Inter, Arial, sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+        a { color:inherit; }
+        header { padding:22px 6%; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; align-items:center; }
+        header strong { color:var(--btc); }
+        nav { display:flex; gap:14px; flex-wrap:wrap; font-size:.92rem; color:var(--dim); }
+        main { max-width:980px; margin:0 auto; padding:72px 6%; }
+        .eyebrow { color:var(--btc); text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:800; margin-bottom:14px; }
+        h1 { font-size:clamp(2.2rem,6vw,4.4rem); line-height:1; max-width:820px; margin-bottom:22px; }
+        .lead { color:var(--dim); font-size:1.12rem; max-width:720px; margin-bottom:30px; }
+        .actions { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:42px; }
+        .btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:13px 22px; border-radius:8px; text-decoration:none; font-weight:800; border:1px solid var(--border); }
+        .btn-primary { background:var(--btc); color:#111; border-color:var(--btc); }
+        .btn-secondary { background:transparent; color:var(--text); }
+        .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+        .panel { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px; }
+        .panel h2 { font-size:1.05rem; margin-bottom:12px; color:#fff; }
+        .panel p, .panel li { color:var(--dim); font-size:.95rem; }
+        ol, ul { padding-left:20px; }
+        li + li { margin-top:8px; }
+        .notice { margin-top:22px; border-color:rgba(247,147,26,.35); }
+        code { color:#fff; background:rgba(255,255,255,.08); padding:2px 6px; border-radius:5px; }
+        footer { padding:28px 6%; color:var(--dim); border-top:1px solid var(--border); text-align:center; font-size:.88rem; }
+        @media (max-width:760px) { header { align-items:flex-start; flex-direction:column; } .grid { grid-template-columns:1fr; } main { padding-top:48px; } }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" style="text-decoration:none"><strong>Word Finance</strong></a>
+        <nav>
+            <a href="index.html#download">Downloads</a>
+            <a href="partners.html">Jogos e parceiros</a>
+            <a href="privacy.html">Privacidade</a>
+        </nav>
+    </header>
+    <main>
+        <div class="eyebrow">Extensao Chrome</div>
+        <h1>Word Finance Wallet no navegador.</h1>
+        <p class="lead">A extensao v1.2.0 permite usar a carteira Word Finance em dApps e jogos Web3 no Chrome, mantendo a seed no dispositivo do usuario.</p>
+        <div class="actions">
+            <a class="btn btn-primary" href="downloads/word-finance-wallet-v1.2.0-2026-07-02.zip">Baixar extensao v1.2.0</a>
+            <a class="btn btn-secondary" href="https://game.wordfinance.org" target="_blank" rel="noopener">Testar no PIXC Quest</a>
+            <a class="btn btn-secondary" href="https://wordfinance.org/pixc-casino/" target="_blank" rel="noopener">Abrir PIXC Play</a>
+        </div>
+        <div class="grid">
+            <section class="panel">
+                <h2>Instalacao manual</h2>
+                <ol>
+                    <li>Baixe o arquivo ZIP e extraia em uma pasta do computador.</li>
+                    <li>Abra <code>chrome://extensions</code> no Chrome.</li>
+                    <li>Ative o <code>Modo do desenvolvedor</code>.</li>
+                    <li>Clique em <code>Carregar sem compactacao</code> e selecione a pasta extraida.</li>
+                </ol>
+            </section>
+            <section class="panel">
+                <h2>O que ela faz</h2>
+                <ul>
+                    <li>Cria ou importa carteira local nao custodial.</li>
+                    <li>Conecta com dApps Solana via provider injetado.</li>
+                    <li>Mostra saldos SOL, USDC, PIXC e fluxo Lightning/Pix interno.</li>
+                    <li>Pede aprovacao antes de conexoes e assinaturas.</li>
+                </ul>
+            </section>
+        </div>
+        <section class="panel notice">
+            <h2>Seguranca</h2>
+            <p>Guarde sua seed offline. A Word Finance nao recupera seed perdida e nao custodia fundos. Quando a publicacao da Chrome Web Store estiver aprovada, esta pagina sera atualizada com o link oficial da loja.</p>
+        </section>
+    </main>
+    <footer>Word Finance Wallet - extensao experimental para usuarios que entendem instalacao manual no Chrome.</footer>
+</body>
+</html>
