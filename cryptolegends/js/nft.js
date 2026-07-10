@@ -45,14 +45,19 @@
     return state.pixcConnection;
   }
 
+  function isWordFinanceProvider(wallet) {
+    return Boolean(wallet && (wallet.isWordFinance || wallet.isWordFinanceWallet || wallet.name === "Word Finance"));
+  }
+
   function getWallet(preferred) {
-    if ((!preferred || preferred === "wordfinance") && window.wordfinance) {
-      return { type: "wordfinance", wallet: window.wordfinance };
+    if (!preferred || preferred === "wordfinance") {
+      const wordWallet = window.wordfinance || (isWordFinanceProvider(window.solana) ? window.solana : null);
+      if (wordWallet) return { type: "wordfinance", wallet: wordWallet };
     }
     if ((!preferred || preferred === "phantom") && window.phantom?.solana) {
       return { type: "phantom", wallet: window.phantom.solana };
     }
-    if ((!preferred || preferred === "phantom") && window.solana?.isPhantom) {
+    if ((!preferred || preferred === "phantom") && window.solana?.isPhantom && !isWordFinanceProvider(window.solana)) {
       return { type: "phantom", wallet: window.solana };
     }
     return null;
@@ -83,6 +88,79 @@
     return digits.reverse().map((digit) => alphabet[digit]).join("");
   }
 
+  function publicKeyToString(value) {
+    if (!value) return "";
+    if (typeof value === "string") return value;
+    if (value.publicKey) return publicKeyToString(value.publicKey);
+    if (typeof value.toBase58 === "function") return value.toBase58();
+    if (typeof value.toString === "function") return value.toString();
+    return "";
+  }
+
+  function extractSignature(result) {
+    const sig = result?.signature || result?.txid || result;
+    if (typeof sig === "string") return sig;
+    if (sig instanceof Uint8Array) return base58Encode(sig);
+    if (Array.isArray(sig)) return base58Encode(new Uint8Array(sig));
+    if (sig && typeof sig === "object" && typeof sig[0] === "number") {
+      return base58Encode(new Uint8Array(Object.values(sig)));
+    }
+    return "";
+  }
+
+  function serializeTransactionBase64(tx) {
+    const bytes = tx.serialize({ requireAllSignatures: false, verifySignatures: false });
+    return uint8ToBase64(bytes);
+  }
+
+  function signedTransactionToBytes(signed) {
+    const value = signed?.signedTransaction || signed;
+    if (value instanceof Uint8Array) return value;
+    if (Array.isArray(value)) return new Uint8Array(value);
+    if (value && typeof value.serialize === "function") return value.serialize();
+    if (typeof value === "string") {
+      const binary = atob(value);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+      return bytes;
+    }
+    return null;
+  }
+
+  async function signAndSendTransaction(tx, conn, latest) {
+    if (!state.connected || !state.wallet) throw new Error("Conecte uma carteira primeiro.");
+    let sig = "";
+    if (state.walletType === "wordfinance") {
+      const serializedTransaction = serializeTransactionBase64(tx);
+      try {
+        const result = await state.wallet.signAndSendTransaction({ serializedTransaction });
+        sig = extractSignature(result);
+      } catch (err) {
+        if (!state.wallet?.signTransaction) throw err;
+        const signed = await state.wallet.signTransaction(tx);
+        const bytes = signedTransactionToBytes(signed);
+        if (!bytes) throw err;
+        sig = await conn.sendRawTransaction(bytes, { skipPreflight: false });
+      }
+    } else if (state.wallet?.signAndSendTransaction) {
+      const result = await state.wallet.signAndSendTransaction(tx);
+      sig = extractSignature(result);
+    } else if (state.wallet?.signTransaction) {
+      const signed = await state.wallet.signTransaction(tx);
+      sig = await conn.sendRawTransaction(signed.serialize(), { skipPreflight: false });
+    }
+    if (!sig) throw new Error("Carteira nao retornou assinatura.");
+    const confirmation = latest
+      ? await conn.confirmTransaction({
+        signature: sig,
+        blockhash: latest.blockhash,
+        lastValidBlockHeight: latest.lastValidBlockHeight
+      }, "confirmed")
+      : await conn.confirmTransaction(sig, "confirmed");
+    if (confirmation.value?.err) throw new Error("Transacao rejeitada pela rede.");
+    return sig;
+  }
+
   function normalizeWordSignature(signature) {
     if (signature instanceof Uint8Array) return signature;
     if (signature && typeof signature === "object" && typeof signature[0] === "number") {
@@ -102,11 +180,19 @@
     try {
       let publicKeyString;
       if (selected.type === "wordfinance") {
-        publicKeyString = await selected.wallet.getPublicKey();
+        if (typeof selected.wallet.connect === "function") {
+          const resp = await selected.wallet.connect();
+          publicKeyString = publicKeyToString(resp) || publicKeyToString(selected.wallet.publicKey);
+        }
+        if (!publicKeyString && typeof selected.wallet.getPublicKey === "function") {
+          publicKeyString = publicKeyToString(await selected.wallet.getPublicKey());
+        }
+        if (!publicKeyString) publicKeyString = publicKeyToString(selected.wallet.publicKey);
       } else {
         const resp = await selected.wallet.connect();
-        publicKeyString = resp.publicKey.toString();
+        publicKeyString = publicKeyToString(resp);
       }
+      if (!publicKeyString) throw new Error("Carteira nao retornou endereco publico.");
       state.connected = true;
       state.walletType = selected.type;
       state.wallet = selected.wallet;
@@ -173,17 +259,7 @@
     }));
     tx.feePayer = state.publicKey;
     tx.recentBlockhash = (await connection().getLatestBlockhash()).blockhash;
-    let sig;
-    if (state.walletType === "wordfinance") {
-      const serialized = tx.serialize({ requireAllSignatures: false, verifySignatures: false });
-      const result = await state.wallet.signAndSendTransaction(uint8ToBase64(serialized));
-      sig = typeof result === "string" ? result : result.signature;
-    } else {
-      const signed = await state.wallet.signTransaction(tx);
-      sig = await connection().sendRawTransaction(signed.serialize(), { skipPreflight: false });
-    }
-    await connection().confirmTransaction(sig, "confirmed");
-    return sig;
+    return signAndSendTransaction(tx, connection());
   }
 
   async function signAuthMessage(text) {
@@ -191,7 +267,8 @@
     const messageBytes = new TextEncoder().encode(text || `Crypto Legends auth ${Date.now()}`);
     if (state.walletType === "wordfinance") {
       const raw = await state.wallet.signMessage(messageBytes);
-      return base58Encode(normalizeWordSignature(raw));
+      const sig = raw?.signature || raw;
+      return typeof sig === "string" ? sig : base58Encode(normalizeWordSignature(sig));
     }
     const raw = await state.wallet.signMessage(messageBytes);
     const bytes = raw?.signature || raw;
@@ -397,21 +474,7 @@
       }
       const { tx, latest } = await buildPixcTransferTransaction(amount);
       window.CryptoApex?.ui?.toast?.(`Confirme a compra: ${item.name}`);
-      let sig;
-      if (state.walletType === "wf-dapp") {
-        const result = await state.wallet.signAndSendTransaction(tx);
-        sig = typeof result === "string" ? result : result.signature;
-      } else {
-        const result = await state.wallet.signAndSendTransaction(tx);
-        sig = typeof result === "string" ? result : result.signature;
-      }
-      if (!sig) throw new Error("Carteira nao retornou assinatura.");
-      const confirmation = await pixcConnection().confirmTransaction({
-        signature: sig,
-        blockhash: latest.blockhash,
-        lastValidBlockHeight: latest.lastValidBlockHeight
-      }, "confirmed");
-      if (confirmation.value?.err) throw new Error("Transacao PIXC rejeitada pela rede.");
+      const sig = await signAndSendTransaction(tx, pixcConnection(), latest);
       const applied = window.CryptoApex.economy.applyStorePurchase(itemKey, {
         signature: sig,
         amount: amount.toString(),
@@ -439,22 +502,7 @@
   }
 
   async function sendPixcTransaction(tx, latest) {
-    let sig;
-    if (state.walletType === "wf-dapp") {
-      const result = await state.wallet.signAndSendTransaction(tx);
-      sig = typeof result === "string" ? result : result.signature;
-    } else {
-      const result = await state.wallet.signAndSendTransaction(tx);
-      sig = typeof result === "string" ? result : result.signature;
-    }
-    if (!sig) throw new Error("Carteira nao retornou assinatura.");
-    const confirmation = await pixcConnection().confirmTransaction({
-      signature: sig,
-      blockhash: latest.blockhash,
-      lastValidBlockHeight: latest.lastValidBlockHeight
-    }, "confirmed");
-    if (confirmation.value?.err) throw new Error("Transacao PIXC rejeitada pela rede.");
-    return sig;
+    return signAndSendTransaction(tx, pixcConnection(), latest);
   }
 
   async function addPixcTransfer(tx, payer, mint, destinationOwner, amountBaseUnits) {
@@ -623,18 +671,11 @@
       }).slice(0, 900))
     }));
     tx.feePayer = payer;
-    tx.recentBlockhash = (await connection().getLatestBlockhash()).blockhash;
+    const latest = await connection().getLatestBlockhash("confirmed");
+    tx.recentBlockhash = latest.blockhash;
+    tx.lastValidBlockHeight = latest.lastValidBlockHeight;
     tx.partialSign(mint);
-    let sig;
-    if (state.walletType === "wordfinance") {
-      const serialized = tx.serialize({ requireAllSignatures: false, verifySignatures: false });
-      const result = await state.wallet.signAndSendTransaction(uint8ToBase64(serialized));
-      sig = typeof result === "string" ? result : result.signature;
-    } else {
-      const signed = await state.wallet.signTransaction(tx);
-      sig = await connection().sendRawTransaction(signed.serialize(), { skipPreflight: false });
-    }
-    await connection().confirmTransaction(sig, "confirmed");
+    const sig = await signAndSendTransaction(tx, connection(), latest);
     state.chainItems.unshift({ ...item, signature: sig, mintAddress: mint.publicKey.toString() });
     return { signature: sig, mintAddress: mint.publicKey.toString() };
   }
