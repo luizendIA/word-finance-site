@@ -1,138 +1,88 @@
-# Política de Privacidade – Word Finance
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Politica de Privacidade | Word Finance</title>
+  <meta name="description" content="Politica de privacidade dos aplicativos, extensao e servicos Word Finance.">
+  <style>
+    :root { --bg:#080b10; --surface:#111722; --border:#273142; --text:#f4f7fb; --dim:#b0bbca; --accent:#f2a51a; --link:#79b8ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; }
+    header { border-bottom:1px solid var(--border); padding:20px max(5vw,24px); display:flex; justify-content:space-between; gap:20px; align-items:center; }
+    header a { color:var(--text); text-decoration:none; }
+    header strong { color:var(--accent); }
+    nav { display:flex; gap:18px; flex-wrap:wrap; }
+    main { max-width:900px; margin:0 auto; padding:52px 24px 72px; }
+    h1 { font-size:clamp(2rem,5vw,3.3rem); line-height:1.1; margin:0 0 10px; }
+    h2 { margin-top:38px; font-size:1.3rem; }
+    h3 { margin-top:24px; font-size:1.05rem; }
+    p, li { color:var(--dim); }
+    a { color:var(--link); }
+    .updated { color:var(--accent); font-weight:700; }
+    .notice { border-left:4px solid var(--accent); background:var(--surface); padding:16px 18px; margin:26px 0; }
+    code { color:var(--text); }
+    footer { border-top:1px solid var(--border); color:var(--dim); text-align:center; padding:28px 20px; }
+    @media (max-width:640px) { header { align-items:flex-start; flex-direction:column; } main { padding-top:36px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/"><strong>Word Finance</strong></a>
+    <nav><a href="/">Inicio</a><a href="/chrome-extension.html">Extensao Chrome</a><a href="mailto:contato@wordfinance.org">Contato</a></nav>
+  </header>
+  <main>
+    <h1>Politica de Privacidade</h1>
+    <p class="updated">Ultima atualizacao: 11 de julho de 2026</p>
+    <p>Esta politica explica como a Word Finance trata informacoes em seus aplicativos, extensao para Chrome, site e servicos de apoio. A Word Finance oferece ferramentas autocustodiais para Bitcoin, Lightning Network, Solana e ativos digitais.</p>
 
-Última atualização: Junho de 2026
+    <div class="notice"><strong>A seed, as chaves privadas, o PIN e a senha da carteira nao sao enviados para a Word Finance.</strong> Na extensao Chrome, esses segredos permanecem no dispositivo e a seed e armazenada cifrada.</div>
 
-A Word Finance respeita sua privacidade e está comprometida em proteger seus dados pessoais. Esta Política de Privacidade explica como coletamos, utilizamos e protegemos informações quando você utiliza nossos aplicativos, serviços e website.
+    <h2>1. Responsavel e contato</h2>
+    <p>Word Finance, Minas Gerais, Brasil. Site oficial: <a href="https://wordfinance.org">wordfinance.org</a>. Duvidas sobre privacidade: <a href="mailto:contato@wordfinance.org">contato@wordfinance.org</a>.</p>
 
-## 1. Quem Somos
+    <h2>2. Dados tratados pela extensao Chrome</h2>
+    <h3>Dados mantidos localmente</h3>
+    <ul>
+      <li>Seed cifrada com AES-256-GCM, endereco publico da carteira e verificador derivado do PIN.</li>
+      <li>Preferencias como tema, tempo de bloqueio, endpoints configurados e origens de sites que o usuario aprovou conectar.</li>
+      <li>Dados temporarios necessarios para exibir saldos, historico e solicitacoes de assinatura.</li>
+    </ul>
+    <h3>Dados enviados para executar recursos solicitados</h3>
+    <ul>
+      <li>Enderecos publicos e consultas de blockchain enviados ao RPC Solana configurado, por padrao o proxy seguro da Word Finance.</li>
+      <li>Endereco publico Solana, valores, invoices e autorizacoes criptograficas enviados ao WordServer quando o usuario usa Bitcoin Lightning ou deposito PIX.</li>
+      <li>Identificadores de ativos enviados ao CoinGecko para consultar cotacoes. A Word Finance nao envia a seed para esse servico.</li>
+      <li>Uma assinatura publica pode ser aberta no Solscan somente quando o usuario escolhe consultar a transacao.</li>
+    </ul>
 
-Word Finance é uma plataforma financeira digital focada em Bitcoin, Lightning Network, Solana e ativos digitais relacionados.
+    <h2>3. Sites e dApps</h2>
+    <p>A extensao disponibiliza um provedor de carteira em paginas HTTP e HTTPS para permitir conexao com dApps. Ela processa apenas pedidos explicitos de conexao, assinatura ou envio iniciados pela pagina e exige aprovacao visivel do usuario. A origem conectada e guardada localmente para que possa ser revogada. A Word Finance nao vende historico de navegacao e nao usa o conteudo das paginas para publicidade ou perfilamento.</p>
 
-Site oficial:
-https://wordfinance.org
+    <h2>4. Finalidades</h2>
+    <ul>
+      <li>Criar, importar, proteger e operar uma carteira autocustodial.</li>
+      <li>Consultar saldos, cotacoes, historico e status de pagamentos.</li>
+      <li>Executar transacoes e assinaturas confirmadas pelo usuario.</li>
+      <li>Prevenir fraude, abuso e repeticao de autorizacoes.</li>
+      <li>Manter estabilidade, seguranca, suporte e conformidade legal.</li>
+    </ul>
 
-Contato:
-[contato@wordfinance.org](mailto:contato@wordfinance.org)
+    <h2>5. Compartilhamento e venda de dados</h2>
+    <p>A Word Finance nao vende dados pessoais. Informacoes sao compartilhadas apenas com a infraestrutura necessaria para entregar o recurso solicitado, para seguranca e prevencao de abuso, ou quando exigido por lei. Provedores de rede podem receber dados tecnicos como endereco IP conforme suas proprias politicas.</p>
 
----
+    <h2>6. Seguranca e autenticacao</h2>
+    <p>A extensao usa cifragem local, PIN de seis digitos para novas carteiras, derivacao de chave com PBKDF2, bloqueio progressivo de tentativas, bloqueio automatico e confirmacao antes de operacoes financeiras. Pagamentos Lightning exigem uma autorizacao Ed25519 assinada pela carteira, com validade curta e protecao contra repeticao. Comunicacoes de producao usam HTTPS.</p>
 
-## 2. Informações Coletadas
+    <h2>7. Retencao e exclusao</h2>
+    <p>O usuario pode remover dados locais ao redefinir a carteira ou desinstalar a extensao. Registros operacionais de pagamentos podem ser mantidos pelo periodo necessario para conciliacao, seguranca, suporte e obrigacoes legais. Transacoes gravadas em redes publicas como Bitcoin e Solana nao podem ser apagadas pela Word Finance.</p>
 
-Dependendo dos recursos utilizados, podemos coletar:
+    <h2>8. Criancas</h2>
+    <p>Os produtos Word Finance nao sao direcionados a menores de 13 anos e nao coletamos intencionalmente dados pessoais de criancas.</p>
 
-### Informações fornecidas pelo usuário
-
-* Endereços de carteiras Bitcoin
-* Endereços Lightning
-* Endereços Solana
-* Endereços PixCoin
-* Dados necessários para execução de transações
-
-### Informações técnicas
-
-* Endereço IP
-* Tipo de dispositivo
-* Sistema operacional
-* Versão do aplicativo
-* Registros de erros e diagnósticos
-
----
-
-## 3. Como Utilizamos as Informações
-
-As informações podem ser utilizadas para:
-
-* Processar transações
-* Melhorar a estabilidade do aplicativo
-* Corrigir falhas
-* Prevenir fraudes e abusos
-* Fornecer suporte técnico
-* Cumprir obrigações legais
-
----
-
-## 4. Chaves Privadas e Segurança
-
-A Word Finance foi projetada para priorizar a soberania do usuário.
-
-As chaves privadas permanecem armazenadas localmente no dispositivo do usuário sempre que tecnicamente aplicável.
-
-O usuário é responsável por proteger suas frases de recuperação, senhas e backups.
-
-A Word Finance não pode recuperar carteiras perdidas caso o usuário perca sua seed phrase ou credenciais.
-
----
-
-## 5. Compartilhamento de Informações
-
-A Word Finance não vende informações pessoais dos usuários.
-
-Informações poderão ser compartilhadas apenas:
-
-* Quando exigido por lei
-* Para proteção contra fraude ou abuso
-* Com provedores de infraestrutura necessários para operação dos serviços
-
----
-
-## 6. Cookies e Tecnologias Semelhantes
-
-O website da Word Finance poderá utilizar cookies e tecnologias semelhantes para:
-
-* Melhorar a experiência do usuário
-* Analisar desempenho
-* Garantir segurança
-
-O usuário pode controlar cookies através das configurações do navegador.
-
----
-
-## 7. Serviços de Terceiros
-
-O aplicativo pode utilizar serviços de terceiros, incluindo:
-
-* Bitcoin Network
-* Lightning Network
-* Solana Network
-* Google Play Services
-* Serviços de hospedagem e infraestrutura
-
-Cada serviço possui sua própria política de privacidade.
-
----
-
-## 8. Segurança
-
-Empregamos medidas técnicas e organizacionais razoáveis para proteger informações contra acesso não autorizado, alteração, divulgação ou destruição.
-
-Nenhum sistema é completamente livre de riscos e não podemos garantir segurança absoluta.
-
----
-
-## 9. Crianças
-
-O aplicativo não é direcionado a menores de 13 anos.
-
-Não coletamos intencionalmente informações pessoais de crianças.
-
----
-
-## 10. Alterações desta Política
-
-Esta Política poderá ser atualizada periodicamente.
-
-A versão mais recente estará sempre disponível em:
-
-https://wordfinance.org/privacy.html
-
----
-
-## 11. Contato
-
-Dúvidas relacionadas à privacidade podem ser enviadas para:
-
-[contato@wordfinance.org](mailto:contato@wordfinance.org)
-
-Word Finance
-Minas Gerais – Brasil
-https://wordfinance.org
+    <h2>9. Alteracoes</h2>
+    <p>Esta politica pode ser atualizada para refletir mudancas nos produtos, na infraestrutura ou na legislacao. A versao vigente permanecera publicada nesta pagina.</p>
+  </main>
+  <footer>Word Finance | <a href="mailto:contato@wordfinance.org">contato@wordfinance.org</a></footer>
+</body>
+</html>
