@@ -550,6 +550,12 @@
     return `${SAVE_PREFIX}${id || walletId()}`;
   }
 
+  function saveScore(data) {
+    return Number(data?.economy?.lifetimeCred || 0) +
+      Number(data?.missions?.phaseIndex || 0) * 10000 +
+      Number(data?.economy?.inventory?.length || 0) * 10;
+  }
+
   function getMarketplaceListings() {
     return readJson(MARKET_KEY, []).filter((entry) => !entry.sold);
   }
@@ -719,8 +725,21 @@
     return readJson(saveKeyForWallet(id), null);
   }
 
+  function migrateLocalSaveToWallet(id = walletId()) {
+    if (!id || id === "local-player") return false;
+    const walletData = loadGameData(id);
+    const localData = loadGameData("local-player");
+    if (!localData || localData.version !== 3) return false;
+    if (walletData && walletData.version === 3 && saveScore(walletData) >= saveScore(localData)) return false;
+    const migrated = { ...localData, wallet: id, migratedFrom: "local-player", migratedAt: new Date().toISOString() };
+    writeJson(saveKeyForWallet(id), migrated);
+    return true;
+  }
+
   function restoreGame(world, id) {
-    const data = loadGameData(id || walletId());
+    const targetId = id || walletId();
+    migrateLocalSaveToWallet(targetId);
+    const data = loadGameData(targetId);
     if (!data || data.version !== 3) return false;
     const eco = data.economy || {};
     state.cred = Number(eco.cred || 0);
@@ -786,6 +805,7 @@
     getLeaderboard,
     saveGame,
     loadGameData,
+    migrateLocalSaveToWallet,
     restoreGame,
     walletId
   };

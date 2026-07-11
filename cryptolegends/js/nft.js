@@ -2,7 +2,7 @@
   const TREASURY_PUBLIC_KEY = "BMLCCnhkwCAW9e2Y3hot5Ti7QMu5hdFKbTML4iaMcVWB";
   const SOLANA_NETWORK = "devnet";
   const RPC_ENDPOINT = "https://api.devnet.solana.com";
-  const MAINNET_RPC_ENDPOINT = "https://api.mainnet-beta.solana.com";
+  const MAINNET_RPC_ENDPOINT = "https://webhook.wordfinance.org/api/solana/rpc";
   const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
   const ASSOCIATED_TOKEN_PROGRAM_ID = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL";
   const MEMO_PROGRAM_ID = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr";
@@ -199,6 +199,9 @@
       state.publicKeyString = publicKeyString;
       state.publicKey = hasWeb3() ? new solanaWeb3.PublicKey(publicKeyString) : { toString: () => publicKeyString };
       state.mode = selected.type === "wordfinance" ? "wordfinance-dapp-devnet" : "phantom-devnet";
+      window.CryptoApex.economy.saveGame?.(window.__CryptoApexWorld);
+      window.CryptoApex.economy.migrateLocalSaveToWallet?.(publicKeyString);
+      window.CryptoApex.economy.restoreGame?.(window.__CryptoApexWorld, publicKeyString);
       window.CryptoApex.economy.addCred(100, `${selected.type === "wordfinance" ? "Word Finance" : "Phantom"} CRED`);
       await writeRewardMemo("claim-airdrop", {
         amount: 100,
