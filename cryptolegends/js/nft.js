@@ -133,7 +133,9 @@
     if (state.walletType === "wordfinance") {
       const serializedTransaction = serializeTransactionBase64(tx);
       try {
-        const result = await state.wallet.signAndSendTransaction({ serializedTransaction });
+        const isElectronWallet = /Electron/i.test(window.navigator?.userAgent || "");
+        const payload = isElectronWallet ? { serializedTransaction } : tx;
+        const result = await state.wallet.signAndSendTransaction(payload);
         sig = extractSignature(result);
       } catch (err) {
         if (!state.wallet?.signTransaction) throw err;
@@ -178,6 +180,8 @@
       return false;
     }
     try {
+      const previousSaveId = window.CryptoApex.economy.walletId?.() || "local-player";
+      window.CryptoApex.economy.saveGame?.(window.__CryptoApexWorld, previousSaveId);
       let publicKeyString;
       if (selected.type === "wordfinance") {
         if (typeof selected.wallet.connect === "function") {
@@ -199,7 +203,6 @@
       state.publicKeyString = publicKeyString;
       state.publicKey = hasWeb3() ? new solanaWeb3.PublicKey(publicKeyString) : { toString: () => publicKeyString };
       state.mode = selected.type === "wordfinance" ? "wordfinance-dapp-devnet" : "phantom-devnet";
-      window.CryptoApex.economy.saveGame?.(window.__CryptoApexWorld);
       window.CryptoApex.economy.migrateLocalSaveToWallet?.(publicKeyString);
       window.CryptoApex.economy.restoreGame?.(window.__CryptoApexWorld, publicKeyString);
       window.CryptoApex.economy.addCred(100, `${selected.type === "wordfinance" ? "Word Finance" : "Phantom"} CRED`);

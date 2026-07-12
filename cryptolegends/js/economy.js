@@ -672,11 +672,11 @@
     return rows.slice(0, 10);
   }
 
-  function makeSavePayload(world) {
+  function makeSavePayload(world, identity = walletId()) {
     const player = world?.player;
     return {
       version: 3,
-      wallet: walletId(),
+      wallet: identity || "local-player",
       savedAt: new Date().toISOString(),
       missions: {
         phaseIndex: window.CryptoApex?.missions?.state?.phaseIndex || 0,
@@ -714,8 +714,8 @@
     };
   }
 
-  function saveGame(world) {
-    const payload = makeSavePayload(world);
+  function saveGame(world, identity = walletId()) {
+    const payload = makeSavePayload(world, identity);
     writeJson(saveKeyForWallet(payload.wallet), payload);
     updateLeaderboard(world);
     return payload;
