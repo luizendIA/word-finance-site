@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/.well-known/lnurlp/:username",
+      "destination": "https://webhook.wordfinance.org/.well-known/lnurlp/:username"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
