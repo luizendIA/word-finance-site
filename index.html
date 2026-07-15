@@ -532,9 +532,10 @@ Roadmap Tecnológico
         <div class="receive-card">
             <h3>⚡ Lightning Network</h3>
             <div class="qr-placeholder" id="qr-ln"></div>
-            <div class="address-text" onclick="navigator.clipboard.writeText('wordfinance@ln.tips');this.textContent='Copiado!';" title="Clique para copiar">
-                wordfinance@ln.tips
+            <div class="address-text" onclick="navigator.clipboard.writeText('wordfinance@wordfinance.org');this.textContent='Copiado!';" title="Clique para copiar">
+                wordfinance@wordfinance.org
             </div>
+            <p style="margin-top:12px;color:var(--text-dim);font-size:0.82rem;line-height:1.5;">Endereço Lightning oficial da Word Finance. Escolha qualquer valor entre 1 e 1.000.000 sats em uma carteira compatível.</p>
         </div>
         <div class="receive-card">
             <h3>₿ Bitcoin On-Chain</h3>
@@ -575,7 +576,7 @@ Roadmap Tecnológico
         } catch(e) {}
         try {
             new QRCode(document.getElementById("qr-ln"), {
-                text: "wordfinance@ln.tips",
+                text: "wordfinance@wordfinance.org",
                 width: 160, height: 160,
                 colorDark: "#000000", colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.M
