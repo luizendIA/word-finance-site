@@ -25,6 +25,12 @@
     <priority>0.72</priority>
   </url>
   <url>
+    <loc>https://wordfinance.org/world-liberty.html</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://wordfinance.org/comecar.html</loc>
     <lastmod>2026-07-04</lastmod>
     <changefreq>weekly</changefreq>
