@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>World Lightning Connect | Integre apps à Lightning</title>
+  <meta name="description" content="World Lightning Connect conecta jogos, sites e aplicativos a carteiras Lightning com NWC, criptografia, permissões, limites e revogação.">
+  <style>
+    :root{--bg:#07050d;--card:#151126;--line:#342958;--text:#f5f2ff;--muted:#aaa1bd;--purple:#8b5cf6;--gold:#f7c948;--green:#34d399}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#241343 0,transparent 34%),var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,sans-serif}nav,main,footer{max-width:1080px;margin:auto;padding:22px}nav{display:flex;justify-content:space-between;align-items:center}nav a{color:var(--text);text-decoration:none}.logo{font-weight:800;font-size:1.25rem}.logo span{color:var(--gold)}
+    .hero{padding:92px 22px 62px}.badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--green);font-size:.82rem}h1{font-size:clamp(2.5rem,7vw,5rem);line-height:1.02;max-width:850px;margin:24px 0}h1 span{color:var(--purple)}.lead{max-width:760px;color:var(--muted);font-size:1.18rem}.notice{margin:30px 0;padding:16px 18px;border:1px solid #725d20;background:#201a0a;border-radius:12px;color:#f8dea0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:36px 0}.card{background:linear-gradient(145deg,#18132b,#100d1d);border:1px solid var(--line);border-radius:16px;padding:24px}.card h3{margin-top:0}.card p{color:var(--muted)}section{padding:40px 0}h2{font-size:clamp(1.7rem,4vw,2.7rem)}code,pre{font-family:ui-monospace,Consolas,monospace}pre{overflow:auto;background:#0d0a17;border:1px solid var(--line);border-radius:14px;padding:20px;color:#d9cdfd}.steps{counter-reset:s}.steps .card:before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--purple);font-weight:800;margin-bottom:14px}.cta{display:inline-block;background:var(--purple);color:#fff;text-decoration:none;font-weight:700;border-radius:10px;padding:12px 18px}footer{border-top:1px solid var(--line);color:var(--muted);margin-top:50px}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="index.html">Word<span>Finance</span></a><a href="index.html">Voltar ao site</a></nav>
+  <main>
+    <header class="hero">
+      <span class="badge">Developer Preview 0.1.0 · Open source</span>
+      <h1>Lightning para qualquer <span>jogo, site ou aplicativo.</span></h1>
+      <p class="lead">O World Lightning Connect (WLC) é uma camada de conexão baseada em NWC/NIP-47. Cada aplicativo recebe uma chave revogável, permissões específicas e limites definidos pelo usuário — nunca a seed ou a credencial do node.</p>
+      <div class="notice"><strong>Estado atual:</strong> integração e testes em modo simulado. Pagamentos reais continuam desligados enquanto concluímos persistência criptografada, aprovação dentro da WordFinance One e auditoria de produção.</div>
+      <a class="cta" href="#como-funciona">Ver como funciona</a>
+    </header>
+    <section><h2>Segurança como padrão</h2><div class="grid">
+      <article class="card"><h3>Uma chave por aplicativo</h3><p>Conexões independentes, com expiração e revogação imediata.</p></article>
+      <article class="card"><h3>Limites reais</h3><p>Métodos permitidos, teto por pagamento e orçamento diário.</p></article>
+      <article class="card"><h3>Aprovação assinada</h3><p>Pagamentos podem exigir confirmação explícita na carteira.</p></article>
+      <article class="card"><h3>Node protegido</h3><p>LNbits, seed, PIN e chaves privadas não são entregues ao aplicativo.</p></article>
+    </div></section>
+    <section id="como-funciona"><h2>Três passos para integrar</h2><div class="grid steps">
+      <article class="card"><h3>Criar a conexão</h3><p>O usuário escolhe permissões, limites, aprovação e validade.</p></article>
+      <article class="card"><h3>Ler o QR ou deep link</h3><p>O aplicativo recebe uma URI padrão <code>nostr+walletconnect</code>.</p></article>
+      <article class="card"><h3>Solicitar, não custodiar</h3><p>O app envia uma solicitação criptografada; a carteira aplica a política e decide.</p></article>
+    </div></section>
+    <section><h2>Política simples e verificável</h2><pre><code>{
+  "methods": ["get_balance", "make_invoice", "pay_invoice"],
+  "maxPaymentMsats": 100000,
+  "dailyLimitMsats": 500000,
+  "approval": "always",
+  "expiresAt": "2026-08-20T00:00:00Z"
+}</code></pre></section>
+    <section><h2>Compatibilidade planejada</h2><div class="grid">
+      <article class="card"><h3>NWC / NIP-47</h3><p>Protocolo interoperável para conexão remota entre apps e carteiras.</p></article>
+      <article class="card"><h3>NIP-44 v2</h3><p>Mensagens de solicitação e resposta criptografadas ponta a ponta.</p></article>
+      <article class="card"><h3>LNURL e WebLN</h3><p>Complementos para pagamentos, navegador e experiências web.</p></article>
+    </div><p class="lead">O código será publicado sob licença Apache-2.0 após a revisão final desta versão de desenvolvimento.</p></section>
+  </main>
+  <footer>© 2026 WordFinance · World Lightning Connect é uma prévia para desenvolvedores.</footer>
+</body>
+</html>
