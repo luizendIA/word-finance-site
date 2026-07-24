@@ -7,41 +7,191 @@
   <link rel="canonical" href="https://wordfinance.org/partner.html">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#080c14;--surface:#101827;--line:rgba(247,147,26,.22);--text:#eaf0f7;--muted:#9aa8bc;--orange:#f7931a;--purple:#9945ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Outfit,system-ui}a{color:inherit}nav{min-height:70px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-size:1.3rem;font-weight:900;text-decoration:none}.brand span,.eyebrow{color:var(--orange)}.navlinks{display:flex;gap:20px}.navlinks a{text-decoration:none;color:var(--muted);font-size:.9rem}main{max-width:1120px;margin:auto;padding:70px 6%}.eyebrow{font:700 .75rem 'JetBrains Mono',monospace;letter-spacing:1.8px;text-transform:uppercase}.hero{padding:25px 0 55px;background:radial-gradient(circle at 82% 0,rgba(153,69,255,.23),transparent 30%)}h1{font-size:clamp(2.5rem,6vw,4.8rem);line-height:1;margin:18px 0}.lead,.copy{color:var(--muted);line-height:1.7;font-size:1.08rem;max-width:780px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 54px}.card{padding:22px;background:var(--surface);border:1px solid var(--line);border-radius:13px}.card h2{margin:0 0 9px;font-size:1.18rem}.card p{color:var(--muted);line-height:1.6;margin:0}textarea{width:100%;min-height:650px;resize:vertical;padding:20px;border-radius:12px;border:1px solid var(--line);background:#080d17;color:#dfe8f4;font:14px/1.55 'JetBrains Mono',monospace}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}.btn{padding:13px 20px;border:1px solid var(--line);border-radius:8px;font-weight:800;text-decoration:none;background:var(--surface)}.primary{background:var(--orange);color:#131820}footer{border-top:1px solid var(--line);padding:30px 6%;color:var(--muted);font-size:.9rem}@media(max-width:760px){.navlinks{display:none}.grid{grid-template-columns:1fr}main{padding-top:35px}textarea{min-height:760px;font-size:12px}}
+    :root{--bg:#080c14;--surface:#101827;--line:rgba(247,147,26,.22);--text:#eaf0f7;--muted:#9aa8bc;--orange:#f7931a;--purple:#9945ff;--green:#10b981}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Outfit,system-ui}a{color:inherit}nav{min-height:70px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-size:1.3rem;font-weight:900;text-decoration:none}.brand span,.eyebrow{color:var(--orange)}.navlinks{display:flex;gap:20px}.navlinks a{text-decoration:none;color:var(--muted);font-size:.9rem}main{max-width:1120px;margin:auto;padding:70px 6%}.eyebrow{font:700 .75rem 'JetBrains Mono',monospace;letter-spacing:1.8px;text-transform:uppercase}.hero{padding:25px 0 55px;background:radial-gradient(circle at 82% 0,rgba(153,69,255,.23),transparent 30%)}h1{font-size:clamp(2.5rem,6vw,4.8rem);line-height:1;margin:18px 0}h2{font-size:clamp(1.6rem,3vw,2.3rem)}.lead,.copy{color:var(--muted);line-height:1.7;font-size:1.08rem;max-width:860px}.section{padding:38px 0;border-top:1px solid rgba(255,255,255,.06)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 54px}.card{padding:22px;background:var(--surface);border:1px solid var(--line);border-radius:13px}.card h2,.card h3{margin:0 0 9px;font-size:1.18rem}.card p,.card li{color:var(--muted);line-height:1.6}.card ul{padding-left:20px}.pill{display:inline-block;color:var(--orange);border:1px solid var(--line);border-radius:999px;padding:5px 9px;font:700 .68rem 'JetBrains Mono',monospace;margin-bottom:12px}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.flow .card{position:relative}.step{font:700 .8rem 'JetBrains Mono',monospace;color:var(--orange)}.code{display:block;margin-top:12px;padding:13px;border-radius:9px;background:#080d17;color:#c9b0ff;font:12px/1.5 'JetBrains Mono',monospace;overflow-wrap:anywhere}.notice{padding:20px;border-left:4px solid var(--orange);background:rgba(247,147,26,.08);border-radius:10px;line-height:1.65}.submit-box{padding:26px;background:linear-gradient(135deg,rgba(247,147,26,.13),rgba(153,69,255,.12));border:1px solid var(--line);border-radius:14px}textarea{width:100%;min-height:1480px;resize:vertical;padding:20px;border-radius:12px;border:1px solid var(--line);background:#080d17;color:#dfe8f4;font:13px/1.55 'JetBrains Mono',monospace}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}.btn{padding:13px 20px;border:1px solid var(--line);border-radius:8px;font-weight:800;text-decoration:none;background:var(--surface);cursor:pointer}.primary{background:var(--orange);color:#131820}.success{border-color:rgba(16,185,129,.45)}footer{border-top:1px solid var(--line);padding:30px 6%;color:var(--muted);font-size:.9rem}@media(max-width:900px){.flow{grid-template-columns:1fr 1fr}}@media(max-width:760px){.navlinks{display:none}.grid,.flow{grid-template-columns:1fr}main{padding-top:35px}textarea{min-height:1900px;font-size:11px}}
   </style>
 </head>
 <body>
   <nav><a class="brand" href="index.html">Word<span>Finance</span></a><div class="navlinks"><a href="pixcoin.html">Pixcoin</a><a href="pay.html">Pay</a><a href="partners.html">Parceiros</a></div></nav>
   <main>
-    <header class="hero"><div class="eyebrow">Programa de parceiros</div><h1>Construa com a WordFinance.</h1><p class="lead">Use este guia para pedir a sua IA uma integracao segura com PIXC, Solana, USDC ou WordFinance Pay. Voce continua no controle do seu produto, da sua infraestrutura e das suas credenciais.</p></header>
-    <div class="grid"><article class="card"><h2>1. Seu ambiente</h2><p>Seu .env, chaves, carteiras e segredos ficam somente com voce. Nunca envie seeds, chaves privadas ou tokens de producao para chat, frontend ou WordFinance.</p></article><article class="card"><h2>2. Checkout seguro</h2><p>Use confirmacao no servidor, webhooks assinados, idempotencia e identificadores unicos de pedido. O navegador nunca decide sozinho que um pagamento foi aprovado.</p></article><article class="card"><h2>3. Vitrine de parceiros</h2><p>Depois de testar, envie uma proposta sem segredos para avaliacao. Projetos compativeis podem aparecer na pagina de parceiros.</p></article></div>
-    <div class="eyebrow">Prompt pronto</div><h2>Cole em Claude, ChatGPT ou na IA de sua preferencia</h2><p class="copy">Preencha os campos entre colchetes antes de enviar. O prompt foi escrito para preservar seguranca e evitar que a IA invente permissao de producao.</p>
-    <textarea id="prompt" readonly aria-label="Prompt de integracao WordFinance">Voce e o engenheiro responsavel pelo meu produto. Quero planejar e implementar uma integracao segura com o ecossistema WordFinance.
+    <header class="hero"><div class="eyebrow">Programa de parceiros</div><h1>Da sua ideia ao produto integrado.</h1><p class="lead">Cole o prompt desta pagina no Codex, Claude ou ChatGPT, acrescente sua ideia e deixe a IA construir o projeto com os motores publicos da WordFinance. Depois de testar e publicar, envie o link para revisao e inclusao na nossa vitrine de parceiros.</p><div class="actions"><a class="btn primary" href="#prompt-integrador">Copiar o prompt completo</a><a class="btn" href="#publicar-parceiro">Como aparecer no site</a></div></header>
 
-Meu projeto: [descreva produto, linguagem, framework e hospedagem]
-Meu objetivo: [checkout USDC / PIXC utilitario / Solana / Lightning / carteira]
-Ambiente inicial: [local, teste ou producao]
-URL publica de callback: [URL HTTPS do meu servidor]
+    <section class="section"><div class="eyebrow">Motores disponiveis</div><h2>O que a IA do parceiro pode integrar</h2><div class="grid"><article class="card"><span class="pill">WORDFINANCE PAY</span><h3>USDC na Solana</h3><p>O gateway cria cobranca, converte o valor em reais para USDC, abre checkout hospedado, verifica o pagamento e informa o status.</p><code class="code">POST /api/gateway/charge<br>preferredMethod: "usdc"</code></article><article class="card"><span class="pill">WORDFINANCE PAY</span><h3>Bitcoin Lightning</h3><p>Usa o mesmo motor de cobranca e devolve invoice BOLT11, QR, sats, expiracao e consulta de status. A ativacao exige aprovacao do merchant na allowlist.</p><code class="code">POST /api/gateway/charge<br>preferredMethod: "lightning"</code></article><article class="card"><span class="pill">TOKEN SPL</span><h3>Pixcoin (PIXC)</h3><p>PIXC ainda nao e metodo do endpoint de cobranca do gateway. A integracao e on-chain: a carteira do usuario assina e o servidor do parceiro valida mint, destino, valor e assinatura sem duplicar credito.</p><code class="code">Mint: AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq</code></article></div><div class="notice"><strong>Arquitetura honesta:</strong> USDC e Lightning usam o WordFinance Pay hospedado. PIXC usa a rede Solana diretamente e deve ficar atras de feature flag ate o parceiro confirmar sua carteira de recebimento e homologar a verificacao on-chain.</div></section>
 
-Regras obrigatorias:
-1. A integracao e nao custodial. Nunca solicite, armazene ou transmita seed phrase, chave privada, senha, token de acesso, chave de invoice ou segredo de webhook.
-2. Crie nomes de variaveis para o meu .env, mas nao preencha valores. Segredos ficam somente no servidor do meu projeto, fora do Git e fora do frontend.
-3. Para pagamentos, gere um orderId unico, valide valor/moeda/rede no servidor e use idempotencia. Um clique no navegador nunca pode marcar pedido como pago.
-4. Se houver webhook, valide assinatura HMAC no servidor, limite tentativas, registre eventos com seguranca e trate reenvios sem duplicar entrega.
-5. Para Solana e PIXC, mostre a carteira, rede e contrato publicos antes da assinatura; a carteira do usuario assina diretamente. Nao construa fluxo que mova fundos sem aprovacao explicita do usuario.
-6. Para Lightning, trate a ativacao comercial como revisada: nao assuma acesso automatico. Use os canais oficiais e deixe o fluxo desabilitado ate receber configuracao valida.
-7. Primeiro entregue arquitetura, modelo de ameacas, lista de variaveis .env (somente nomes), rotas, validacoes, testes unitarios e teste de ponta a ponta em ambiente de teste. So depois proponha codigo.
-8. Nao faca deploy, nao altere dados reais e nao envie pagamentos. Pare e explique qualquer permissao, segredo ou decisao de producao que dependa de mim.
+    <section class="section"><div class="eyebrow">Fluxo do gateway</div><h2>Do cadastro a entrega do produto</h2><div class="flow"><article class="card"><span class="step">01</span><h3>Merchant</h3><p>Registrar nome, site, carteira Solana e callback HTTPS. Guardar o <code>merchantId</code> somente no backend/configuracao.</p></article><article class="card"><span class="step">02</span><h3>Cobranca</h3><p>O backend cria a charge com valor, pedido unico, metodo, retorno e webhook.</p></article><article class="card"><span class="step">03</span><h3>Checkout</h3><p>Redirecionar para <code>paymentUrl</code>. O gateway mostra QR, deep link, valor e expiracao.</p></article><article class="card"><span class="step">04</span><h3>Confirmacao</h3><p>Consultar o status no servidor e aceitar webhook assinado. Entregar apenas quando o estado for <code>paid</code>.</p></article></div></section>
 
-Referencias publicas:
-- PIXC: https://wordfinance.org/pixcoin.html
-- Guia de parceiros: https://wordfinance.org/partner.html
+    <div class="grid"><article class="card"><h2>Seu ambiente</h2><p>Seu .env, chaves, carteiras e segredos ficam somente com voce. Nunca envie seeds, chaves privadas ou tokens de producao para chat, frontend ou WordFinance.</p></article><article class="card"><h2>Checkout seguro</h2><p>Use confirmacao no servidor, webhooks assinados, idempotencia e identificadores unicos de pedido. O navegador nunca decide sozinho que um pagamento foi aprovado.</p></article><article class="card"><h2>Entrega pronta</h2><p>A IA deve gerar codigo, testes, documentacao, arquivo de exemplo de ambiente sem valores e um dossie de submissao para a vitrine.</p></article></div>
+    <section class="section" id="prompt-integrador"><div class="eyebrow">Prompt integrador completo</div><h2>Cole o prompt e, abaixo dele, escreva sua ideia</h2><p class="copy">A IA deve descobrir a tecnologia do projeto, escolher os motores adequados, implementar, testar e preparar a submissao. Ela nao recebe segredos nem permissao para movimentar dinheiro real.</p>
+    <textarea id="prompt" readonly aria-label="Prompt de integracao WordFinance">PROMPT MESTRE - PARCEIRO INTEGRADOR WORDFINANCE
+
+Voce e meu engenheiro principal de produto, seguranca, pagamentos e deploy. Sua missao e transformar a ideia que vou escrever no fim deste prompt em um programa, site, jogo, SaaS, plugin, aplicativo ou servico funcional e integrado ao ecossistema WordFinance.
+
+OBJETIVO FINAL
+- Entender minha ideia e escolher a arquitetura adequada.
+- Construir o produto completo no repositorio que eu indicar.
+- Integrar somente os motores WordFinance necessarios: USDC, Bitcoin Lightning, PIXC/Solana e conexao com carteira.
+- Testar localmente e em ambiente de homologacao.
+- Preparar deploy sem executar movimentacao financeira real sem minha aprovacao.
+- Gerar no fim um arquivo WORDFINANCE_PARTNER_SUBMISSION.md com tudo que preciso enviar para solicitar a inclusao do link do produto em https://wordfinance.org/partners.html.
+
+ANTES DE CODIFICAR
+1. Inspecione o repositorio, stack, comandos, arquivos de ambiente, testes e deploy existentes.
+2. Faca no maximo as perguntas realmente bloqueantes. Quando houver uma escolha segura e reversivel, use bom julgamento e avance.
+3. Apresente um plano curto com: produto, arquitetura, motores WordFinance escolhidos, modelo de dados, seguranca, testes e deploy.
+4. Nao substitua nem apague trabalho existente. Preserve alteracoes alheias.
+
+FONTES PUBLICAS OFICIAIS
+- Pagina PIXC: https://wordfinance.org/pixcoin.html
+- Programa de parceiros: https://wordfinance.org/partner.html
 - Documentacao WordFinance Pay: https://wordfinance.org/pay-docs.html
 - Gateway publico: https://wordfinance-gateway-production.up.railway.app
+- Health: https://wordfinance-gateway-production.up.railway.app/api/gateway/health
+- Mint publico PIXC na Solana: AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq
 
-Agora: faca perguntas objetivas sobre os campos faltantes e, em seguida, apresente um plano de integracao seguro e incremental.</textarea>
-    <div class="actions"><button class="btn primary" type="button" onclick="navigator.clipboard.writeText(document.getElementById('prompt').value).then(()=>this.textContent='Prompt copiado')">Copiar prompt</button><a class="btn" href="pay-docs.html">Ler docs do gateway</a><a class="btn" href="mailto:darocapromundowordfinance@gmail.com?subject=Proposta%20de%20parceria%20WordFinance">Enviar proposta sem segredos</a></div>
-    <p class="copy">Uma doacao limitada de PIXC pode ser avaliada pelo criador para integracoes verificadas. Nao e remuneracao garantida, promessa de valor ou condicao para participar.</p>
+MOTOR 1 - WORDFINANCE PAY USDC
+Use o gateway hospedado para checkout USDC nao custodial.
+
+Cadastro do merchant (executar pelo backend ou ferramenta administrativa, nunca pelo navegador publico):
+POST https://wordfinance-gateway-production.up.railway.app/api/gateway/merchant/register
+Content-Type: application/json
+{
+  "name": "[NOME DO PRODUTO]",
+  "solanaWallet": "[CARTEIRA SOLANA PUBLICA DO PARCEIRO]",
+  "webhookUrl": "https://[DOMINIO]/api/payments/wordfinance/webhook",
+  "platform": "[custom|woocommerce|game|saas|app]",
+  "siteUrl": "https://[DOMINIO]"
+}
+
+Guarde o merchantId retornado em WORDFINANCE_MERCHANT_ID no ambiente do servidor. Nao e uma seed, mas nao deve ser editavel pelo cliente.
+
+Criacao de cobranca USDC (sempre no backend do parceiro):
+POST https://wordfinance-gateway-production.up.railway.app/api/gateway/charge
+Content-Type: application/json
+{
+  "merchantId": "[WORDFINANCE_MERCHANT_ID]",
+  "amountBRL": 99.90,
+  "description": "Pedido #123",
+  "orderId": "PEDIDO-UNICO-123",
+  "customerEmail": "cliente@exemplo.com",
+  "preferredMethod": "usdc",
+  "webhookUrl": "https://[DOMINIO]/api/payments/wordfinance/webhook",
+  "returnUrl": "https://[DOMINIO]/pagamento/retorno"
+}
+
+Use paymentUrl/checkoutUrl retornado para redirecionar o cliente. Persista chargeId, orderId, valor esperado, metodo, status e expiracao antes de redirecionar. Se o segredo HMAC ainda nao foi provisionado no onboarding, deixe webhookUrl vazio e use a consulta de status pelo backend como fonte de verdade.
+
+Status:
+GET  /api/gateway/charge/:chargeId
+POST /api/gateway/charge/:chargeId/check
+
+Somente o backend pode liberar produto, credito, download ou assinatura. Exija status "paid" e compare merchantId, orderId, amountBRL e metodo com o pedido persistido. Trate "pending" e "expired" explicitamente.
+
+MOTOR 2 - BITCOIN LIGHTNING
+Lightning usa o mesmo endpoint de cobranca, mudando:
+"preferredMethod": "lightning"
+
+A resposta pode incluir bolt11, sats, deepLink, paymentUrl e expiresAt. Mostre QR/BOLT11 e use o checkout hospedado quando possivel.
+
+IMPORTANTE: Lightning so funciona para merchant aprovado na allowlist WordFinance. Implemente a interface e os testes com feature flag WORDFINANCE_LIGHTNING_ENABLED=false. Se o gateway responder que o merchant nao esta autorizado, exiba onboarding pendente e continue oferecendo USDC quando habilitado. Nunca tente acessar LNbits diretamente e nunca solicite invoice key, admin key ou saldo custodial.
+
+MOTOR 3 - PIXCOIN (PIXC) NA SOLANA
+PIXC ainda NAO e um metodo do endpoint /api/gateway/charge. Nao invente preferredMethod "pixc" e nao marque PIXC como pago usando o gateway USDC.
+
+Para aceitar PIXC:
+1. Use o mint oficial publico AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq.
+2. O servidor cria um pedido persistido com orderId unico, quantidade PIXC esperada, carteira publica de destino, expiracao e status pending.
+3. O cliente monta uma transferencia SPL para a carteira publica do parceiro.
+4. A carteira do usuario mostra rede, token, destino e valor e pede aprovacao explicita para assinar/enviar.
+5. O cliente envia ao backend apenas orderId e assinatura publica da transacao.
+6. O backend consulta a Solana e valida: transacao confirmada/finalizada, mint PIXC correto, origem esperada quando vinculada, destino correto, valor igual ou maior que o pedido, horario posterior a criacao e assinatura ainda nao utilizada.
+7. Grave a assinatura com restricao unica e entregue uma unica vez. Replay deve retornar o resultado anterior sem duplicar credito.
+8. Use WORDFINANCE_PIXC_ENABLED=false ate homologar em devnet/valor controlado e receber aprovacao para producao.
+
+PIXC e token utilitario. Nao escreva que e stablecoin, que vale sempre R$1, que possui resgate garantido, rendimento, lastro garantido ou listagem prometida.
+
+MOTOR 4 - CARTEIRA E UX
+- Prefira o checkout hospedado do gateway para reduzir complexidade.
+- Quando integrar carteira Solana, use padroes de carteira injetada/Wallet Standard e mantenha fallback claro.
+- Nunca solicite seed phrase ou chave privada.
+- Toda assinatura deve mostrar ao usuario ativo, rede, destino, valor e finalidade.
+- Nao esconda taxa, irreversibilidade, expiracao ou status.
+
+WEBHOOK E IDEMPOTENCIA
+- Crie POST /api/payments/wordfinance/webhook no backend.
+- Leia o corpo bruto antes do parser JSON quando isso for necessario para verificar HMAC.
+- Valide X-WordFinance-Signature usando o segredo fornecido durante o onboarding, somente no servidor. Antes desse provisionamento, nao aceite webhook sem assinatura: use polling server-side.
+- Nao coloque segredo no frontend, Git, prompt, URL publica, log ou arquivo WORDFINANCE_PARTNER_SUBMISSION.md.
+- Persista eventId com indice unico. Eventos repetidos devem responder 200 sem repetir entrega.
+- O webhook acelera a confirmacao, mas o backend tambem deve conseguir consultar a charge no gateway.
+- Nunca confie em status enviado pelo navegador.
+
+VARIAVEIS DE AMBIENTE (SOMENTE NOMES E PLACEHOLDERS)
+WORDFINANCE_GATEWAY_URL=https://wordfinance-gateway-production.up.railway.app
+WORDFINANCE_MERCHANT_ID=
+WORDFINANCE_WEBHOOK_SECRET=
+WORDFINANCE_USDC_ENABLED=true
+WORDFINANCE_LIGHTNING_ENABLED=false
+WORDFINANCE_PIXC_ENABLED=false
+WORDFINANCE_PIXC_MINT=AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq
+WORDFINANCE_PIXC_RECEIVER=
+SOLANA_RPC_URL=
+
+Crie .env.example sem valores sensiveis e confirme que .env esta no .gitignore.
+
+REQUISITOS DE SEGURANCA
+- Arquitetura nao custodial: nenhuma seed/chave privada no servidor, cliente, banco ou WordFinance.
+- Validar todas as entradas, limitar tamanho, aplicar rate limit e bloquear callback para localhost, IP privado ou protocolo nao HTTPS em producao.
+- OrderId e chargeId devem ser imprevisiveis ou vinculados a pedido autenticado; nunca confiar em valor vindo do cliente.
+- Aplicar CSRF quando houver sessao/cookie, autenticacao adequada e autorizacao por dono do pedido.
+- Logs sem email completo, segredo, seed, token, invoice key ou dados financeiros desnecessarios.
+- Nao usar rota administrativa de confirmacao manual.
+- Nao habilitar modo demo/mark-paid em producao.
+- Produtos ilegais, apostas nao autorizadas, piramide, promessa de rendimento ou servico financeiro regulado sem autorizacao nao podem usar a integracao.
+
+ENTREGAVEIS OBRIGATORIOS
+1. Produto funcional com UX desktop e mobile.
+2. Modulo WordFinance isolado e documentado.
+3. Banco/migracao para pedidos, eventos e assinaturas idempotentes.
+4. Testes unitarios para pending, paid, expired, webhook repetido, assinatura HMAC invalida, valor divergente e replay PIXC.
+5. Teste de ponta a ponta sem movimentar dinheiro real, seguido de plano de homologacao de valor minimo.
+6. README com instalacao, configuracao e rollback.
+7. .env.example sanitizado.
+8. Health endpoint do produto.
+9. Paginas publicas de Privacidade e Termos quando o produto coletar dados ou aceitar pagamento.
+10. WORDFINANCE_PARTNER_SUBMISSION.md sem segredos.
+
+CONTEUDO DE WORDFINANCE_PARTNER_SUBMISSION.md
+- Nome publico do produto.
+- URL HTTPS definitiva que deve aparecer na vitrine.
+- Nome do responsavel/equipe e email de contato.
+- Descricao curta (ate 180 caracteres) e descricao completa.
+- Categoria: jogo, SaaS, loja, plugin, aplicativo, educacao ou outro.
+- Metodos integrados e realmente testados: USDC, Lightning, PIXC, carteira.
+- URL da logo quadrada e imagem de capa, ou caminhos dos arquivos para envio.
+- URL de Privacidade, Termos e suporte.
+- URL do health check, se existir.
+- Evidencias de testes e data da ultima verificacao.
+- Confirmacao de que nenhum segredo foi incluido.
+- Texto sugerido para o card da pagina de parceiros.
+
+CRITERIOS PARA SOLICITAR PUBLICACAO NA VITRINE
+- Produto deve estar online em URL HTTPS e abrir no celular e computador.
+- Integracao anunciada deve estar testada; metodos ainda pendentes devem aparecer como "em homologacao".
+- Nao pode solicitar seed/chave privada nem prometer ganho, paridade ou rendimento.
+- Deve ter contato, descricao verdadeira, politica de privacidade e termos quando aplicavel.
+- Deve passar por revisao manual da WordFinance. A inclusao nao e automatica nem garantida.
+
+LIMITES DE AUTONOMIA
+- Pode criar e editar codigo, testes e documentacao no repositorio autorizado.
+- Pode fazer verificacoes publicas e builds locais.
+- Nao pode enviar pagamento real, cadastrar segredo, habilitar mainnet, publicar producao, criar merchant real ou submeter a parceria sem minha confirmacao explicita.
+
+Ao terminar, entregue: resumo do produto, arquivos alterados, testes executados, pendencias, instrucoes de deploy e o arquivo WORDFINANCE_PARTNER_SUBMISSION.md pronto.
+
+MINHA IDEIA COMECA ABAIXO:
+[COLE AQUI SUA IDEIA, PUBLICO, FUNCOES, PLATAFORMA E MODELO DE NEGOCIO]</textarea>
+    <div class="actions"><button class="btn primary" type="button" onclick="navigator.clipboard.writeText(document.getElementById('prompt').value).then(()=>this.textContent='Prompt completo copiado')">Copiar prompt completo</button><a class="btn" href="pay-docs.html">Ler docs do gateway</a></div></section>
+
+    <section class="section" id="publicar-parceiro"><div class="submit-box"><div class="eyebrow">Produto pronto</div><h2>Como colocar seu link na pagina de parceiros</h2><div class="flow"><article class="card success"><span class="step">01</span><h3>Publique</h3><p>Coloque o produto em uma URL HTTPS definitiva e teste no computador e celular.</p></article><article class="card success"><span class="step">02</span><h3>Gere o dossie</h3><p>Peça para sua IA finalizar o arquivo <code>WORDFINANCE_PARTNER_SUBMISSION.md</code>.</p></article><article class="card success"><span class="step">03</span><h3>Envie</h3><p>Mande o link, descricao, logo, metodos testados, Privacidade, Termos e contato. Nunca envie .env ou segredo.</p></article><article class="card success"><span class="step">04</span><h3>Revisao e vitrine</h3><p>A WordFinance confere seguranca e funcionamento. Aprovado, o card e o link entram em partners.html.</p></article></div><div class="actions"><a class="btn primary" href="mailto:darocapromundowordfinance@gmail.com?subject=Submissao%20de%20parceiro%20WordFinance&body=Nome%20do%20produto%3A%0AURL%20HTTPS%3A%0ACategoria%3A%0AMetodos%20testados%20%28USDC%2FLightning%2FPIXC%29%3A%0ADescricao%20curta%3A%0APrivacidade%3A%0ATermos%3A%0ASuporte%3A%0ALogo%2Fcapa%3A%0AData%20dos%20testes%3A%0A%0ANao%20inclui%20segredos%20ou%20arquivo%20.env.">Enviar produto para revisao</a><a class="btn" href="partners.html">Ver a vitrine atual</a></div><p class="copy">A revisao e manual para proteger usuarios e parceiros. Aprovacao e destaque nao sao automaticos. Uma doacao limitada de PIXC pode ser avaliada pelo criador para integracoes verificadas, sem promessa de valor ou remuneracao.</p></div></section>
   </main>
   <footer>WordFinance · Integracoes seguras e nao custodiais</footer>
 </body>

@@ -59,12 +59,13 @@
     </nav>
     <main>
         <div class="eyebrow">Documentacao</div>
-        <h1>Integre USDC Solana no seu checkout.</h1>
-        <p>WordFinance Pay e um gateway nao-custodial. Ele cria cobrancas, exibe QR/deep link e notifica sua loja quando o pagamento e confirmado. O dinheiro vai direto para a carteira Solana do lojista.</p>
+        <h1>Integre USDC e Bitcoin Lightning no seu checkout.</h1>
+        <p>WordFinance Pay cria cobrancas, exibe checkout hospedado com QR/deep link e notifica sua loja quando o pagamento e confirmado. USDC segue o modelo nao-custodial para a carteira Solana do lojista. Lightning usa onboarding e allowlist de merchants.</p>
         <div class="hero-actions">
             <a class="btn btn-primary" href="/downloads/wordfinance-pay.zip">Baixar plugin WooCommerce</a>
             <a class="btn btn-secondary" href="/status.html">Ver status publico</a>
             <a class="btn btn-secondary" href="https://wordfinance-gateway-production.up.railway.app/api/gateway/health">Health direto do gateway</a>
+            <a class="btn btn-secondary" href="/partner.html">Prompt integrador completo</a>
         </div>
 
         <section>
@@ -91,6 +92,7 @@ Content-Type: application/json
 {
   "name": "Minha loja",
   "solanaWallet": "carteira_solana_do_lojista",
+  "lightningAddress": "lojista@dominio.com",
   "webhookUrl": "https://minhaloja.com/wc-api/wf_confirm",
   "platform": "woocommerce",
   "siteUrl": "https://minhaloja.com"
@@ -108,9 +110,11 @@ Content-Type: application/json
   "description": "Pedido #123",
   "orderId": "123",
   "customerEmail": "cliente@email.com",
+  "preferredMethod": "usdc",
   "webhookUrl": "https://minhaloja.com/wc-api/wf_confirm",
   "returnUrl": "https://minhaloja.com/obrigado"
 }</pre>
+            <div class="notice"><strong>Lightning:</strong> use <code>"preferredMethod": "lightning"</code>. O merchant precisa estar aprovado na allowlist; enquanto aguarda, mantenha Lightning desabilitado e ofereca USDC.</div>
         </section>
 
         <section>
@@ -124,6 +128,7 @@ Content-Type: application/json
   "merchantUsdc": 18.35,
   "feeUsdc": 0.19
 }</pre>
+            <p>Em Lightning, a resposta inclui <code>bolt11</code>, <code>sats</code>, <code>deepLink</code>, <code>paymentUrl</code> e <code>expiresAt</code>.</p>
         </section>
 
         <section>
@@ -139,6 +144,13 @@ Content-Type: application/json
   "provider": "wordfinance",
   "txSignature": "assinatura_solana"
 }</pre>
+            <div class="notice">O gateway pode enviar o header <code>X-WordFinance-Signature</code>. Valide o HMAC com o segredo provisionado no onboarding, usando o corpo bruto recebido. Antes do provisionamento, deixe o webhook vazio e consulte o status pelo backend. Persista <code>eventId</code> e processe cada evento uma unica vez.</div>
+        </section>
+
+        <section>
+            <h2>Pixcoin (PIXC)</h2>
+            <p>PIXC ainda nao e um metodo de <code>/api/gateway/charge</code>. Para aceitar PIXC, use uma transferencia SPL aprovada pela carteira do usuario e valide no seu backend o mint oficial, destino, valor e assinatura on-chain com idempotencia.</p>
+            <div class="notice">Nao envie <code>preferredMethod: "pixc"</code> ao gateway USDC/Lightning. Veja o contrato publico e o prompt de implementacao em <a href="/pixcoin.html">Pixcoin</a> e <a href="/partner.html">Torne-se parceiro</a>.</div>
         </section>
 
         <section>
@@ -149,12 +161,13 @@ Content-Type: application/json
                     <tr><td><code>GET</code></td><td><code>/api/gateway/health</code></td><td>Status do gateway</td></tr>
                     <tr><td><code>POST</code></td><td><code>/api/gateway/merchant/register</code></td><td>Registrar lojista</td></tr>
                     <tr><td><code>POST</code></td><td><code>/api/gateway/charge</code></td><td>Criar cobranca</td></tr>
+                    <tr><td><code>GET</code></td><td><code>/api/gateway/charge/:chargeId</code></td><td>Consultar cobranca</td></tr>
                     <tr><td><code>GET</code></td><td><code>/pay/:chargeId</code></td><td>Pagina de pagamento</td></tr>
                     <tr><td><code>POST</code></td><td><code>/api/gateway/charge/:chargeId/check</code></td><td>Verificar pagamento</td></tr>
                 </tbody>
             </table>
         </section>
     </main>
-    <footer>WordFinance Pay - aceite USDC Solana sem custodiar fundos. <a href="/comecar.html">Comece aqui</a> · <a href="/status.html">Status</a></footer>
+    <footer>WordFinance Pay - aceite USDC Solana e Bitcoin Lightning. <a href="/partner.html">Torne-se parceiro</a> · <a href="/status.html">Status</a></footer>
 </body>
 </html>
