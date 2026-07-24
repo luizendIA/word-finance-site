@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Torne-se parceiro | WordFinance</title>
+  <meta name="description" content="Guia seguro e prompt pronto para desenvolvedores e IAs integrarem PIXC, Solana, USDC e WordFinance Pay.">
+  <link rel="canonical" href="https://wordfinance.org/partner.html">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#080c14;--surface:#101827;--line:rgba(247,147,26,.22);--text:#eaf0f7;--muted:#9aa8bc;--orange:#f7931a;--purple:#9945ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Outfit,system-ui}a{color:inherit}nav{min-height:70px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-size:1.3rem;font-weight:900;text-decoration:none}.brand span,.eyebrow{color:var(--orange)}.navlinks{display:flex;gap:20px}.navlinks a{text-decoration:none;color:var(--muted);font-size:.9rem}main{max-width:1120px;margin:auto;padding:70px 6%}.eyebrow{font:700 .75rem 'JetBrains Mono',monospace;letter-spacing:1.8px;text-transform:uppercase}.hero{padding:25px 0 55px;background:radial-gradient(circle at 82% 0,rgba(153,69,255,.23),transparent 30%)}h1{font-size:clamp(2.5rem,6vw,4.8rem);line-height:1;margin:18px 0}.lead,.copy{color:var(--muted);line-height:1.7;font-size:1.08rem;max-width:780px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 54px}.card{padding:22px;background:var(--surface);border:1px solid var(--line);border-radius:13px}.card h2{margin:0 0 9px;font-size:1.18rem}.card p{color:var(--muted);line-height:1.6;margin:0}textarea{width:100%;min-height:650px;resize:vertical;padding:20px;border-radius:12px;border:1px solid var(--line);background:#080d17;color:#dfe8f4;font:14px/1.55 'JetBrains Mono',monospace}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}.btn{padding:13px 20px;border:1px solid var(--line);border-radius:8px;font-weight:800;text-decoration:none;background:var(--surface)}.primary{background:var(--orange);color:#131820}footer{border-top:1px solid var(--line);padding:30px 6%;color:var(--muted);font-size:.9rem}@media(max-width:760px){.navlinks{display:none}.grid{grid-template-columns:1fr}main{padding-top:35px}textarea{min-height:760px;font-size:12px}}
+  </style>
+</head>
+<body>
+  <nav><a class="brand" href="index.html">Word<span>Finance</span></a><div class="navlinks"><a href="pixcoin.html">Pixcoin</a><a href="pay.html">Pay</a><a href="partners.html">Parceiros</a></div></nav>
+  <main>
+    <header class="hero"><div class="eyebrow">Programa de parceiros</div><h1>Construa com a WordFinance.</h1><p class="lead">Use este guia para pedir a sua IA uma integracao segura com PIXC, Solana, USDC ou WordFinance Pay. Voce continua no controle do seu produto, da sua infraestrutura e das suas credenciais.</p></header>
+    <div class="grid"><article class="card"><h2>1. Seu ambiente</h2><p>Seu .env, chaves, carteiras e segredos ficam somente com voce. Nunca envie seeds, chaves privadas ou tokens de producao para chat, frontend ou WordFinance.</p></article><article class="card"><h2>2. Checkout seguro</h2><p>Use confirmacao no servidor, webhooks assinados, idempotencia e identificadores unicos de pedido. O navegador nunca decide sozinho que um pagamento foi aprovado.</p></article><article class="card"><h2>3. Vitrine de parceiros</h2><p>Depois de testar, envie uma proposta sem segredos para avaliacao. Projetos compativeis podem aparecer na pagina de parceiros.</p></article></div>
+    <div class="eyebrow">Prompt pronto</div><h2>Cole em Claude, ChatGPT ou na IA de sua preferencia</h2><p class="copy">Preencha os campos entre colchetes antes de enviar. O prompt foi escrito para preservar seguranca e evitar que a IA invente permissao de producao.</p>
+    <textarea id="prompt" readonly aria-label="Prompt de integracao WordFinance">Voce e o engenheiro responsavel pelo meu produto. Quero planejar e implementar uma integracao segura com o ecossistema WordFinance.
+
+Meu projeto: [descreva produto, linguagem, framework e hospedagem]
+Meu objetivo: [checkout USDC / PIXC utilitario / Solana / Lightning / carteira]
+Ambiente inicial: [local, teste ou producao]
+URL publica de callback: [URL HTTPS do meu servidor]
+
+Regras obrigatorias:
+1. A integracao e nao custodial. Nunca solicite, armazene ou transmita seed phrase, chave privada, senha, token de acesso, chave de invoice ou segredo de webhook.
+2. Crie nomes de variaveis para o meu .env, mas nao preencha valores. Segredos ficam somente no servidor do meu projeto, fora do Git e fora do frontend.
+3. Para pagamentos, gere um orderId unico, valide valor/moeda/rede no servidor e use idempotencia. Um clique no navegador nunca pode marcar pedido como pago.
+4. Se houver webhook, valide assinatura HMAC no servidor, limite tentativas, registre eventos com seguranca e trate reenvios sem duplicar entrega.
+5. Para Solana e PIXC, mostre a carteira, rede e contrato publicos antes da assinatura; a carteira do usuario assina diretamente. Nao construa fluxo que mova fundos sem aprovacao explicita do usuario.
+6. Para Lightning, trate a ativacao comercial como revisada: nao assuma acesso automatico. Use os canais oficiais e deixe o fluxo desabilitado ate receber configuracao valida.
+7. Primeiro entregue arquitetura, modelo de ameacas, lista de variaveis .env (somente nomes), rotas, validacoes, testes unitarios e teste de ponta a ponta em ambiente de teste. So depois proponha codigo.
+8. Nao faca deploy, nao altere dados reais e nao envie pagamentos. Pare e explique qualquer permissao, segredo ou decisao de producao que dependa de mim.
+
+Referencias publicas:
+- PIXC: https://wordfinance.org/pixcoin.html
+- Guia de parceiros: https://wordfinance.org/partner.html
+- Documentacao WordFinance Pay: https://wordfinance.org/pay-docs.html
+- Gateway publico: https://wordfinance-gateway-production.up.railway.app
+
+Agora: faca perguntas objetivas sobre os campos faltantes e, em seguida, apresente um plano de integracao seguro e incremental.</textarea>
+    <div class="actions"><button class="btn primary" type="button" onclick="navigator.clipboard.writeText(document.getElementById('prompt').value).then(()=>this.textContent='Prompt copiado')">Copiar prompt</button><a class="btn" href="pay-docs.html">Ler docs do gateway</a><a class="btn" href="mailto:darocapromundowordfinance@gmail.com?subject=Proposta%20de%20parceria%20WordFinance">Enviar proposta sem segredos</a></div>
+    <p class="copy">Uma doacao limitada de PIXC pode ser avaliada pelo criador para integracoes verificadas. Nao e remuneracao garantida, promessa de valor ou condicao para participar.</p>
+  </main>
+  <footer>WordFinance · Integracoes seguras e nao custodiais</footer>
+</body>
+</html>

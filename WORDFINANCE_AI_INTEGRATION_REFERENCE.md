@@ -6,7 +6,7 @@
 
 ## WHAT IS WORD FINANCE
 
-Word Finance is a **non-custodial multi-currency wallet** from Brazil that supports Bitcoin Lightning, Solana, USDC, and PIXC (BRL-pegged token). It runs as an Electron desktop app (Windows/Linux) and Android (Capacitor).
+Word Finance is a **non-custodial multi-currency wallet** from Brazil that supports Bitcoin Lightning, Solana, USDC, and PIXC (utility token). It runs as an Electron desktop app (Windows/Linux) and Android (Capacitor).
 
 The wallet exposes two standard Web3 providers via JavaScript injection:
 - `window.webln` — Lightning Network payments (WebLN standard, same as Alby)
@@ -55,7 +55,7 @@ REST API (base: https://webhook.wordfinance.org):
 
 PIXC Token (SPL on Solana Mainnet):
   Mint: AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq
-  Decimals: 2 | 1 PIXC = R$ 1.00 in ecosystem
+  Decimals: 2 | utility token; no fixed BRL parity
 ```
 
 ---
@@ -285,11 +285,11 @@ INVIOLABLE RULES:
 | Standard | SPL Token |
 | Mint Address | AJAb19vFHfZg1Bs4eYkL2NXjHeuRXNPG8wry8p1f26fq |
 | Decimals | 2 |
-| Parity | 1 PIXC = R$ 1.00 within Word Finance ecosystem |
+| Value | Utility token; no fixed BRL parity or redemption guarantee |
 | Mechanism | Mint on PIX deposit, burn on withdrawal |
 | Fee | 0.5% platform fee |
 
-IMPORTANT: PIXC is a digital token, NOT a regulated stablecoin. Its R$ 1.00 value applies within the Word Finance ecosystem and connected partner sites.
+IMPORTANT: PIXC is a digital utility token, NOT a regulated stablecoin. Its value and availability may vary; do not describe it as having a fixed parity, reserve or redemption guarantee.
 
 ---
 
