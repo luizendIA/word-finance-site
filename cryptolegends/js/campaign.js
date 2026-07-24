@@ -3,7 +3,7 @@
   // Diálogos cinematográficos, tutorial guiado e giveaway PIXC (100 primeiros).
 
   const GIVEAWAY = {
-    email: "contato@wordfinance.org",
+    email: "darocapromundowordfinance@gmail.com",
     limit: 100,
     rewardText: "PIXC de boas-vindas",
     storageKey: "cryptoLegends.giveaway.v1"
