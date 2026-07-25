@@ -2,7 +2,7 @@
 // REGRA CRITICA: NUNCA cachear chamadas de API/checkout ("/api/"). Somente
 // assets estaticos, com versao explicita — trocar CACHE_VERSION a cada release
 // para nunca servir um checkout antigo.
-const CACHE_VERSION = 'wfb-v0.3.2-wallet-ux-2';
+const CACHE_VERSION = 'wfb-v0.3.3-bufferfix';
 const STATIC_ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', (event) => {
