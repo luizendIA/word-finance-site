@@ -7,6 +7,7 @@ MVP profissional de um marketplace brasileiro para coleta, lavagem e entrega de 
 Esta entrega é uma demonstração funcional para investidores:
 
 - landing page completa e responsiva;
+- onboarding de conta única com cliente, trabalhador e lavanderia como papéis combináveis;
 - quatro perfis navegáveis;
 - criação de pedido em três etapas;
 - fluxo obrigatório para roupas delicadas;
@@ -20,6 +21,8 @@ Esta entrega é uma demonstração funcional para investidores:
 - landing e CTAs principais localizados em português brasileiro, inglês, espanhol, francês e japonês.
 
 Pagamentos, mapas, localização, chat em tempo real, autenticação, fotos e persistência estão claramente identificados como simulados na interface. O banco dedicado já possui o esquema de conciliação Asaas, mas a criação de cobrança pelo app continua bloqueada até a publicação e homologação das Edge Functions. Nenhuma cobrança foi criada por este projeto nesta versão.
+
+O onboarding demonstra Google, Apple e e-mail como opções de entrada. A conexão OAuth real ainda depende da configuração de provedores e URLs de retorno. Google Pay e Apple Pay também aparecem somente como estrutura de checkout tokenizado: cartões ou dados de carteira nunca são importados pelo app.
 
 ## Tecnologias
 
@@ -90,15 +93,16 @@ Para Google Play, crie uma listagem **separada** para o WashGo, mantenha uma cha
 ## Próxima fase
 
 1. autenticação moderna e controle de acesso por perfil;
-2. PostgreSQL gerenciado e migrações Prisma;
-3. storage privado para fotos obrigatórias;
-4. motor de matching por distância, capacidade e avaliação;
-5. rastreamento em tempo real e ETA com Google Maps;
-6. chat WebSocket e notificações push/e-mail;
-7. publicar e homologar as Edge Functions Asaas de criação de Pix e conciliação autenticada;
-8. painel antifraude, conciliação e suporte;
-9. piloto controlado em uma região;
-10. instrumentação de conversão, CAC, recompra, SLA e margem.
+2. conexão OAuth/telefone e persistência de papéis múltiplos;
+3. PostgreSQL gerenciado e migrações Prisma;
+4. storage privado para fotos obrigatórias;
+5. motor de matching por distância, capacidade e avaliação;
+6. rastreamento em tempo real e ETA com Google Maps;
+7. chat WebSocket e notificações push/e-mail;
+8. publicar e homologar as Edge Functions Asaas de criação de Pix e conciliação autenticada;
+9. painel antifraude, conciliação e suporte;
+10. piloto controlado em uma região;
+11. instrumentação de conversão, CAC, recompra, SLA e margem.
 
 ## Publicação
 

@@ -11,7 +11,7 @@
     "name": "rolldown-runtime"
   },
   "components/WashGoApp.tsx": {
-    "file": "assets/WashGoApp-B2rv9KUb.js",
+    "file": "assets/WashGoApp-AT5UeeZO.js",
     "name": "WashGoApp",
     "src": "components/WashGoApp.tsx",
     "isDynamicEntry": true,
@@ -21,7 +21,7 @@
     ]
   },
   "node_modules/vinext/dist/shims/layout-segment-context.js": {
-    "file": "assets/layout-segment-context-DOdtyOrz.js",
+    "file": "assets/layout-segment-context-DeN_RZve.js",
     "name": "layout-segment-context",
     "src": "node_modules/vinext/dist/shims/layout-segment-context.js",
     "isDynamicEntry": true,
@@ -32,7 +32,7 @@
     ]
   },
   "virtual:vinext-app-browser-entry": {
-    "file": "assets/index-C6rMP5Gb.js",
+    "file": "assets/index-D22Vbw0Q.js",
     "name": "index",
     "src": "virtual:vinext-app-browser-entry",
     "isEntry": true,
