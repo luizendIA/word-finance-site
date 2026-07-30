@@ -2,7 +2,7 @@
 // REGRA CRITICA: NUNCA cachear chamadas de API/checkout ("/api/"). Somente
 // assets estaticos, com versao explicita — trocar CACHE_VERSION a cada release
 // para nunca servir um checkout antigo.
-const CACHE_VERSION = 'wfb-v0.4.7-shared-houses-shot-audio';
+const CACHE_VERSION = 'wfb-v0.5.0-community-creative';
 const STATIC_ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', (event) => {
