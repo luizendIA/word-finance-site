@@ -150,4 +150,10 @@
     <changefreq>yearly</changefreq>
     <priority>0.45</priority>
   </url>
+  <url>
+    <loc>https://wordfinance.org/nft-marketplace.html</loc>
+    <lastmod>2026-08-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.82</priority>
+  </url>
 </urlset>
