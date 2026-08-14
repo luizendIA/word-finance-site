@@ -169,7 +169,7 @@
     var root = el('catalog');
     if (!listings.length) { root.innerHTML = '<div class="empty">Nenhuma oferta ativa nesta vitrine.</div>'; return; }
     root.innerHTML = listings.map(function (item) {
-      var image = item.imageUrl ? '<img src="' + escapeHtml(item.imageUrl) + '" alt="">' : '<div class="asset-placeholder">NFT</div>';
+      var image = item.imageUrl ? '<img loading="lazy" src="' + escapeHtml(item.imageUrl) + '" alt="Imagem do NFT ' + escapeHtml(item.title) + '">' : '<div class="asset-placeholder">NFT</div>';
       var prices = ['PIXC', 'USDC', 'SOL'].map(function (currency) { return '<span>' + escapeHtml(item.prices[currency].display) + '</span>'; }).join('');
       return '<article class="listing" data-listing="' + escapeHtml(item.id) + '">' + image + '<h3>' + escapeHtml(item.title) + '</h3>' +
         '<div class="prices">' + prices + '</div><p class="wallet">Mint: ' + escapeHtml(short(item.assetMint)) + '</p>' +
@@ -178,6 +178,14 @@
     }).join('');
     Array.from(root.querySelectorAll('[data-buy]')).forEach(function (button) {
       button.addEventListener('click', function () { var card = button.closest('[data-listing]'); buy(card.dataset.listing, card.querySelector('[data-currency]').value); });
+    });
+    Array.from(root.querySelectorAll('img')).forEach(function (image) {
+      image.addEventListener('error', function () {
+        var placeholder = document.createElement('div');
+        placeholder.className = 'asset-placeholder';
+        placeholder.textContent = 'Imagem indisponível';
+        image.replaceWith(placeholder);
+      }, { once: true });
     });
   }
   function instructionKey(instruction, index) { return instruction.keys[index] && instruction.keys[index].pubkey.toBase58(); }
