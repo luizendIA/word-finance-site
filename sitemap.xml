@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://wordfinance.org/</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -43,6 +43,18 @@
     <priority>0.65</priority>
   </url>
   <url>
+    <loc>https://wordfinance.org/game/</loc>
+    <lastmod>2026-08-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.78</priority>
+  </url>
+  <url>
+    <loc>https://wordfinance.org/cryptolegends/</loc>
+    <lastmod>2026-08-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
     <loc>https://wordofpix.wordfinance.org/</loc>
     <lastmod>2026-07-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -50,13 +62,13 @@
   </url>
   <url>
     <loc>https://wordfinance.org/chrome-extension.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.72</priority>
   </url>
   <url>
     <loc>https://wordfinance.org/world-liberty.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -74,13 +86,13 @@
   </url>
   <url>
     <loc>https://wordfinance.org/pay.html</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://wordfinance.org/pay-docs.html</loc>
-    <lastmod>2026-07-04</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -122,25 +134,25 @@
   </url>
   <url>
     <loc>https://wordfinance.org/docs.html</loc>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://wordfinance.org/pqc.html</loc>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://wordfinance.org/privacy.html</loc>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://wordfinance.org/lightning-connect.html</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -152,13 +164,13 @@
   </url>
   <url>
     <loc>https://wordfinance.org/miner-terms.html</loc>
-    <lastmod>2026-07-24</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.45</priority>
   </url>
   <url>
     <loc>https://wordfinance.org/nft-marketplace.html</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.82</priority>
   </url>

@@ -3,14 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WordFinance Pay | Aceite USDC Solana na sua loja</title>
-    <meta name="description" content="WordFinance Pay e um gateway nao-custodial para lojas aceitarem USDC Solana. Instale o plugin WooCommerce, cole sua carteira Solana e comece a receber dolar digital.">
-    <meta name="keywords" content="WordFinance Pay, aceitar USDC, gateway Solana, pagamento cripto, WooCommerce USDC, gateway nao custodial, stablecoin pagamento">
+    <title>WordFinance Pay | Aceite USDC na Solana e Bitcoin Lightning</title>
+    <meta name="description" content="WordFinance Pay e um gateway nao-custodial para lojas aceitarem USDC na Solana e Bitcoin Lightning para merchants aprovados. Integre WooCommerce, SaaS ou checkout proprio.">
     <link rel="canonical" href="https://wordfinance.org/pay.html">
-    <meta property="og:title" content="WordFinance Pay - Aceite USDC Solana">
-    <meta property="og:description" content="Receba USDC direto na sua carteira Solana. Gateway nao-custodial para WooCommerce, sites e plataformas.">
+    <meta property="og:title" content="WordFinance Pay | USDC na Solana e Bitcoin Lightning">
+    <meta property="og:description" content="Gateway nao-custodial para receber USDC direto na carteira Solana. WooCommerce, SaaS e checkouts proprios.">
     <meta property="og:url" content="https://wordfinance.org/pay.html">
     <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:image" content="https://wordfinance.org/assets/og/wordfinance-pay-2026-08.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WordFinance Pay | USDC na Solana e Bitcoin Lightning">
+    <meta name="twitter:description" content="Gateway nao-custodial para lojas, com WooCommerce e API publica.">
+    <meta name="twitter:image" content="https://wordfinance.org/assets/og/wordfinance-pay-2026-08.png">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "WordFinance Pay",
+        "url": "https://wordfinance.org/pay.html",
+        "description": "Gateway nao-custodial para lojas aceitarem USDC na Solana e, para merchants aprovados, Bitcoin Lightning.",
+        "serviceType": "Gateway de pagamentos cripto nao-custodial",
+        "provider": {
+          "@type": "Organization",
+          "name": "WordFinance",
+          "url": "https://wordfinance.org/"
+        },
+        "areaServed": "BR"
+      }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --bg:#080c14; --surface:#0f1520; --surface-2:#151d2e; --border:rgba(247,147,26,0.18); --text:#e8ecf2; --text-dim:#8b96aa; --btc:#f7931a; --ln:#ffd166; --sol:#9945ff; --green:#10b981; --blue:#3b82f6; }
@@ -91,8 +112,8 @@
             <div class="wrap hero-grid">
                 <div>
                     <span class="eyebrow">Gateway USDC Solana</span>
-                    <h1>Aceite <span class="gradient">dolar digital</span> na sua loja em minutos.</h1>
-                    <p class="lead">WordFinance Pay permite receber USDC direto na carteira Solana do lojista. Sem custodia, sem banco segurando saldo, com checkout por QR Code, deep link e webhook de confirmacao.</p>
+                    <h1>Aceite <span class="gradient">USDC na Solana</span> na sua loja.</h1>
+                    <p class="lead">WordFinance Pay permite receber USDC direto na carteira Solana do lojista. Sem custodia de saldo, com checkout por QR Code, deep link e webhook de confirmacao. Bitcoin Lightning esta disponivel para merchants aprovados no onboarding.</p>
                     <div class="actions">
                         <a class="btn btn-primary" href="/downloads/wordfinance-pay.zip">Baixar plugin WooCommerce</a>
                         <a class="btn btn-secondary" href="#teste">Criar cobranca de teste</a>
@@ -131,6 +152,21 @@ checkout com QR + webhook</pre>
                     <article class="card"><strong>Nao-custodial</strong><p>A WordFinance organiza a cobranca e a confirmacao, mas nao guarda seed, chave privada ou saldo do lojista.</p></article>
                     <article class="card"><strong>Plugin pronto</strong><p>WooCommerce ja pode chamar o gateway, registrar lojista, criar cobranca e receber webhook de confirmacao.</p></article>
                     <article class="card"><strong>API aberta</strong><p>Qualquer dev pode integrar em SaaS, marketplace, checkout proprio, plataforma de curso ou loja customizada.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-labelledby="faq-title">
+            <div class="wrap">
+                <div class="section-head">
+                    <div class="section-label">Perguntas frequentes</div>
+                    <h2 class="section-title" id="faq-title">Como funciona o WordFinance Pay?</h2>
+                </div>
+                <div class="grid">
+                    <article class="card"><h3>O Pay guarda o saldo da loja?</h3><p>Nao. No fluxo USDC, a cobranca e confirmada on-chain e o lojista recebe diretamente na propria carteira Solana. A WordFinance nao guarda a seed, chave privada ou saldo do merchant.</p></article>
+                    <article class="card"><h3>Preciso usar WooCommerce?</h3><p>Nao. O plugin acelera a integracao para WooCommerce, mas a mesma API pode ser usada por SaaS, marketplaces e checkouts proprios. Consulte a <a href="/pay-docs.html">documentacao tecnica</a>.</p></article>
+                    <article class="card"><h3>Como aceitar Bitcoin Lightning?</h3><p>Lightning usa o mesmo fluxo de cobranca, mas depende de onboarding e aprovacao do merchant. Enquanto essa aprovacao nao existir, mantenha Lightning desabilitado e ofereca USDC.</p></article>
+                    <article class="card"><h3>PIXC e aceito pelo gateway?</h3><p>Nao pelo endpoint de cobranca USDC/Lightning. PIXC exige transferencia SPL aprovada pela carteira e validacao on-chain no backend do parceiro, com idempotencia.</p></article>
                 </div>
             </div>
         </section>
@@ -246,6 +282,46 @@ POST /api/gateway/charge
                 status.textContent = error.message || "Nao foi possivel criar a cobranca.";
             }
         });
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "O WordFinance Pay guarda o saldo da loja?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nao. No fluxo USDC, a cobranca e confirmada on-chain e o lojista recebe diretamente na propria carteira Solana. A WordFinance nao guarda seed, chave privada ou saldo do merchant."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Preciso usar WooCommerce?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nao. O plugin acelera a integracao para WooCommerce, mas a mesma API pode ser usada por SaaS, marketplaces e checkouts proprios."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Como aceitar Bitcoin Lightning?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lightning usa o mesmo fluxo de cobranca, mas depende de onboarding e aprovacao do merchant. Enquanto essa aprovacao nao existir, o merchant deve manter Lightning desabilitado e oferecer USDC."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "PIXC e aceito pelo gateway?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nao pelo endpoint de cobranca USDC/Lightning. PIXC exige transferencia SPL aprovada pela carteira e validacao on-chain no backend do parceiro, com idempotencia."
+            }
+          }
+        ]
+      }
     </script>
 </body>
 </html>
